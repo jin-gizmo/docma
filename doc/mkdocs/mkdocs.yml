@@ -1,0 +1,19 @@
+# Control file for mkdocs version of the Docma User Guide
+
+site_author: Murray Andrews
+site_name: Docma User Guide
+site_url: ''
+theme: readthedocs
+use_directory_urls: false
+markdown_extensions:
+  - codehilite:
+      # Pygments seems to stuff up plain text blocks.
+      use_pygments: false
+      linenums: false
+      guess_lang: false
+
+extra_css:
+  - css/extra.css
+
+nav:
+  - This gets replaced at build time

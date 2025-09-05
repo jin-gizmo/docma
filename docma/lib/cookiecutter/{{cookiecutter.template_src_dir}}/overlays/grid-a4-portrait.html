@@ -1,0 +1,35 @@
+<HTML lang="en-us">
+{% set src=docma.template.overlay_path.stem.split('-') %}
+{% set page_size=src[1] %}
+{% set orientation=src[2] %}
+<HEAD>
+  <TITLE>Overlay</TITLE>
+  <STYLE type="text/css">
+      :root {
+          --grid: {{ overlays.grid.color }};
+      }
+
+      @page {
+          size: {{ page_size }} {{ orientation }};
+          margin: 0
+      }
+
+      body {
+          background-size: {{ overlays.grid.size }} {{ overlays.grid.size }};
+          background-image: linear-gradient(to right, var(--grid) .3pt, transparent .1pt),
+          linear-gradient(to bottom, var(--grid) .3pt, transparent .1pt);
+      }
+
+      @media print {
+          body, html {
+              height: 100%;
+              margin: 0;
+              padding: 0;
+          }
+      }
+  </STYLE>
+</HEAD>
+
+<BODY>
+</BODY>
+</HTML>

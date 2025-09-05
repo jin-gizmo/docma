@@ -1,0 +1,34 @@
+id: "test3"
+description: "Simple template for batch rendering tests"
+owner: "Murray"
+version: "1.0.0"
+
+documents:
+  - content/batch.html
+
+options:
+  stylesheets:
+    - styles.css
+
+overlays:
+  grid:
+    - overlays/grid-a4-portrait.html
+    - overlays/grid-a4-landscape.html
+
+parameters:
+  defaults:
+    db:
+      schema: docma
+    overlays:
+      grid:
+        size: '1cm'
+        color: '#aaaaaa'
+    data:
+      custard:
+        - { "id": "0", "givenname": "Molly", "familyname": "Francis", "favouritecustard": "lumpy" }
+        - { "id": "1", "givenname": "Frances", "familyname": "Kelley", "favouritecustard": "runny" }
+        - { "id": "2", "givenname": "Rebecca", "familyname": "Estrada", "favouritecustard": "lumpy" }
+
+metadata:
+  author: 'Murray'
+  title: 'Simple template for batch rendering tests'

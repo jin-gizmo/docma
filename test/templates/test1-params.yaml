@@ -1,0 +1,57 @@
+graph:
+  data:
+    values:
+      - Dog: Bolliver
+        Woof: 28
+      - Dog: Rin Tin Tin
+        Woof: 55
+      - Dog: Fido
+        Woof: 43
+      - Dog: Kipper
+        Woof: 98
+      - Dog: Zoltan
+        Woof: 81
+      - Dog: Pluto
+        Woof: 53
+      - Dog: Scooby
+        Woof: 19
+      - Dog: Cerberus
+        Woof: 87
+      - Dog: Snoopy
+        Woof: 62
+
+db:
+  schema: docma
+  favouritecustard: lumpy
+  custardbidprice: 60
+  custardjedi: true
+
+# These params are for playing with the EZI solar thing
+
+dist:
+  name: My Company
+  site_address: Somewhere, over the rainbow, way up high
+  est_annual_savings: '1234'
+  est_annual_emission_reduction: '240'
+  nmi: '1234567689'
+  org_id: ABC1234
+  first_name: Norbert
+  carbon:
+    before_solar: 209056
+    after_solar: 138523
+    kg_reduction: 59953
+  solar_system:
+    size: 60
+    generation: 81747
+    consumption:
+      kwh: 70533
+      pct: 86.3
+    export:
+      kwh: 11213
+      pct: 13.7
+  financial:
+    cost: 60831
+    stc_value: 17169
+    savings_pa: 10937
+    payback_years: 5.56
+    savings_lifetime: 218734

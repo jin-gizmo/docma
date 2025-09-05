@@ -1,0 +1,21 @@
+boto3
+cachetools
+colorama
+jinja2
+jsonschema[format-nongpl]
+markdown
+pydantic
+pypdf
+pyyaml
+requests
+weasyprint
+altair
+# Do we need altair[all]
+python-dotenv
+pg8000
+duckdb
+qrcode[pil]
+cookiecutter
+vl-convert-python
+tqdm
+beautifulsoup4

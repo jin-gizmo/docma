@@ -1,0 +1,24 @@
+description: Generate loop control data for batch operations
+
+query: >-
+  SELECT *
+  FROM "{{ db.schema | sql_safe }}".custard
+  ORDER BY id
+  LIMIT {{ doc_count | sql_safe }}
+
+schema:
+  $schema: https://json-schema.org/draft/2020-12/schema
+  type: object
+  required:
+    - favouritecustard
+    - custardbidprice
+    - custardjedi
+  properties:
+    favouritecustard:
+      type: string
+      minLength: 1
+    custardbidprice:
+      type: number
+      minimum: 0
+    custardjedi:
+      type: boolean

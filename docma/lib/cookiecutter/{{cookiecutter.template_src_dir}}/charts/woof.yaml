@@ -1,0 +1,82 @@
+$schema: 'https://vega.github.io/schema/vega-lite/v5.json'
+width: 300
+config:
+  font: Avenir
+  background: '#eeeeee'
+  padding: 10
+  view:
+    stroke: transparent
+  axisX:
+    grid: false
+    gridWidth: 0.5
+    domainDash:
+      - 4
+      - 4
+    formatType: number
+  axisY:
+    grid: false
+data:
+  values:
+    - Dog: Bolliver
+      Woof: 28
+    - Dog: Rin Tin Tin
+      Woof: 55
+    - Dog: Fido
+      Woof: 43
+    - Dog: Kipper
+      Woof: 91
+    - Dog: Zoltan
+      Woof: 81
+    - Dog: Pluto
+      Woof: 53
+    - Dog: Scooby
+      Woof: 24
+    - Dog: Cerberus
+      Woof: 87
+    - Dog: Snoopy
+      Woof: 52
+view:
+  fill: '#eeeeee'
+encoding:
+  'y':
+    field: Dog
+    title: Dog
+    type: ordinal
+    axis: null
+layer:
+  - mark:
+      type: bar
+      cornerRadius: 20
+    encoding:
+      x:
+        field: Woof
+#        title: Woof Effectiveness (%)
+        title: null
+        type: quantitative
+#        axis: null
+      color:
+        field: Woof
+        type: quantitative
+        title: '% Woof'
+        scale:
+          domain: [ 0, 100 ]
+          range: [ '#06ae9b', '#02775e' ]
+#  - mark:
+#      type: text
+#      align: right
+#      dx: 3
+#      baseline: middle
+#      color: red
+#    encoding:
+#      text:
+#        field: Woof
+#        type: quantitative
+  - mark:
+      type: text
+      align: left
+      x: 10
+      color: white
+      fontWeight: bold
+    encoding:
+      text:
+        field: Dog

@@ -1,0 +1,160 @@
+"""Core components for docma."""
+
+from __future__ import annotations
+
+__author__ = 'Murray Andrews'
+
+from collections.abc import Iterable, MutableMapping
+from dataclasses import dataclass, field
+from functools import singledispatchmethod
+from typing import Any
+
+from pydantic.alias_generators import to_camel, to_snake
+
+from docma.lib.jinja import JinjaEnvironment
+from docma.lib.misc import deep_update_dict, flatten_iterable
+from docma.lib.packager import PackageReader
+
+
+# ------------------------------------------------------------------------------
+@dataclass
+class DocmaRenderContext:
+    """Simple grouping construct for essential bits involved in rendering."""
+
+    tpkg: PackageReader
+    params: dict[str, Any] = field(default_factory=dict)
+    env: JinjaEnvironment = None
+
+    # --------------------------------------------------------------------------
+    def __post_init__(self):
+        """Create a default JinjaEnvironment if required."""
+        if self.env is None:
+            self.env = JinjaEnvironment(loader=self.tpkg, autoescape=True)
+
+    # --------------------------------------------------------------------------
+    @singledispatchmethod
+    def render(self, v, *args, **kwargs):
+        """Raise exception on unhandled types."""
+        raise TypeError(f'Cannot render type {type(v)}')
+
+    @render.register
+    def _(self, s: str, *args: dict[str, Any], **kwargs) -> str:
+        """
+        Render a string using the context.
+
+        :param s:       The string to render
+        :param args:    Additional dictionaries of parameters for rendering.
+        :param kwargs:  Additional keyword parameters for rendering.
+        """
+
+        params = (
+            deep_update_dict({}, self.params, *args, kwargs) if any((args, kwargs)) else self.params
+        )
+        return self.env.from_string(s).render(**params)
+
+    @render.register
+    def _(self, v: Iterable, *args: dict[str, Any], **kwargs) -> list[str]:
+        """
+        Render each element of an iterable to produce a list of strings.
+
+        :param v:       The iterable to render.
+        :param args:    Additional dictionaries of parameters for rendering.
+        :param kwargs:  Additional keyword parameters for rendering.
+        """
+
+        params = (
+            deep_update_dict({}, self.params, *args, kwargs) if any((args, kwargs)) else self.params
+        )
+        return [self.env.from_string(s).render(**params) for s in v]
+
+
+# ------------------------------------------------------------------------------
+class Metadata(MutableMapping):
+    """Document metadata manager and format converter."""
+
+    @staticmethod
+    def to_pdf_name(name: str) -> str:
+        """Convert a metadata attribute name to PDF metadata style."""
+
+        s = to_camel(name)
+        if s[0].islower():
+            s = s[0].upper() + s[1:]
+        return f'/{s}'
+
+    @staticmethod
+    def normalise_attr_name(attr_name: str) -> str:
+        """Normalise attribute name to handle PDF and plain variants."""
+        return to_snake(attr_name.removeprefix('/'))
+
+    @classmethod
+    def normalise_attr_value(cls, attr_value: Any) -> list | str:
+        """Normalise attribute value to preserve lists but everything else is string."""
+        if isinstance(attr_value, str):
+            return attr_value
+        if isinstance(attr_value, list):
+            return [cls.normalise_attr_value(v) for v in flatten_iterable(attr_value)]
+        return str(attr_value)
+
+    def __init__(self, **kwargs: Any) -> None:
+        """Initialize metadata."""
+        self._attrs = {
+            self.normalise_attr_name(k): self.normalise_attr_value(v) for k, v in kwargs.items()
+        }
+
+    def __setitem__(self, key, value):
+        """
+        Set an attribute using dict semantics.
+
+        List values are converted to semicolon
+        """
+        self._attrs[self.normalise_attr_name(key)] = self.normalise_attr_value(value)
+
+    def __getitem__(self, key):
+        """Implement core dict methods."""
+        return self._attrs[key]
+
+    def __len__(self):
+        """Implement core dict methods."""
+        return len(self._attrs)
+
+    def __iter__(self):
+        """Implement core dict methods."""
+        return iter(self._attrs)
+
+    def __delitem__(self, key):
+        """Implement core dict methods."""
+        del self._attrs[key]
+
+    def __repr__(self):
+        """Implement core dict methods."""
+        return repr(self._attrs)
+
+    def __str__(self):
+        """Implement core dict methods."""
+        return str(self._attrs)
+
+    def __getattr__(self, item):
+        """Delegate everything else to the instance attribute."""
+        return getattr(self._attrs, item)
+
+    def as_dict(self, format=None) -> dict[str, Any]:  # noqa A002
+        """
+        Return a dictionary with all attributes.
+
+        :param format:  Adjust metadata for the specified format. Allowed values
+                        are None, 'html' and 'pdf', PDF has names like `/Author`
+                        whereas HTML convention is `author`. PDF convention on
+                        list items (e.g. /Keywords) is to join them with semi-colons.
+                        HTML convention is commas.
+        """
+
+        if not format:
+            return self._attrs
+        if format == 'html':
+            return {k: ', '.join(v) if isinstance(v, list) else v for k, v in self._attrs.items()}
+        if format == 'pdf':
+            return {
+                self.to_pdf_name(k): '; '.join(v) if isinstance(v, list) else v
+                for k, v in self._attrs.items()
+            }
+        raise ValueError(f'Unknown format: {format}')

@@ -1,0 +1,7 @@
+include README.md
+include LICENCE.txt
+include requirements*.txt
+include */VERSION
+include docma/lib/*.yaml
+recursive-include docma/lib/cookiecutter *
+global-exclude .DS_Store .env

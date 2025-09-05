@@ -1,0 +1,18 @@
+description: Test query
+
+#query: >-
+#  SELECT * FROM "{{ db.schema | sql_safe }}".custard
+#  WHERE favouritecustard=%s
+#    AND custardbidprice > %s
+#    AND custardjedi=%s
+#  LIMIT 4;
+
+parameters:
+  - name: favouritecustard
+    value: '{{ db.favouritecustard }}'
+  - name: custardbidprice
+    value: '{{ db.custardbidprice }}'
+    type: decimal
+  - name: custardjedi
+    value: '{{ db.custardjedi }}'
+    type: boolean

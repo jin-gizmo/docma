@@ -1,0 +1,124 @@
+$schema: https://json-schema.org/draft/2020-12/schema
+
+title: Docma configuration file schema
+
+type: object
+
+required:
+  - id
+  - description
+  - owner
+  - version
+  - documents
+
+_type_aliases:
+  string1: &string1
+    type: string
+    minLength: 1
+  string_or_stringlist: &string_or_stringlist
+    oneOf:
+      - type: array
+        items: *string1
+      - *string1
+
+properties:
+  id:
+    type: string
+    pattern: '^[a-zA-Z][a-zA-Z0-9-_+=.]+[a-zA-Z0-9]$'
+  description: *string1
+  owner: *string1
+  version:
+    type: string
+    format: semantic_version
+
+  documents:
+    description: A list of documents to assemble.
+    type: array
+    minItems: 1
+    items:
+      oneOf:
+        - *string1
+        - type: object
+          description: Complex document reference
+          required:
+            - src
+          additionalProperties: false
+          properties:
+            src: *string1
+            if: *string1
+
+  overlays:
+    description: Overlay document specifications for watermarks and stamps
+    type: object
+    additionalProperties:
+      oneOf:
+        - *string1
+        - type: array
+          items: *string1
+
+  imports:
+    description: External files to import
+    type: array
+    items:
+      oneOf:
+        - type: object
+          required:
+            - src
+            - as
+          additionalProperties: false
+          properties:
+            src: *string1
+            as: *string1
+        - *string1
+
+  options:
+    description: >-
+      Weasyprint options.
+      See https://doc.courtbouillon.org/weasyprint/stable/api_reference.html#weasyprint.DEFAULT_OPTIONS
+    type: object
+    properties:
+      stylesheets:
+        type: array
+        items: *string1
+
+  parameters:
+    description: Parameter specifications for rendering.
+    type: object
+    additionalProperties: false
+    properties:
+      defaults:
+        description: Default values for parameters.
+        type: object
+      schema:
+        description: Reserved for now
+        type: object
+
+  # For now, we allow the PDF (/Author) and HTML (author) variants. In future
+  # we'll only support HTML and docma will adapt to the target format.
+  metadata:
+    description: PDF metadata
+    type: object
+    additionalProperties: false
+    properties:
+      author: *string1
+      /Author: *string1
+      subject: *string1
+      /Subject: *string1
+      title: *string1
+      /Title: *string1
+      keywords: *string_or_stringlist
+      /Keywords: *string_or_stringlist
+    not:
+      anyOf:
+        - required: [ author, /Author ]
+        - required: [ title, /Title ]
+        - required: [ subject, /Subject ]
+        - required: [ keywords, /Keywords ]
+
+#      /Title: *string1
+#      /Subject: *string1
+#      /Keywords:
+#        oneOf:
+#          - type: array
+#            items: *string1
+#          - *string1

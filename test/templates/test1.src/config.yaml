@@ -1,0 +1,60 @@
+id: "test1"
+description: "Sample template for testing"
+owner: "Murray"
+version: "1.0.0"
+
+# Add primary document files here. Check the user guide for how to do
+# conditional documents.
+documents:
+  - content/sample.html
+  - src: content/compile-me.html
+    if: 'true'
+  - src: content/compile-me.html
+    if: 'false'
+
+imports:
+  - http://localhost:8080/data/images/qr-magenta-hello-world.png
+  - src: http://localhost:8080/data/images/qr-magenta-hello-world.png
+    as: resources/qr-magenta-hello-world.png
+
+# Weasyprint DEFAULT_OPTIONS.
+# See https://doc.courtbouillon.org/weasyprint/stable/api_reference.html#weasyprint.DEFAULT_OPTIONS
+options:
+  # This is optional but you will need to set page geometry somewhere.
+  stylesheets:
+    - styles.css
+
+overlays:
+  grid:
+    - overlays/grid-a4-portrait.html
+    - overlays/grid-a4-landscape.html
+
+parameters:
+  defaults:
+    overlays:
+      grid:
+        size: '1cm'
+        color: '#aaaaaa'
+
+  schema:
+    $schema: https://json-schema.org/draft/2020-12/schema
+    type: object
+    required:
+      - overlays
+    properties:
+      overlays:
+        description: Control params for our simple grid overlays
+        type: object
+
+# PDF metadata. These, and only these, exact metadata items are supported.
+metadata:
+  /Author: 'Murray'
+  /Title: 'Sample template for testing'
+#  /Subject: ...
+#  # Keywords is just a text field on the PDF itself. Here we accept a list and
+#  # join it together with semi-colons in the rendering phase. Not that Jinja
+#  # rendering  applied _after_ the joining process.
+#  # /Keywords:
+#  #   - A
+#  #   - B
+#  #   - C

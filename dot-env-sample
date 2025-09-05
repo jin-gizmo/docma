@@ -1,0 +1,35 @@
+# ex: ft=sh
+#
+# This is a sample for the .env file required for the unit tests. Fill in the
+# password fields. The values don't really matter unless you actually want to
+# login to the target DB to check stuff.
+
+# --------------------
+PGADMIN_USER=master
+PGADMIN_PASSWORD=...
+
+# --------------------
+PGLOCAL_USER=docma
+PGLOCAL_PASSWORD=...
+PGLOCAL_HOST=localhost
+PGLOCAL_PORT=5432
+PGLOCAL_DATABASE=docma
+# PGLOCAL_SSL=yes
+
+# --------------------
+PGREMOTE_USER=docma
+PGREMOTE_PASSWORD_PARAM=/my/pg/password/param
+PGREMOTE_HOST=localhost
+PGREMOTE_PORT=5432
+PGREMOTE_DATABASE=docma
+# PGREMOTE_SSL=yes
+
+# --------------------
+# This one won't work ... Cannot have both PASSWORD and PASSWORD_PARAM
+PGBROKEN_USER=docma
+PGBROKEN_PASSWORD=...
+PGBROKEN_PASSWORD_PARAM=...
+PGBROKEN_HOST=localhost
+PGBROKEN_PORT=5432
+PGBROKEN_DATABASE=docma
+# PGBROKEN_SSL=yes

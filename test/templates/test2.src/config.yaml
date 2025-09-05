@@ -1,0 +1,42 @@
+id: "test2"
+description: "For testing local vs remote documents"
+owner: "Murray"
+version: "1.0.0"
+
+# Add primary document files here. Check the user guide for how to do
+# conditional documents.
+documents:
+  - src: content/local.html
+    if: '{{ doc_location == "local" }}'
+  - src: http://localhost:8080/http.html
+    if: '{{ doc_location == "http" }}'
+  - src: s3://test-bucket/s3.html
+    if: '{{ doc_location == "s3" }}'
+
+# Weasyprint DEFAULT_OPTIONS.
+# See https://doc.courtbouillon.org/weasyprint/stable/api_reference.html#weasyprint.DEFAULT_OPTIONS
+options:
+  # This is optional but you will need to set page geometry somewhere.
+  stylesheets:
+    - styles.css
+
+# Overlays can be defined here but they are only used if explicitly
+# requested during the rendering phase.
+overlays:
+  grid:
+    - overlays/grid-a4-portrait.html
+    - overlays/grid-a4-landscape.html
+
+parameters:
+  defaults:
+    doc_location: local  # or http
+    hello_who: world
+    overlays:
+      grid:
+        size: '1cm'
+        color: '#aaaaaa'
+
+# PDF metadata. These, and only these, exact metadata items are supported.
+metadata:
+  /Author: 'Murray'
+  /Title: 'For testing local vs remote documents'

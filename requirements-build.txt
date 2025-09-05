@@ -1,0 +1,29 @@
+# These are the extra requirements required to build docma but not run it.
+
+# ex: set ft=sh:
+
+black>=20.8b1
+flake8>=3.8.4
+flake8-black>=0.2.1
+flake8-builtins>=1.5.3
+flake8-docstrings>=1.5.0
+flake8-import-order>=0.18.1
+flake8-return>=1.1.2
+flake8-rst-docstrings>=0.0.14
+pep8-naming>=0.11.1
+
+yamllint>=1.26.0
+
+# Required for testing
+pillow
+
+ruff
+pytest
+pytest-xdist
+pytest-cov
+mkdocs
+twine
+moto
+
+sphinx
+sphinx-rtd-theme

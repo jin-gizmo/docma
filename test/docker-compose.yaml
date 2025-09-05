@@ -1,0 +1,43 @@
+name: docma-test
+
+services:
+  postgres:
+    container_name: ${COMPOSE_PROJECT_NAME}-postgres
+    image: postgres:latest
+    restart: always
+    environment:
+      # These are needed by Postgres itself
+      POSTGRES_DB: "${PGLOCAL_DATABASE}"
+      POSTGRES_USER: "${PGADMIN_USER}"
+      POSTGRES_PASSWORD: "${PGADMIN_PASSWORD}"
+      # These are needed by the init scripts.
+      PGLOCAL_USER: "${PGLOCAL_USER}"
+      PGLOCAL_PASSWORD: "${PGLOCAL_PASSWORD}"
+    ports:
+      - "127.0.0.1:${PGLOCAL_PORT}:${PGLOCAL_PORT}"
+    volumes:
+      # Uncomment this if we want to preserve DB data between runs.
+      # - ./services/postgres/data:/var/lib/postgresql/data
+      - ./services/postgres/init.d:/docker-entrypoint-initdb.d:ro
+      - ./data:/data:ro
+    networks:
+      - docma
+  web:
+    image: python:3.11-slim
+    command: python /srv/web.py
+    ports:
+      - "127.0.0.1:8080:8080"
+    restart: always
+    volumes:
+      - ./services/web/www.d:/var/www
+      - ./services/web/web.py:/srv/web.py
+      - ./data:/var/www/data:ro
+    working_dir: /var/www
+    networks:
+      - docma
+
+networks:
+  docma:
+    name: ${COMPOSE_PROJECT_NAME}
+    driver: bridge
+    attachable: true

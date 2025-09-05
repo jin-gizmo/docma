@@ -1,0 +1,43 @@
+# Set paramstyle
+
+description: Test query
+
+query: >-
+  {% set pstyles={'qmark': '?', 'format': '%s'} %}
+  {% set pp=pstyles[docma.paramstyle | default('format')] | require('cannot determine paramstyle') %}
+  SELECT * FROM "{{ db.schema | sql_safe }}".custard
+  WHERE favouritecustard={{ pp }}
+    AND custardbidprice > {{ pp }}
+    AND custardjedi={{ pp }}
+  LIMIT 4;
+
+parameters:
+  - name: favouritecustard
+    value: '{{ db.favouritecustard }}'
+  - name: custardbidprice
+    value: '{{ db.custardbidprice }}'
+    type: decimal
+  - name: custardjedi
+    value: '{{ db.custardjedi }}'
+    type: boolean
+
+options:
+  fold_headers: true
+  row_limit: 4
+
+schema:
+  $schema: https://json-schema.org/draft/2020-12/schema
+  type: object
+  required:
+    - favouritecustard
+    - custardbidprice
+    - custardjedi
+  properties:
+    favouritecustard:
+      type: string
+      minLength: 1
+    custardbidprice:
+      type: number
+      # minimum: 200
+    custardjedi:
+      type: boolean

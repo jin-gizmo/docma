@@ -1,0 +1,55 @@
+id: "{{ cookiecutter.template_id }}"
+description: "{{ cookiecutter.description }}"
+owner: "{{ cookiecutter.owner }}"
+version: "{{ cookiecutter.version }}"
+
+# Add primary document files here. Check the user guide for how to do
+# conditional documents.
+documents:
+  - content/sample.html
+
+# Weasyprint DEFAULT_OPTIONS. Ignored for HTML output.
+# See https://doc.courtbouillon.org/weasyprint/stable/api_reference.html#weasyprint.DEFAULT_OPTIONS
+options:
+  # This is optional but you will need to set page geometry somewhere.
+  stylesheets:
+    - styles.css
+
+#import:
+#  - src: s3://my-bucket/a/file.png
+#    as: logo.png
+
+# Overlays can be defined here but they are only used if explicitly
+# requested during the rendering phase and are only supported for PDF output.
+overlays:
+  grid:
+    - overlays/grid-a4-portrait.html
+    - overlays/grid-a4-landscape.html
+
+parameters:
+  defaults:
+    overlays:
+      grid:
+        size: '1cm'
+        color: '#aaaaaa'
+#  # Schema is optional but _strongly_ recommended
+#  schema:
+#    $schema: https://json-schema.org/draft/2020-12/schema
+#    title: Parameters validation schema
+#    type: object
+#    required:
+#      - ...
+#    properties:
+#      param1: ...
+#
+
+# Document metadata. These, and only these, exact metadata items are supported.
+# Docma will adjust naming conventions to suit the output format (PDF or HTML).
+metadata:
+  author: '{{ cookiecutter.owner }}'
+  title: '{{ cookiecutter.description }}'
+  # subject: ...
+  # keywords:
+  #   - A
+  #   - B
+  #   - C

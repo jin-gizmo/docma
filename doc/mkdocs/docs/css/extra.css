@@ -1,0 +1,85 @@
+:root {
+    --highlight-color: #4f81bd;
+    --complimentary-color: #BD814F;
+    --text-normal-color: #333;
+    --blockquote-link-color: #888;
+    --border-color: #555;
+    --background-shading-color: #eeeeee;
+    --blue: #2980B9;
+    /*--table-shading: #f2f6f6;*/
+    --table-shading: #f3f3f3;
+    --light-grey: #e3e3e3;
+    --medium-grey: #c9c9c9;
+    --dark-grey: #353131;
+}
+
+/*.codehilite {*/
+/*     background-color: var(--table-shading);*/
+/*}*/
+
+/* Side bar current selection */
+ul.current {
+    /*background-color: var(--table-shading);*/
+}
+
+blockquote {
+    background-color: var(--table-shading);
+    border-left: 6px solid var(--blue);
+    padding: 0 2px 0 10px;
+}
+
+blockquote a {
+    text-decoration: none;
+}
+
+blockquote code {
+    background-color: var(--table-shading);
+    border: solid 1px #ccc;
+}
+
+pre code {
+    padding: 0;
+    border: none;
+}
+
+.rst-content pre code {
+    background-color: var(--table-shading);
+}
+
+table {
+    margin-bottom: 24px;
+}
+
+tr:nth-child(odd) code {
+    /* background-color: var(--table-shading); */
+    background-color: var(--table-shading);
+    border: solid 1px #ccc;
+}
+
+tr:nth-child(odd) {
+    background-color: var(--table-shading);
+    border: solid 1px #ccc;
+}
+
+tr {
+    font-size: 90%;
+}
+
+th {
+    background: #ffffff;
+    padding: 8px;
+}
+
+td {
+    padding: 8px;
+    /* background-color: yellow; */
+    word-wrap: break-word;
+}
+
+.wy-table-responsive table td, .wy-table-responsive table th {
+    white-space: normal;
+}
+
+.wy-menu-vertical {
+    /*background-color: pink;*/
+}

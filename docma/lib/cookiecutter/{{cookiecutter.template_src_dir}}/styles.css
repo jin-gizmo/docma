@@ -1,0 +1,4 @@
+@page {
+    size: {{ cookiecutter.page_size }} {{ cookiecutter.page_orientation }};
+    margin: 1.5cm;
+}

@@ -1,0 +1,11 @@
+# Add test configuration in here.
+
+# In tests, this can be accessed using the `tc` fixture as `tc.a.b.c` or using
+# dictionary notation.
+
+web_server:
+  netloc: localhost:8080
+
+postgres:
+  # Used to select env vars eg. PGLOCAL_USER, PGLOCAL_DATABASE ...
+  id: pglocal

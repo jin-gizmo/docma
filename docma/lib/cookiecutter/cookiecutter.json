@@ -1,0 +1,15 @@
+{
+  "_copy_without_render": [
+    "content", "overlays"
+  ],
+  "template_id": "my_project",
+  "template_src_dir": "{{cookiecutter.template_id}}",
+  "description": "",
+  "owner": "",
+  "version": "1.0.0",
+  "page_size": "a4",
+  "page_orientation": [
+    "portrait",
+    "landscape"
+  ]
+}

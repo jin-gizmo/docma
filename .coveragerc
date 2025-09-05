@@ -1,0 +1,19 @@
+# See https://stackoverflow.com/questions/9202723/excluding-abstractproperties-from-coverage-reports
+[run]
+data_file=dist/test/coverage
+relative_files=True
+omit =
+    setup.py
+    conftest.py
+    docma/lib/cookiecutter/*
+    # unit/*
+
+[report]
+exclude_lines =
+    # Have to re-enable the standard pragma
+    pragma: no cover
+
+    # Don't complain if tests hit defensive assertion code:
+    raise NotImplementedError
+
+    ^\s*pass\s*$
