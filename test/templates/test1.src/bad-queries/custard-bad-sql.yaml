@@ -1,0 +1,4 @@
+description: Bad query specification - Invalid SQL
+
+query: >-
+  SELECT unknown_column FROM "{{ db.schema | sql_safe }}".custard

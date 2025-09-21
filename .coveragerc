@@ -6,6 +6,8 @@ omit =
     setup.py
     conftest.py
     docma/lib/cookiecutter/*
+    */test/unit/utils.py
+    unit/utils.py
     # unit/*
 
 [report]

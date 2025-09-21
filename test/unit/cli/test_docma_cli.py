@@ -33,7 +33,20 @@ def test_docma_cli_cmd_ok(monkeypatch, tmp_path) -> None:
     """
 
     new_dir = tmp_path / 'new'
-    monkeypatch.setattr(sys, 'argv', ['docma', 'new', '--no-input', str(new_dir)])
+    monkeypatch.setattr(
+        sys,
+        'argv',
+        [
+            'docma',
+            'new',
+            '--no-input',
+            '--param',
+            'description=Something',
+            '--param',
+            'owner=Someone',
+            str(new_dir),
+        ],
+    )
 
     assert docma.main() == 0
     assert new_dir.is_dir()

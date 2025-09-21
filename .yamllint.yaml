@@ -9,6 +9,7 @@ ignore: |
   venv*/
   .idea/
   untracked/
+  test/templates/bad-config-1.src/config.yaml
 
 rules:
   comments:

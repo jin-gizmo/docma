@@ -23,6 +23,7 @@ Typical usage would be:
 
 from pathlib import Path
 
+# noinspection PyUnresolvedReferences
 from .docma_core import (
     compile_template as compile_template,
     get_template_info as get_template_info,

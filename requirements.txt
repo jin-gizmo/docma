@@ -1,21 +1,25 @@
+# Do we need altair[all]
+altair
+babel
+beautifulsoup4
 boto3
 cachetools
 colorama
+cookiecutter
+duckdb
 jinja2
 jsonschema[format-nongpl]
 markdown
+pg8000
+phonenumbers
+pillow
 pydantic
 pypdf
-pyyaml
-requests
-weasyprint
-altair
-# Do we need altair[all]
 python-dotenv
-pg8000
-duckdb
+pyyaml
 qrcode[pil]
-cookiecutter
-vl-convert-python
+referencing
+requests
 tqdm
-beautifulsoup4
+vl-convert-python
+weasyprint

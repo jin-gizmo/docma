@@ -1,5 +1,4 @@
-
-## Rendering Parameters
+### Rendering Parameters
 
 The parameters used by docma during the template rendering process is the union
 of the following (from highest to lowest precedence):
@@ -17,7 +16,7 @@ can include arbitrary combinations of objects, lists and scalar values.
 The marshalling process *deep-merges* the parameter trees from each source. Lists
 are not merged. One list will replace another if they occur at the same location.
 
-### Jinja Rendering Parameters Provided by Docma
+#### Jinja Rendering Parameters Provided by Docma
 
 In addition to user supplied parameters, docma includes the following items
 under the `docma` key.
@@ -27,6 +26,7 @@ under the `docma` key.
 | calendar | | The Python `calendar` module. |
 | data     | | Function to invoke a [docma data provider](#data-sources-in-docma) and return the data as a list of dictionaries. See [Data Source Specifications for HTML Rendering](#data-source-specifications-for-html-rendering).|
 | datetime | | The Python `datetime` module. |
+| format | | The format of the output document to be produced, `PDF` or `HTML`. This can be used, among other things, for format specific content or formatting (e.g. CSS variations). |
 | paramstyle | (1) |Corresponds to the DBAPI 2.0 `paramstyle` attribute of the underlying database driver when processing a  [query specification](#query-specifications). |
 | template | | An object containing information about the document template.|
 | --> description | | The `description` field from the [template configuration file](#template-configuration-file).|
@@ -54,5 +54,12 @@ Notes:
 For example, to insert today's date:
 
 ```jinja2
-{{ docma.datetime.date.today() }}
+{{ docma.datetime.date.today() | date }} -- The "date" filter will format for the locale
 ```
+
+To check whether we are producing HTML or PDF:
+
+```jinja
+We are producing {{ docma.format }} output using docma version {{ docma.version }}.
+```
+

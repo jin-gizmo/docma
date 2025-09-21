@@ -43,6 +43,9 @@ encoding:
     title: Dog
     type: ordinal
     axis: null
+    sort:
+      field: Woof
+      order: ascending
 layer:
   - mark:
       type: bar

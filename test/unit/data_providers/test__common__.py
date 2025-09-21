@@ -2,13 +2,15 @@
 
 from __future__ import annotations
 
-import pytest
+import json
+
+import pytest  # noqa
 
 from docma.data_providers import load_data
 from docma.data_providers.__common__ import data_provider_for_src_type
 from docma.data_providers.db import *
 from docma.exceptions import DocmaDataProviderError
-from docma.lib.core import DocmaRenderContext
+from docma.jinja import DocmaRenderContext
 from docma.lib.packager import PackageReader
 
 
@@ -26,7 +28,7 @@ def test_datasourcespec(tc):
     assert str(dsp2) == dsp2_s == str(dsp1)
 
     with pytest.raises(ValueError, match='type and location required'):
-        dsp1 = DataSourceSpec(
+        DataSourceSpec(
             src_type='postgres',
             location=None,  # noqa
             query='queries/custard.yaml',
@@ -44,7 +46,8 @@ def test_data_provider_for_src_type():
 
 
 # ------------------------------------------------------------------------------
-def test_load_data(tc, td, dirs):
+def test_load_data_ok(tc, td, dirs):
+
     dsp = DataSourceSpec(
         src_type='postgres',
         location=tc.postgres.id,
@@ -58,3 +61,18 @@ def test_load_data(tc, td, dirs):
     )
     data = load_data(dsp, context)
     assert data
+
+
+# ------------------------------------------------------------------------------
+def test_data_loader_bad_content_fail(td, tmp_path) -> None:
+
+    data_file = tmp_path / 'bad-data.jsonl'
+    with data_file.open('w') as fp:
+        json.dump('Bad data - expecting a dict', fp)
+        print(file=fp)
+
+    with pytest.raises(DocmaDataProviderError, match='Bad data - must be a list of dicts'):
+        load_data(
+            DataSourceSpec(src_type='file', location='bad-data.jsonl'),
+            DocmaRenderContext(PackageReader.new(tmp_path)),
+        )

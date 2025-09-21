@@ -15,7 +15,7 @@ from pydantic import BaseModel, ConfigDict, Field, NonNegativeFloat, NonNegative
 from docma.config import VEGA_PPI
 from docma.data_providers import DataSourceSpec, load_data
 from docma.exceptions import DocmaInternalError
-from docma.lib.core import DocmaRenderContext
+from docma.jinja import DocmaRenderContext
 from docma.lib.misc import dot_dict_set
 from .__common__ import content_generator
 
@@ -38,7 +38,7 @@ class VegaOptions(BaseModel):
     data: list[str] = Field(default_factory=list)
     format: ChartFormatType = ChartFormatType.svg  # noqa: A003
     ppi: NonNegativeInt = VEGA_PPI
-    scale: NonNegativeFloat = 1
+    scale: NonNegativeFloat = 1.0
     params: dict[str, Any] = Field(default_factory=dict)
 
     @field_validator('params', mode='before')  # noqa

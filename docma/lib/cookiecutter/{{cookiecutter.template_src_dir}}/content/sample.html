@@ -9,7 +9,12 @@
           --docma-dark: #02775e;
           --table-border: var(--docma-mid);
           font-family: Avenir, Arial, sans-serif;
-          font-size: 8pt;
+          /* We can have conditional formatting based on output document format. */
+      {%  if docma.format == 'HTML' %}
+          font-size: 11pt;
+      {% else %}
+          font-size: 9pt;
+      {% endif %}
       }
 
       @page {
@@ -20,12 +25,12 @@
               font-size: 7pt;
               font-weight: lighter;
           }
-          /* We have to reference files in the template with the file: scheme. */
           @bottom-center {
               content: "";
               vertical-align: middle;
               height: 30pt;
               width: 150pt;
+              /* We have to reference files in the template with the file: scheme. */
               background-image: url('file:resources/img/docma-logo-horizontal-light.svg');
               background-repeat: no-repeat;
               background-position: center;
@@ -40,6 +45,23 @@
           }
           border-bottom: 0.5pt solid var(--docma-light);
       }
+
+      {% if docma.format == 'HTML' %}
+          body {
+              margin: 0;
+              background: #e0e0e0;
+              display: flex;
+              justify-content: center;
+          }
+
+          .panel {
+              width: min(1000px, 100vw);
+              background: white;
+              padding: 2rem;
+              box-sizing: border-box;
+              min-height: 100vh; /* make panel full height */
+          }
+      {% endif %}
 
       h1 {
           font-size: 120%;
@@ -67,22 +89,27 @@
           padding: 3pt;
           background-color: var(--docma-mid);
           color: white;
-          font-size: 8pt;
+      }
+
+      th.left {
+          text-align: left;
       }
 
       tbody tr:nth-child(even) {
-      {#background-color: #e7e7e7;#} background-color: var(--docma-ultralight)
-
+          background-color: var(--docma-ultralight)
       }
 
       td {
           padding: 1pt 3pt 1pt 3pt;
-          font-size: 8pt;
       }
 
       /* Pick up the "Woof" column in our dogs table */
       th.Woof:after {
           content: " (%)";
+      }
+
+      td.Dog {
+          text-align: left;
       }
 
       td.Woof {
@@ -92,133 +119,152 @@
       a {
           color: var(--docma-mid);
       }
+
+      p {
+          font-size: 100%;
+      }
   </STYLE>
 </HEAD>
+
+
 <BODY>
-<H1>
-  <img src="file:resources/img/docma-icon-light.svg" style="height:30px; vertical-align:middle">
-  Welcome to Docma!
-</H1>
-<H2>Template info</H2>
-<!------------------------------------------------------------------------------
-Let's add a table that contains information about the template
-------------------------------------------------------------------------------->
-<DIV style="display: grid; grid-template-columns: 10cm auto; align-items: center; gap: 1em;">
-  <DIV>
-
-    <TABLE>
-      <TBODY>
-      <TR>
-        <TH>Description</TH>
-        <TD>{{ docma.template.description }}</TD>
-      </TR>
-      <TR>
-        <TH>Owner</TH>
-        <TD>{{ docma.template.owner }}</TD>
-      </TR>
-      <TR>
-        <TH>Template version</TH>
-        <TD>{{ docma.template.version }}</TD>
-      </TR>
-      <TR>
-        <TH>Produced</TH>
-        <TD>{{ docma.datetime.datetime.today().date() }}</TD>
-      </TR>
-      </TBODY>
-    </TABLE>
-  </DIV>
+<DIV class="panel">
+  <H1>
+    <img src="file:resources/img/docma-icon-light.svg" style="height:30px; vertical-align:middle">
+    Welcome to Docma!
+  </H1>
   <P>
-    This table uses Jinja rendering to dynamically inject data attributes from
-    the document template (description, owner etc.).
+    This document is being rendered to {{ docma.format }}.
   </P>
-</DIV>
-
-<H2>Chart Sample</H2>
-
-<DIV style="display: grid; grid-template-columns: 10cm auto; align-items: center; gap: 1em;">
+  <H2>Template info</H2>
   <!------------------------------------------------------------------------------
-  Here we construct a dynamic content generator call using tuple notation.
+  Let's add a table that contains information about the template
   ------------------------------------------------------------------------------->
-  <IMG
-      style="width: 10cm; justify-self: start;"
-      src="docma:vega?{{ (
+  <DIV style="display: grid; grid-template-columns: 10cm auto; align-items: center; gap: 1em;">
+    <DIV>
+
+      <TABLE>
+        <TBODY>
+        <TR>
+          <TH class="left">Description</TH>
+          <TD>{{ docma.template.description }}</TD>
+        </TR>
+        <TR>
+          <TH class="left">Owner</TH>
+          <TD>{{ docma.template.owner }}</TD>
+        </TR>
+        <TR>
+          <TH class="left">Template version</TH>
+          <TD>{{ docma.template.version }}</TD>
+        </TR>
+        {% if docma.format == 'HTML' %}
+          <TR>
+            <TH class="left">Docma version</TH>
+            <TD>{{ docma.version }}</TD>
+          </TR>
+        {% endif %}
+        <TR>
+          <TH class="left">Produced</TH>
+          <TD>{{ docma.datetime.datetime.today().date() | date }}</TD>
+        </TR>
+        </TBODY>
+      </TABLE>
+    </DIV>
+    <P>
+      This table uses Jinja rendering to dynamically inject data attributes from
+      the document template (description, owner etc.).
+    </P>
+  </DIV>
+
+  <H2>Chart Sample</H2>
+
+  <DIV style="display: grid; grid-template-columns: 10cm auto; align-items: center; gap: 1em;">
+    <!------------------------------------------------------------------------------
+    Here we construct a dynamic content generator call using tuple notation.
+    ------------------------------------------------------------------------------->
+    <IMG
+        style="width: 10cm; justify-self: start;"
+        src="docma:vega?{{ (
           ( 'spec', 'charts/woof.yaml'),
           ( 'data', 'file;data/dogs.csv'),
           ( 'scale', 2.0 ),
         ) | urlencode }}"
-  >
-  <P>
-    This is a sample of a dynamically generated chart. The source data in this
-    example is a CSV file contained in the document template. We could have used
-    a database query just as easily.
-  </P>
-</DIV>
-
-<H2>Dynamic Data Sample</H2>
-
-<!------------------------------------------------------------------------------
-Use dynamic data to create an HTML table. Here it is a CSV. We could have used
-a database query just as easily.
-------------------------------------------------------------------------------->
-<DIV style="display: grid; grid-template-columns: 10cm auto; align-items: center; gap: 1em;">
-  <DIV>
-    <TABLE>
-      <THEAD>
-      <TR>
-        <TH>Dog</TH>
-        <TH class="Woof">Woof</TH>
-      </TR>
-      </THEAD>
-      <TBODY>
-      {% for row in docma.data('file', 'data/dogs.csv') %}
-        <TR>
-          <TD class="Dog">{{ row.Dog }}</TD>
-          <TD class="Woof">{{ row.Woof }}</TD>
-        </TR>
-      {% endfor %}
-      </TBODY>
-    </TABLE>
+    >
+    <P>
+      This is a sample of a dynamically generated chart. The source data in this
+      example is a CSV file contained in the document template. We could have used
+      a database query just as easily. The chart definition specifies the y-axis
+      to be sorted in ascending order of woof-power.
+    </P>
   </DIV>
-  <P>
-    This table was included by reference to a CSV file in the template.
-    It is using the same base data file as the graph above.
-  </P>
-</DIV>
 
-<H2>QR Code Sample</H2>
+  <H2>Dynamic Data Sample</H2>
 
-<DIV style="display: grid; grid-template-columns: 10cm auto; align-items: center; gap: 1em;">
   <!------------------------------------------------------------------------------
-  Here we construct a dynamic content generator call using dict notation.
+  Use dynamic data to create an HTML table. Here it is a CSV. We could have used
+  a database query just as easily.
   ------------------------------------------------------------------------------->
-  <DIV>
-    <A href="https://github.com/jin-gizmo/docma">
-      <IMG
-          style="width: 3cm; height: 3cm;"
-          alt="Link to docma on github"
-          src="docma:qrcode?{{ {
+  <DIV style="display: grid; grid-template-columns: 10cm auto; align-items: center; gap: 1em;">
+    <DIV>
+      <TABLE>
+        <THEAD>
+        <TR>
+          <TH>Dog</TH>
+          <TH class="Woof">Woof</TH>
+        </TR>
+        </THEAD>
+        <TBODY>
+        {% for row in docma.data('file', 'data/dogs.csv') | sort(attribute="Dog") %}
+          <TR>
+            <TD class="Dog">{{ row.Dog }}</TD>
+            <TD class="Woof">{{ row.Woof }}</TD>
+          </TR>
+        {% endfor %}
+        </TBODY>
+      </TABLE>
+    </DIV>
+    <P>
+      This table was included by reference to a CSV file in the template. It is
+      using the same base data file as the graph above. In this case, the table is
+      being sorted by name of dog.
+    </P>
+  </DIV>
+
+  <H2>QR Code Sample</H2>
+
+  <DIV style="display: grid; grid-template-columns: 10cm auto; align-items: center; gap: 1em;">
+    <!------------------------------------------------------------------------------
+    Here we construct a dynamic content generator call using dict notation.
+    ------------------------------------------------------------------------------->
+    <DIV>
+      <A href="https://github.com/jin-gizmo/docma">
+        <IMG
+            style="width: 3cm; height: 3cm;"
+            alt="Link to docma on github"
+            src="docma:qrcode?{{ {
             'text': 'https://github.com/jin-gizmo/docma',
             'fg': 'white',
             'bg': '#02775e'
           } | urlencode }}"
-      >
-    </A>
+        >
+      </A>
+    </DIV>
+    <P>This QR code is a link to docma on GitHub.</P>
   </DIV>
-  <P>This QR code is a link to docma on GitHub.</P>
+
+  <H2>Useful Links</H2>
+  <UL>
+    <LI>
+      <A href="https://www.smashingmagazine.com/2015/01/designing-for-print-with-css/">
+        Designing For Print With CSS
+      </A>
+    </LI>
+    <LI>
+      <A href="https://github.com/jin-gizmo/docma"> Docma on GitHub </A>
+    </LI>
+  </UL>
+
 </DIV>
-
-<H2>Useful Links</H2>
-<UL>
-  <LI>
-    <A href="https://www.smashingmagazine.com/2015/01/designing-for-print-with-css/">
-      Designing For Print With CSS
-    </A>
-  </LI>
-  <LI>
-    <A href="https://github.com/jin-gizmo/docma"> Docma on GitHub </A>
-  </LI>
-</UL>
-
 </BODY>
 </HTML>
 

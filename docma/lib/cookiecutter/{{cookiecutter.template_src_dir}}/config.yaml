@@ -28,20 +28,22 @@ overlays:
 
 parameters:
   defaults:
+    locale: "{{ cookiecutter.locale }}"
     overlays:
       grid:
         size: '1cm'
         color: '#aaaaaa'
-#  # Schema is optional but _strongly_ recommended
-#  schema:
-#    $schema: https://json-schema.org/draft/2020-12/schema
-#    title: Parameters validation schema
-#    type: object
-#    required:
-#      - ...
-#    properties:
-#      param1: ...
-#
+  # Schema is optional but _strongly_ recommended
+  schema:
+    $schema: https://json-schema.org/draft/2020-12/schema
+    title: Parameters validation schema
+    type: object
+    required:
+      - locale
+    properties:
+      locale:
+        type: string
+        format: locale
 
 # Document metadata. These, and only these, exact metadata items are supported.
 # Docma will adjust naming conventions to suit the output format (PDF or HTML).

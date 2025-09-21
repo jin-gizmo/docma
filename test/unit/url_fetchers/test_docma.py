@@ -6,11 +6,10 @@ from urllib.parse import urlencode, urlparse, urlunparse
 
 import pytest
 
+from docma.exceptions import DocmaUrlFetchError
+from docma.jinja import DocmaRenderContext
 from docma.lib.packager import PackageReader
 from docma.url_fetchers.docma import docma_url_fetcher
-from docma.lib.core import DocmaRenderContext
-from docma.exceptions import DocmaUrlFetchError
-
 from utils import images_are_identical
 
 

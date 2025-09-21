@@ -8,6 +8,7 @@
   "owner": "",
   "version": "1.0.0",
   "page_size": "a4",
+  "locale": "en_AU",
   "page_orientation": [
     "portrait",
     "landscape"

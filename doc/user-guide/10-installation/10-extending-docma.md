@@ -104,18 +104,74 @@ The data provider handler is selected by the `type` component of a
 To create a new data provider, add a new Python file into `docma/data_providers`.
 Start by copying one of the existing providers and modify as needed.
 
-### JSON Schema Format Checkers
+### Format Checkers
 
-Docma has a number of custom
-[JSON Schema format checkers](#custom-json-schema-formats-provided-by-docma).
-These are all contained in the file `docma/lib/jsonschema.py`. New ones can be
-added to this file.
+Docma has a number of custom [format
+checkers](#format-checkers-provided-by-docma) that serve a dual role as JSON
+Schema string formats and custom Jinja tests. These are implemented using a
+simple plugin mechanism. Read the docstring at the top of `docma/lib/plugin.py`
+before launching into it.
 
-### Custom Jinja Filters and Extensions
+To create a new format checker, add a new Python file into
+`docma/plugins/format_checkers`.  Start by copying one of the existing checkers.
+
+Checkers can be grouped together in families (e.g. the `au.*` suite) using
+nested Python packages (directories containing `__init__.py`). The discovery and
+loading process is automatic.
+
+Each checker is basically a decorated function with a single parameter,
+being the string value to be checked, and must return a boolean indicating
+whether it conforms to the required format, or not.
+
+It is also possible to have checkers with names generated dynamically at
+run-time. Tricky. Don't start here on day one but check out the
+`DateFormatResolver` class in `docma/jinja/resolvers.py` if the fever is upon
+you.
+
+> Resolvers are *not* automatically discovered.
+
+### Custom Jinja Filters
 
 Docma has a number of custom Jinja
-[filters](#custom-jinja-filters-provided-by-docma) and
-[extensions](#custom-jinja-extensions-provided-by-docma).
-These are all contained in the file `docma/lib/jinja.py`. New ones can be
-added to this file.
+[filters](#custom-jinja-filters-provided-by-docma). These are implemented using
+a simple plugin mechanism. Read the docstring at the top of
+`docma/lib/plugin.py`  before launching into it.
+
+To create a new format checker, add a new Python file into
+`docma/plugins/jinja_filters`.  Start by copying one of the existing filters.
+
+Checkers can be grouped together in families (e.g. the `au.*` suite) using
+nested Python packages (directories containing `__init__.py`). The discovery and
+loading process is automatic.
+
+It is also possible to have filters with names generated dynamically at
+run-time. For example, the [currency filters](#jinja-filter-currency) work this
+way. Tricky. Don't start here on day one but check out the
+`CurrencyFilterResolver` class in `docma/jinja/resolvers.py` if inspiration
+strikes.
+
+> Resolvers are *not* automatically discovered.
+
+### Custom Jinja Tests
+
+Docma does not currently provide any custom Jinja tests, other than custom
+[format checkers](#format-checkers-provided-by-docma) which are kept separate
+because they server both Jinja and JSON Schema.
+
+Unlike custom [format checkers](#format-checkers-provided-by-docma), custom
+tests can be written to accept arguments additional to the value being tested.
+
+All of the scaffolding required to add custom Jinja tests is present. The
+mechanism is the same as used for adding [custom jinja
+filters](#custom-jinja-filters) except that the required decorator is
+`@jtest` instead of `@jfilter` and they should be placed in
+`docma/plugins/jinja_tests` instead of `docma/plugins/jinja_filters`. The
+discovery and loading process is automatic.
+
+### Custom Jinja Extensions
+
+Docma has a number of custom Jinja
+[extensions](#custom-jinja-extensions-provided-by-docma). These are all
+contained in the file `docma/jinja/extensions.py`. New ones can be added to this
+file but if you think you need to, think again.
 

@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import zipfile
 from abc import ABC, abstractmethod
+from collections.abc import Iterator
 from pathlib import Path
 from shutil import copy2
 from zipfile import ZipFile
@@ -12,6 +13,8 @@ from jinja2 import BaseLoader, TemplateNotFound
 
 from docma.exceptions import DocmaPackageError
 from .path import relative_path, walkpath
+
+__author__ = 'Murray Andrews'
 
 
 # ..............................................................................
@@ -228,8 +231,8 @@ class PackageReader(ABC, BaseLoader):
         raise NotImplementedError('read_bytes')
 
     @abstractmethod
-    def namelist(self, base: Path | str = None) -> list[Path]:
-        """Get a list of file names under the specified base directory."""
+    def namelist(self, base: Path | str = None) -> Iterator[Path]:
+        """Get an iterator over file names under the specified base directory."""
         raise NotImplementedError('namelist')
 
     @abstractmethod
@@ -272,8 +275,8 @@ class DirPackageReader(PackageReader):
         src_path = self.path / relative_path(self.path, file)
         return src_path.read_bytes()
 
-    def namelist(self, base: Path | str = None) -> list[Path]:
-        """Get a list of file names under the specified base directory."""
+    def namelist(self, base: Path | str = None) -> Iterator[Path]:
+        """Get an iterator over file names under the specified base directory."""
         root = self.path / relative_path(self.path, base) if base else self.path
         for p in walkpath(root):
             yield p.relative_to(self.path)
@@ -307,8 +310,8 @@ class ZipPackageReader(PackageReader):
 
         return self._zip.read(str(file))
 
-    def namelist(self, base: Path | str = None) -> list[Path]:
-        """Get a list of file names under the specified base directory."""
+    def namelist(self, base: Path | str = None) -> Iterator[Path]:
+        """Get an iterator over file names under the specified base directory."""
         base_path = zipfile.Path(self._zip, str(base or '').rstrip('/') + '/')
         for p in walkpath(base_path):
             yield Path(p.at)  # noqa

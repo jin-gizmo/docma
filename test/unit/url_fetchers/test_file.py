@@ -7,7 +7,7 @@ from urllib.parse import urlparse
 import pytest
 
 from docma.exceptions import DocmaUrlFetchError
-from docma.lib.core import DocmaRenderContext
+from docma.jinja import DocmaRenderContext
 from docma.lib.packager import PackageReader
 from docma.url_fetchers import get_url_fetcher_for_scheme
 

@@ -4,7 +4,8 @@ from __future__ import annotations
 
 import pytest
 
-from docma.lib.core import *
+from docma.jinja import DocmaRenderContext
+from docma.lib.metadata import DocumentMetadata
 from docma.lib.packager import PackageReader
 
 
@@ -61,7 +62,7 @@ def test_docma_render_context_bad_type_to_render_fail(td):
 
 # ------------------------------------------------------------------------------
 def test_metadata_ok():
-    m = Metadata(
+    m = DocumentMetadata(
         **{
             'author': 'A',
             '/Title': 'T',

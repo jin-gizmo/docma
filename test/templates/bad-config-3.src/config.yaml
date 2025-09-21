@@ -1,0 +1,36 @@
+id: "bad-config-3"
+description: "Sample template for testing with a non-existing source document"
+owner: "Murray"
+version: "1.0.0"
+
+# Add primary document files here. Check the user guide for how to do
+# conditional documents.
+documents:
+  - content/sample.html
+
+imports:
+  - http://localhost:8080/data/images/
+
+# Weasyprint DEFAULT_OPTIONS.
+# See https://doc.courtbouillon.org/weasyprint/stable/api_reference.html#weasyprint.DEFAULT_OPTIONS
+options:
+  # This is optional but you will need to set page geometry somewhere.
+  stylesheets:
+    - styles.css
+
+parameters:
+  defaults:
+    overlays:
+      grid:
+        size: '1cm'
+        color: '#aaaaaa'
+
+  schema:
+    $schema: https://json-schema.org/draft/2020-12/schema
+    type: object
+    required:
+      - overlays
+    properties:
+      overlays:
+        description: Control params for our simple grid overlays
+        type: object

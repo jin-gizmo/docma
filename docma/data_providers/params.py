@@ -18,7 +18,7 @@ from __future__ import annotations
 from typing import Any
 
 from docma.exceptions import DocmaDataProviderError
-from docma.lib.core import DocmaRenderContext
+from docma.jinja import DocmaRenderContext
 from docma.lib.misc import dot_dict_get
 from .__common__ import DataSourceSpec, data_provider
 

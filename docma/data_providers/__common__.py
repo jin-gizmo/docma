@@ -5,7 +5,7 @@ from __future__ import annotations
 from typing import Any, Callable
 
 from docma.exceptions import DocmaDataProviderError
-from docma.lib.core import DocmaRenderContext
+from docma.jinja import DocmaRenderContext
 
 _DATA_SOURCE_TYPE = {}
 
@@ -151,7 +151,7 @@ def load_data(
     load_handler = data_provider_for_src_type(data_src.type)
     data = load_handler(data_src, context, **kwargs)
 
-    if not isinstance(data, list):
+    if not isinstance(data, list) or (data and not isinstance(data[0], dict)):
         raise DocmaDataProviderError(f'{data_src}: Bad data - must be a list of dicts')
 
     return data

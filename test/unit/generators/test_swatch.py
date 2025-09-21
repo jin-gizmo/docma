@@ -5,9 +5,8 @@ from __future__ import annotations
 import pytest
 
 from docma.generators import content_generator_for_type
-from docma.lib.core import DocmaRenderContext
+from docma.jinja import DocmaRenderContext
 from docma.lib.packager import PackageReader
-
 from utils import images_are_identical
 
 

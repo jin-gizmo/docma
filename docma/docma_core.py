@@ -27,6 +27,7 @@ from pathlib import Path
 from typing import Any, Callable, NoReturn
 from urllib.parse import urlparse, urlunparse
 
+import altair as alt
 import jsonschema
 import weasyprint
 import yaml
@@ -48,10 +49,10 @@ from docma.config import (
 from docma.data_providers import DataSourceSpec, load_data
 from docma.exceptions import DocmaPackageError, DocmaUrlFetchError
 from docma.importers import import_content
-from docma.lib.core import DocmaRenderContext, Metadata
+from docma.jinja import DOCMA_JINJA_EXTRAS, DocmaJinjaEnvironment, DocmaRenderContext
 from docma.lib.html import html_append
-from docma.lib.jinja import JinjaEnvironment, docma_extras
 from docma.lib.jsonschema import FORMAT_CHECKER
+from docma.lib.metadata import DocumentMetadata
 from docma.lib.misc import (
     chunks,
     datetime_pdf_format,
@@ -77,7 +78,25 @@ PKG_IGNORE_FILES = ('.*',)  # Glob patterns for source files to exclude from tem
 
 SAFE_PATH_SYMBOLS = r'-_+=;:@%\w'  # Chars allowed in a path component
 SAFE_PATH_COMPONENT_RE = re.compile(fr'^[{SAFE_PATH_SYMBOLS}][{SAFE_PATH_SYMBOLS}.]*$')
-DOC_CREATOR = f'docma {__version__}'
+DOC_CREATOR = {
+    'html': ' '.join(
+        [
+            f'docma {__version__}',
+            f'Altair {alt.__version__}',
+            f'Vega-lite {alt.SCHEMA_VERSION.replace("v", "")}',
+        ]
+    ),
+    'pdf': ' '.join(
+        [
+            f'docma {__version__}',
+            f'WeasyPrint {weasyprint.__version__}',
+            f'Altair {alt.__version__}',
+            f'Vega-lite {alt.SCHEMA_VERSION.replace("v", "")}',
+        ]
+    ),
+}
+
+# This is used when embedding an image as Base64 data in HTML.
 IMG_SRC_TEMPLATE = Template(
     """data:{{ img_type }};base64,
 {% for line in img %}{{ line | string }}
@@ -104,7 +123,7 @@ def read_template_version_info(tpkg: PackageReader) -> dict[str, Any]:
     """Read version information from a magic file in a compiled template package."""
 
     if not tpkg.exists(PKG_INFO_FILE):
-        raise DocmaPackageError('Not a document template package')
+        raise DocmaPackageError('Not a compiled docma template package')
     return yaml.safe_load(tpkg.read_text(PKG_INFO_FILE))
 
 
@@ -304,16 +323,16 @@ def compile_template(src_dir: str, tpkg: str) -> None:
         # Process imports.
         for imp in config.get('imports', []):
             if isinstance(imp, str):
-                src, dst = imp, Path(imp.rsplit('/', 1)[-1])
+                src, dst = imp, imp.rsplit('/', 1)[-1]
             else:
-                src, dst = imp['src'], Path(imp['as'])
+                src, dst = imp['src'], imp['as']
             if not all((src, dst)):
                 raise DocmaPackageError(f'Bad import: {imp}')
-            missing_docs.discard(import_file_to_template(src, dst, pkg))
+            missing_docs.discard(import_file_to_template(src, Path(dst), pkg))
 
         # Check that a source file is produced for each document
         if missing_docs:
-            raise Exception(
+            raise DocmaPackageError(
                 f'No document source found for documents: {", ".join(str(s) for s in missing_docs)}'
             )
 
@@ -363,7 +382,7 @@ def get_template_info(tpkg: PackageReader) -> dict[str, Any]:
             info[k] = config.get(k)
         return info
     except Exception as e:
-        raise DocmaPackageError(f'{tpkg}: {e}: Are you sure this is a docma template?')
+        raise DocmaPackageError(f'{tpkg.path}: {e}')
 
 
 # ------------------------------------------------------------------------------
@@ -679,7 +698,7 @@ def apply_overlay(
 
 
 # ------------------------------------------------------------------------------
-def set_metadata_pdf(pdf: PdfWriter, metadata: Metadata, context: DocmaRenderContext):
+def set_metadata_pdf(pdf: PdfWriter, metadata: DocumentMetadata, context: DocmaRenderContext):
     """Set the metadata in a HTML doc."""
 
     pdf.add_metadata({k: context.render(v) for k, v in metadata.as_dict('pdf').items()})
@@ -704,7 +723,7 @@ def coalesce_docma_render_params(config, *d: dict[str, Any]) -> dict[str, Any]:
         {},
         config.get('parameters', {}).get('defaults', {}),
         *d,
-        {'docma': docma_extras},
+        {'docma': DOCMA_JINJA_EXTRAS},
         {
             'docma': {
                 'data': no_docma_data_here,
@@ -763,10 +782,11 @@ def render_template_to_pdf(
         config = yaml.safe_load(tpkg.read_text(PKG_CONFIG_FILE))
         render_params = coalesce_docma_render_params(config, render_params)
         dot_dict_set(render_params, 'docma.data', docma_data)
+        dot_dict_set(render_params, 'docma.format', 'PDF')
         LOG.debug('Render parameters: %s', render_params)
         context = DocmaRenderContext(
             tpkg=tpkg,
-            env=JinjaEnvironment(loader=tpkg, autoescape=True),
+            env=DocmaJinjaEnvironment(loader=tpkg, autoescape=True),
             params=render_params,
         )
 
@@ -828,17 +848,19 @@ def render_template_to_pdf(
             page.compress_content_streams(compression)
 
     # Add metadata
-    metadata = Metadata(**config.get('metadata', {}))
+    metadata = DocumentMetadata(**config.get('metadata', {}))
     # TODO: The Metadata class should handle this formatting weirdness
     metadata['creation_date'] = datetime_pdf_format()
-    metadata['creator'] = f'{Path(template_pkg_name).stem} {config["version"]} ({DOC_CREATOR})'
+    metadata['creator'] = (
+        f'{Path(template_pkg_name).stem} {config["version"]} ({DOC_CREATOR["pdf"]})'
+    )
     set_metadata_pdf(output_pdf, metadata, context)
 
     return output_pdf
 
 
 # ------------------------------------------------------------------------------
-def set_metadata_html(html: BeautifulSoup, metadata: Metadata, context: DocmaRenderContext):
+def set_metadata_html(html: BeautifulSoup, metadata: DocumentMetadata, context: DocmaRenderContext):
     """Set the metadata in a HTML doc."""
 
     if not html.head:
@@ -886,10 +908,11 @@ def render_template_to_html(
         config = yaml.safe_load(tpkg.read_text(PKG_CONFIG_FILE))
         render_params = coalesce_docma_render_params(config, render_params)
         dot_dict_set(render_params, 'docma.data', docma_data)
+        dot_dict_set(render_params, 'docma.format', 'HTML')
         LOG.debug('Render parameters: %s', render_params)
         context = DocmaRenderContext(
             tpkg=tpkg,
-            env=JinjaEnvironment(loader=tpkg, autoescape=True),
+            env=DocmaJinjaEnvironment(loader=tpkg, autoescape=True),
             params=render_params,
         )
 
@@ -922,9 +945,11 @@ def render_template_to_html(
             raise DocmaPackageError('No documents were selected')
 
         # Add metadata
-        metadata = Metadata(**config.get('metadata', {}))
+        metadata = DocumentMetadata(**config.get('metadata', {}))
         metadata['creation_date'] = datetime.now(timezone.utc).isoformat()
-        metadata['creator'] = f'{Path(template_pkg_name).stem} {config["version"]} ({DOC_CREATOR})'
+        metadata['creator'] = (
+            f'{Path(template_pkg_name).stem} {config["version"]} ({DOC_CREATOR["html"]})'
+        )
         set_metadata_html(html_soup, metadata, context)
 
         return html_soup

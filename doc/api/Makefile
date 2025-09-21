@@ -20,10 +20,10 @@ help:
 
 zip:	$(dist)/doc/docma-api-doc-$(DOCMA_VERSION).zip
 
-# Create / update the *.rst files
+# Create / update the *.rst files. We don't need --full, or modules.rst (hence the --no-toc)
 init:
 	@echo Creating/updating API doc setup
-	@sphinx-apidoc -q -o . --separate --module-first --full --ext-autodoc --ext-viewcode \
+	@sphinx-apidoc -q -o . --no-toc --separate --module-first --ext-autodoc --ext-viewcode \
 		$(BASEDIR) \
 		$(BASEDIR)/setup.py
 

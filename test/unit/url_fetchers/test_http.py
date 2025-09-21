@@ -2,13 +2,13 @@
 
 from __future__ import annotations
 
-from urllib.parse import ParseResult, urlparse
+from urllib.parse import ParseResult
 
-import pytest
+import pytest  # noqa
 
-from docma.exceptions import DocmaUrlFetchError
 from docma.config import IMPORT_MAX_SIZE
-from docma.lib.core import DocmaRenderContext
+from docma.exceptions import DocmaUrlFetchError
+from docma.jinja import DocmaRenderContext
 from docma.lib.packager import PackageReader
 from docma.url_fetchers import get_url_fetcher_for_scheme
 
@@ -120,4 +120,32 @@ def test_http_url_fetcher_head_ok_get_fail(filename, tc, td):
     )
     fetcher = get_url_fetcher_for_scheme(purl.scheme)
     with pytest.raises(DocmaUrlFetchError, match='403'):
+        fetcher(purl, DocmaRenderContext(PackageReader.new(td)))
+
+
+# ------------------------------------------------------------------------------
+@pytest.mark.parametrize(
+    'filename',
+    ['dogs.csv'],
+)
+def test_http_url_fetcher_server_lies_about_size(filename, tc, td, monkeypatch):
+    """Test when the server says object size is ok but its really to big."""
+
+    import docma.url_fetchers.http
+
+    monkeypatch.setattr(docma.url_fetchers.http, 'IMPORT_MAX_SIZE', 1)
+
+    purl = ParseResult(
+        scheme='http',
+        netloc=tc.web_server.netloc,
+        path=f'/data/{filename}',
+        params=None,
+        # Our test server allows us to manipulate response headers
+        # We're forcing it to not provide content length so the initial length
+        # check will pass but the subsequent GET will get an oversized object.
+        query=f'header=Content-Length/',
+        fragment=None,
+    )
+    fetcher = get_url_fetcher_for_scheme(purl.scheme)
+    with pytest.raises(DocmaUrlFetchError, match='Too large'):
         fetcher(purl, DocmaRenderContext(PackageReader.new(td)))

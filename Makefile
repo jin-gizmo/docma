@@ -44,6 +44,7 @@ help:
 	@echo "   black      Format the code using black."
 	@echo "   check:     Run some code checks (flake8 etc)."
 	@echo "   clean:     Remove generated components, fluff etc."
+	@echo "   count:     Do line counts on source code (needs tokei)."
 	@echo "   spell:     Spell check the user guide (requires aspell)."
 	@echo
 	@echo "[31mTesting targets[0m"
@@ -166,3 +167,6 @@ clean:
 	docker system prune -f
 	docker volume prune -f
 	docker network prune -f
+
+count:
+	tokei .

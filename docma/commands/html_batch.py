@@ -18,7 +18,7 @@ from docma import render_template_to_html, safe_render_path
 from docma.config import LOGNAME
 from docma.data_providers import DataSourceSpec, load_data
 from docma.docma_core import PKG_CONFIG_FILE, coalesce_docma_render_params
-from docma.lib.core import DocmaRenderContext
+from docma.jinja import DocmaRenderContext
 from docma.lib.logging import setup_logging
 from docma.lib.misc import deep_update_dict
 from docma.lib.packager import PackageReader

@@ -6,7 +6,7 @@ import pytest
 
 from docma.data_providers.params import *
 from docma.exceptions import DocmaDataProviderError
-from docma.lib.core import DocmaRenderContext
+from docma.jinja import DocmaRenderContext
 from docma.lib.packager import PackageReader
 
 

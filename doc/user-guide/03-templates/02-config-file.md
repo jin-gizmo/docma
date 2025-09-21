@@ -224,8 +224,9 @@ options:
 
 parameters:
   # These defaults are deep-merged into any parameters specified at run-time
-  # during rendering.
+  # during rendering. The latter will take precedence.
   defaults:
+    locale: en_AU
     our_abn: 54321123456
     contract:
       term_in_years: 3
@@ -235,26 +236,31 @@ parameters:
     title: Parameters validation schema
     type: object
     required:
+      - locale
       - customer_name
       - customer_abn
       - contract
       - price
     properties:
+      locale:
+        type: string
+        format: locale
       customer_name:
         type: string
         minLength: 1
       customer_abn:
         type: string
-        format: ABN
+        format: au.ABN
       contract:
         type: object
       price:
         type: number
         minimum: 1.00
 
-# This gets Jinja rendered and added as metadata to the output PDF.
+# This gets Jinja rendered and added as metadata to the output documents.
+# PDF / HTML conventions for metadata are respected.
 metadata:
-  /Title: Contract of Sale
-  /Subject: '{{ customer_name }}'
+  title: Contract of Sale
+  subject: '{{ customer_name }}'
 
 ```

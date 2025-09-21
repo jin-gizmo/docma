@@ -8,7 +8,7 @@ from typing import Any
 from PIL import Image, ImageDraw
 from pydantic import BaseModel, ConfigDict, PositiveInt
 
-from docma.lib.core import DocmaRenderContext
+from docma.jinja import DocmaRenderContext
 from docma.lib.misc import load_font
 from .__common__ import content_generator
 

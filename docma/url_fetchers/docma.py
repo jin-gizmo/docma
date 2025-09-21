@@ -16,7 +16,7 @@ from urllib.parse import ParseResult, parse_qs
 
 from docma.exceptions import DocmaUrlFetchError
 from docma.generators import content_generator_for_type
-from docma.lib.core import DocmaRenderContext
+from docma.jinja import DocmaRenderContext
 from .__common__ import fetcher
 
 

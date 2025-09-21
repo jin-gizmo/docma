@@ -3,15 +3,17 @@
 from __future__ import annotations
 
 import logging
+from time import sleep
+from urllib.error import URLError
 
 import boto3
-import pytest
-from _pytest import monkeypatch
-from moto import mock_aws
+import pytest  # noqa
+from moto import mock_aws  # noqa
 
+from docma.compilers import content_compiler
 from docma.docma_core import *
 from docma.exceptions import DocmaPackageError, DocmaUrlFetchError
-from docma.lib.core import DocmaRenderContext
+from docma.jinja import DocmaRenderContext
 from docma.lib.packager import PackageReader, PackageWriter
 from docma.version import __version__
 from utils import squish_html
@@ -22,10 +24,10 @@ def test_template_version_info(tmp_path):
 
     # It's not a template yet
     with PackageReader.new(tmp_path) as tpkg:
-        with pytest.raises(DocmaPackageError, match='Not a document template package'):
+        with pytest.raises(DocmaPackageError, match='Not a compiled docma template package'):
             read_template_version_info(tpkg)
 
-        with pytest.raises(DocmaPackageError, match='Not a document template package'):
+        with pytest.raises(DocmaPackageError, match='Not a compiled docma template package'):
             check_template_version_info(tpkg)
 
     # Make it a template
@@ -41,8 +43,10 @@ def test_template_version_info(tmp_path):
 
         check_template_version_info(tpkg)
 
+
 # ------------------------------------------------------------------------------
-def test_template_version_info_bad_version(tmp_path, monkeypatch, caplog):
+# TODO: There is an annoying caplog race condition in here :-( Need to fix
+def test_template_version_info_bad_version(tmp_path, monkeypatch, caplog, capsys):
 
     import docma.docma_core
 
@@ -51,10 +55,15 @@ def test_template_version_info_bad_version(tmp_path, monkeypatch, caplog):
         write_template_version_info(tpkg)
 
     # Now force the version number not to match when we check it.
-    monkeypatch.setattr(docma.docma_core, 'DOCMA_FORMAT_VERSION', DOCMA_FORMAT_VERSION+1)
-    with PackageReader.new(tmp_path) as tpkg, caplog.at_level(logging.INFO, logger=LOGNAME):
-        check_template_version_info(tpkg)
+    monkeypatch.setattr(docma.docma_core, 'DOCMA_FORMAT_VERSION', DOCMA_FORMAT_VERSION + 1)
+    logger = logging.getLogger(LOGNAME)
+    with caplog.at_level(logging.INFO, logger=LOGNAME):
+        with PackageReader.new(tmp_path) as tpkg:
+            check_template_version_info(tpkg)
+            logger.warning('-- log message push --')
+        sleep(0.5)  # Kludge because pytest caplog is craplog (timing issues)
         assert 'may not be compatible with expected version' in caplog.text
+
 
 # ------------------------------------------------------------------------------
 def test_set_weasy_options(dirs):
@@ -95,7 +104,7 @@ def test_docspec(doc_item, src, scheme, netloc):
         ('content/compile-me.md', 'content/compile-me.html'),
     ],
 )
-def test_copy_file_to_template(src_file, compare_file, dirs, tmp_path):
+def test_copy_file_to_template_ok(src_file, compare_file, dirs, tmp_path):
 
     src_dir = dirs.templates / 'test1.src'
 
@@ -109,8 +118,26 @@ def test_copy_file_to_template(src_file, compare_file, dirs, tmp_path):
 
 
 # ------------------------------------------------------------------------------
+def test_copy_file_to_template_compile_fail(dirs, tmp_path):
+    """Test a failed compilation on copy."""
+
+    @content_compiler('broken')
+    def _(src_data: bytes) -> str:
+        """Dummy content compiler."""
+        raise RuntimeError(f'{src_data.decode("utf-8").strip()}: broken compiler')
+
+    # Create a file that will force broken compiler to act
+    broken_file_path = tmp_path / 'uh-oh.broken'
+    broken_file_path.write_text('Uh oh')
+
+    with PackageWriter.new(tmp_path / 'pkg') as tpkg:
+        with pytest.raises(DocmaPackageError, match='broken compiler'):
+            copy_file_to_template(broken_file_path, Path(broken_file_path.name), tpkg)
+
+
+# ------------------------------------------------------------------------------
 @pytest.mark.parametrize('filename', ['README.md', 'images/qr-magenta-hello-world.png'])
-def test_import_file_to_template(filename, tmp_path, td, tc):
+def test_import_file_to_template_ok(filename, tmp_path, td, tc):
 
     src_url = f'http://{tc.web_server.netloc}/data/{filename}'
 
@@ -125,6 +152,23 @@ def test_import_file_to_template(filename, tmp_path, td, tc):
 
 
 # ------------------------------------------------------------------------------
+def test_import_file_to_template_fail(tmp_path, td, tc):
+    """Test a failed compilation on import.."""
+
+    @content_compiler('broken')
+    def _(src_data: bytes) -> str:
+        """Dummy content compiler."""
+        raise RuntimeError(f'{src_data.decode("utf-8").strip()}: broken compiler')
+
+    src_file = 'uh-oh.broken'
+    src_url = f'http://{tc.web_server.netloc}/{src_file}'
+
+    with PackageWriter.new(tmp_path) as tpkg:
+        with pytest.raises(DocmaPackageError, match='broken compiler'):
+            import_file_to_template(src_url, Path(src_file), tpkg)
+
+
+# ------------------------------------------------------------------------------
 def test_compile_template_ok(dirs, tmp_path):
     src_dir = dirs.templates / 'test1.src'
     compile_template(src_dir, str(tmp_path))
@@ -132,16 +176,35 @@ def test_compile_template_ok(dirs, tmp_path):
 
 # ------------------------------------------------------------------------------
 def test_compile_template_nodir_fail(tmp_path):
-
     with pytest.raises(DocmaPackageError, match='not a directory'):
         compile_template('no-such-dir', str(tmp_path))
 
 
 # ------------------------------------------------------------------------------
 def test_compile_template_no_config_fail(td, tmp_path):
-
     with pytest.raises(DocmaPackageError, match='No .* configuration file found'):
         compile_template(str(td), str(tmp_path))
+
+
+# ------------------------------------------------------------------------------
+def test_compile_template_malformed_config_fail(dirs, tmp_path):
+    src_dir = dirs.templates / 'bad-config-1.src'
+    with pytest.raises(DocmaPackageError, match='config.yaml'):
+        compile_template(src_dir, str(tmp_path))
+
+
+# ------------------------------------------------------------------------------
+def test_compile_template_missing_document_fail(dirs, tmp_path):
+    src_dir = dirs.templates / 'bad-config-2.src'
+    with pytest.raises(DocmaPackageError, match='No document source found'):
+        compile_template(src_dir, str(tmp_path))
+
+
+# ------------------------------------------------------------------------------
+def test_compile_template_bad_import_fail(dirs, tmp_path):
+    src_dir = dirs.templates / 'bad-config-3.src'
+    with pytest.raises(DocmaPackageError, match='Bad import'):
+        compile_template(src_dir, str(tmp_path))
 
 
 # ------------------------------------------------------------------------------
@@ -156,6 +219,15 @@ def test_url_fetcher_ok(url, mime_type, dirs):
     with PackageReader.new(dirs.templates / 'test1.src') as tpkg:
         result = docma_url_fetcher(url, DocmaRenderContext(tpkg))
         assert result['mime_type'] == mime_type
+
+
+# ------------------------------------------------------------------------------
+def test_url_fetcher_fail(dirs, tmp_path):
+    bad_url = 'bad-scheme://oh/dear/how/sad'
+    with PackageReader.new(dirs.templates / 'test1.src') as tpkg:
+        # docma will pass the bad URL to Weasyprint which will eventually pass it to urllib
+        with pytest.raises(URLError, match='error unknown url type: bad-scheme'):
+            docma_url_fetcher(bad_url, DocmaRenderContext(tpkg))
 
 
 # ------------------------------------------------------------------------------
@@ -186,7 +258,7 @@ def test_get_template_info_ok(dirs, tmp_path):
 def test_get_template_info_fail(td):
 
     with PackageReader.new(td) as tpkg:
-        with pytest.raises(DocmaPackageError, match='Are you sure this is a docma template'):
+        with pytest.raises(DocmaPackageError, match='No such file .*/config.yaml'):
             get_template_info(tpkg)
 
 
@@ -258,6 +330,7 @@ def test_embed_images_ok(td, caplog, monkeypatch):
     test_logger.setLevel(logging.DEBUG)
 
     import docma.docma_core
+
     monkeypatch.setattr(docma.docma_core, 'LOG', test_logger)
 
     context = DocmaRenderContext(PackageReader.new(td))
@@ -528,7 +601,7 @@ def test_set_metadata_html_ok(td):
     )
     context = DocmaRenderContext(PackageReader.new(td), params={'title': 'Title'})
 
-    metadata = Metadata(title='{{ title }}', description='Description')
+    metadata = DocumentMetadata(title='{{ title }}', description='Description')
     set_metadata_html(soup, metadata, context)
     html = """<html>
  <head>
@@ -545,7 +618,7 @@ def test_set_metadata_html_no_head_ok(td):
     soup = BeautifulSoup('<html><body></body></html>', 'html.parser')
     context = DocmaRenderContext(PackageReader.new(td), params={'title': 'Title'})
 
-    metadata = Metadata(title='{{ title }}', description='Description')
+    metadata = DocumentMetadata(title='{{ title }}', description='Description')
     set_metadata_html(soup, metadata, context)
     html = """<html>
  <head>

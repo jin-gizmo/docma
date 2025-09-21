@@ -1,11 +1,7 @@
-"""Jinja utilities, filters etc."""
+"""Custom Jinja extensions."""
 
 from __future__ import annotations
 
-import calendar
-import datetime
-import re
-from decimal import Decimal, ROUND_HALF_UP
 from pprint import pformat
 from types import SimpleNamespace
 from typing import Any
@@ -16,151 +12,19 @@ from jinja2.exceptions import TemplateSyntaxError
 from jinja2.ext import Context, Extension
 from jinja2.parser import Parser
 
-from .misc import css_id
+__author__ = 'Murray Andrews'
 
-filters = {}
-
-# Some extra useful functions
-docma_extras = {
-    'calendar': calendar,
-    'datetime': datetime,
-}
-
-docma_extensions: list[type[Extension] | str] = ['jinja2.ext.debug', 'jinja2.ext.loopcontrols']
-
-
-# ------------------------------------------------------------------------------
-class JinjaEnvironment(jinja2.Environment):
-    """Jinja2 environment with some docma add-ons."""
-
-    def __init__(self, *args, **kwargs):
-        """Prep a Jinja2 environment for use in docma."""
-
-        super().__init__(*args, extensions=docma_extensions, **kwargs)
-        self.filters.update(filters)
-
-
-# ------------------------------------------------------------------------------
-# noinspection PyUnusedLocal
-class NoLoader(jinja2.BaseLoader):
-    """Jinja2 loader that prevents loading."""
-
-    def get_source(self, environment, template: str):
-        """Block template loading."""
-        raise Exception('Jinja2 loading prohibited')
-
-
-# ------------------------------------------------------------------------------
-def jfilter(*names: str):
-    """Register Jinja filters."""
-
-    def decorate(func):
-        """Register the filter function."""
-        for name in names:
-            filters[name] = func
-        return func
-
-    return decorate
-
-
-# ------------------------------------------------------------------------------
-def jfunc(name: str):
-    """Register Jinja extra functions."""
-
-    def decorate(func):
-        """Register the function."""
-        docma_extras[name] = func
-        return func
-
-    return decorate
+custom_extensions = []
 
 
 # ------------------------------------------------------------------------------
 def jext(cls: type[Extension]) -> type[Extension]:
     """Register Jinja extensions."""
 
-    docma_extensions.append(cls)
+    if not issubclass(cls, Extension):
+        raise TypeError(f'Extension {cls} must be a subclass of {Extension.__module__}.Extension')
+    custom_extensions.append(cls)
     return cls
-
-
-# ------------------------------------------------------------------------------
-@jfunc('abort')
-def _abort(message: str):
-    """
-    Throw an exception to force abort the Jinja renderer.
-
-    .. deprecated:: 1.10.0
-        Use the abort extension instead. (e.g. `{% abort 'message' %}`)
-    """
-
-    raise Exception(message)
-
-
-# ------------------------------------------------------------------------------
-@jfilter('require')
-def _require(value: Any, message: str):
-    """Ensure a value is specified."""
-
-    if not value:
-        raise Exception(message)
-    return value
-
-
-# ------------------------------------------------------------------------------
-@jfilter('dollars')
-def _dollars(value: str | int | float, precision: int = 2, symbol: str = '$') -> str:
-    """Format dollars using round up not bankers rounding."""
-
-    rounded = Decimal(str(value)).quantize(Decimal(f'0.{precision * "0"}'), ROUND_HALF_UP)
-    return f'{symbol or ""}{rounded:,}'
-
-
-# ------------------------------------------------------------------------------
-@jfilter('abn', 'ABN')
-def _abn(value: str) -> str:
-    """Format an ABN."""
-
-    v = value.replace(' ', '')
-    if len(v) != 11:
-        raise ValueError(f'Bad ABN: {value}')
-    return ' '.join([v[:2]] + [v[n : n + 3] for n in range(2, 11, 3)])
-
-
-# ------------------------------------------------------------------------------
-@jfilter('acn', 'ACN')
-def _acn(value: str) -> str:
-    """Format an ACN."""
-    v = value.replace(' ', '')
-    if len(v) != 9:
-        raise ValueError(f'Bad ACN: {value}')
-    return ' '.join(v[n : n + 3] for n in range(0, 9, 3))
-
-
-# ------------------------------------------------------------------------------
-@jfilter('css_id')
-def _css_id(value: str) -> str:
-    """Sanitise a string to be a valid CSS identifier."""
-
-    return css_id(value)
-
-
-# ------------------------------------------------------------------------------
-@jfilter('sql_safe')
-def _sql_safe(value: str) -> str:
-    """
-    Ensure a string is a safe SQL identifier.
-
-    We accept "name" and "name.name" forms so it will also work on basic numbers
-    where needed.
-
-    This takes a very restrictive view on what is safe and will rule out some
-    valid names but what is allowed is safe.
-    """
-
-    if not re.match(r'^\w+(\.\w+)?$', value):
-        raise ValueError(f'Bad SQL name: {value}')
-
-    return value
 
 
 # ------------------------------------------------------------------------------
@@ -358,6 +222,7 @@ class DumpParamsExtension(Extension):
 
     def parse(self, parser: Parser) -> nodes.Output:
         """Parse the extension tag."""
+
         lineno = parser.stream.expect('name:dump_params').lineno
         context = nodes.ContextReference()
         result = self.call_method('_render', [context], lineno=lineno)

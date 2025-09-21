@@ -8,7 +8,7 @@ from typing import Any, Callable
 from pydantic import BaseModel
 
 from docma.exceptions import DocmaGeneratorError
-from docma.lib.core import DocmaRenderContext
+from docma.jinja import DocmaRenderContext
 
 _CONTENT_GENERATORS = {}
 

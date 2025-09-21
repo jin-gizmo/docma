@@ -2,12 +2,15 @@
 
 from __future__ import annotations
 
+import os
 import sys
 from uuid import uuid4
 
+import pytest
 import yaml
 
 from docma.cli import docma
+from docma.commands.new import pythonpath_prepended
 
 
 # ------------------------------------------------------------------------------
@@ -64,3 +67,27 @@ def test_cmd_new_fail(monkeypatch, tmp_path, capsys):
     result = docma.main()
     assert result == 1
     assert f'{new_dir} already exists' in capsys.readouterr().err
+
+
+# ------------------------------------------------------------------------------
+@pytest.mark.parametrize(
+    'pythonpath',
+    [
+        None,
+        'path1:path2',
+    ],
+)
+def test_pythonpath_prepended(pythonpath, monkeypatch, tmp_path):
+    if pythonpath:
+        monkeypatch.setenv('PYTHONPATH', pythonpath)  # noqa
+    else:
+        monkeypatch.delenv('PYTHONPATH', raising=False)
+
+    existing_pythonpath = os.environ.get('PYTHONPATH')
+    with pythonpath_prepended('some/path'):
+        assert os.environ.get('PYTHONPATH') == (
+            f'some/path:{existing_pythonpath}' if existing_pythonpath else 'some/path'
+        )
+
+    # Confirm path restored
+    assert os.environ.get('PYTHONPATH') == existing_pythonpath

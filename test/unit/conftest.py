@@ -3,63 +3,26 @@
 from __future__ import annotations
 
 import os
-from collections.abc import Mapping
-from contextlib import suppress
 from pathlib import Path
-from typing import Any
-from urllib.parse import urlparse
 
 import dotenv
-import pytest
+import pytest  # noqa
 import yaml
+from jinja2 import Environment
+
+from docma.jinja.resolvers import *
+from docma.lib.plugin import (
+    MappingResolver,
+    PLUGIN_JINJA_FILTER,
+    PLUGIN_JINJA_TEST,
+    PackageResolver,
+    PluginRouter,
+)
+from utils import DotDict
 
 CONFIG = 'conftest.yaml'
 
 dotenv.load_dotenv()
-
-
-# ------------------------------------------------------------------------------
-class DotDict:
-    """
-    Access dict values with dot notation or conventional dict notation or mix and match.
-
-    ..warning:: This does not handle all dict syntax, just what is needed here.
-
-    """
-
-    def __init__(self, *data: Mapping[str, Any]):
-        """Create dotable dict from dict(s)."""
-        self._data = {}
-
-        for d in data:
-            self._data.update(d)
-
-    def __getattr__(self, item: str) -> Any:
-        """Access config elements with dot notation support for keys."""
-
-        if not item or not isinstance(item, str):
-            raise ValueError(f'Bad config item name: {item}')
-
-        try:
-            value = self._data[item]
-        except KeyError:
-            raise AttributeError(item)
-        return self.__class__(value) if isinstance(value, dict) else value
-
-    def __getitem__(self, item):
-        value = self._data[item]
-        return self.__class__(value) if isinstance(value, dict) else value
-
-    def __str__(self):
-        return str(self._data)
-
-    def __repr__(self):
-        return repr(self._data)
-
-    @property
-    def dict(self) -> dict:
-        """Return the underlying data as a dict."""
-        return self._data
 
 
 # ------------------------------------------------------------------------------
@@ -126,30 +89,6 @@ def aws_mock_creds(monkeypatch):
 
 
 # ------------------------------------------------------------------------------
-class S3path:
-    """Convenience hack for handling S3 paths."""
-
-    def __init__(self, uri: str):
-        purl = urlparse(uri)
-        if purl.scheme != 's3':
-            raise ValueError(f'Unsupported S3 scheme: {purl.scheme}')
-        self.bucket, self.key = purl.netloc, purl.path[1:]
-        self.uri = uri
-
-    def __call__(self):
-        return self.uri
-
-    def __truediv__(self, other):
-        return self.__class__(f'{self.uri}/{other}')
-
-    def __str__(self):
-        return self.uri
-
-    def __repr__(self):
-        return self.uri
-
-
-# ------------------------------------------------------------------------------
 @pytest.fixture(scope='session')
 def s3() -> DotDict:
     """ "Package up useful S3 locations."""
@@ -158,4 +97,34 @@ def s3() -> DotDict:
         {
             # 'whatever': S3path('...'),
         }
+    )
+
+
+# ------------------------------------------------------------------------------
+@pytest.fixture(scope='function')
+def jfilters() -> PluginRouter:
+    """Load jinja filters."""
+    e = Environment(autoescape=True)
+    return PluginRouter(
+        [
+            MappingResolver(e.filters),
+            CurrencyFilterResolver(),
+            PackageResolver('docma.plugins.jinja_filters', PLUGIN_JINJA_FILTER),
+        ],
+    )
+
+
+# ------------------------------------------------------------------------------
+@pytest.fixture(scope='function')
+def jtests() -> PluginRouter:
+    """Load jinja tests."""
+    e = Environment(autoescape=True)
+    return PluginRouter(
+        [
+            MappingResolver(e.tests),
+            PackageResolver('docma.plugins.jinja_tests', PLUGIN_JINJA_FILTER),
+            # Format checkers work as both JSONschema formats and Jinja teats.
+            DateFormatResolver(),
+            PackageResolver('docma.plugins.format_checkers', PLUGIN_JINJA_TEST),
+        ]
     )

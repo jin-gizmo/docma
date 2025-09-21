@@ -1,0 +1,167 @@
+<HTML lang="en-us">
+<HEAD>
+
+  <TITLE>Welcome to docma!</TITLE>
+  <STYLE type="text/css">
+      :root {
+          --dark-orange: #fa4617;
+          --light-orange: #fec72b;
+          --mid-orange: #f5821e;
+          --table-border: var(--dark-orange);
+          font-family: Avenir, Arial, sans-serif;
+          font-size: 10pt;
+      }
+
+      @page {
+          @bottom-left {
+              content: "Produced with docma version {{ docma.version }}";
+              font-size: 7pt;
+              font-weight: lighter;
+          }
+          @bottom-right {
+              content: "Page " counter(page) " of " counter(pages);
+              font-size: 7pt;
+              font-weight: lighter;
+          }
+          border-bottom: 0.5pt solid #8a8a8a;
+      }
+
+      h1 {
+          font-size: 120%;
+          color: var(--dark-orange);
+          page-break-after: avoid;
+          text-align: center;
+          border-top: 1pt solid var(--dark-orange);
+          border-bottom: 1pt solid var(--dark-orange);
+      }
+
+      h2 {
+          font-size: 120%;
+          page-break-after: avoid;
+      }
+
+      table {
+          border-color: var(--dark-orange);
+          border-style: solid;
+          border-width: 1pt;
+          border-collapse: collapse;
+      }
+
+      th {
+          padding: 3pt;
+          background-color: var(--dark-orange);
+          color: white;
+          font-size: 9pt;
+      }
+
+      tbody tr:nth-child(even) {
+          background-color: #e7e7e7;
+
+      }
+
+      td {
+          padding: 1pt 3pt 1pt 3pt;
+          font-size: 9pt;
+      }
+
+      /* Pick up the "Woof" column in our dogs table */
+      th.Woof:after {
+          content: " (%)";
+      }
+
+      td.Woof {
+          text-align: center;
+      }
+  </STYLE>
+</HEAD>
+<BODY>
+<H1>Welcome to docma!</H1>
+<H2>Template info</H2>
+<!------------------------------------------------------------------------------
+Let's add a table that contains information about the template
+------------------------------------------------------------------------------->
+<TABLE>
+  <TBODY>
+  <TR>
+    <TH>Description</TH>
+    <TD>{{ docma.template.description }}</TD>
+  </TR>
+  <TR>
+    <TH>Owner</TH>
+    <TD>{{ docma.template.owner }}</TD>
+  </TR>
+  <TR>
+    <TH>Template version</TH>
+    <TD>{{ docma.template.version }}</TD>
+  </TR>
+  <TR>
+    <TH>Produced</TH>
+    <TD>{{ docma.datetime.datetime.today().date() }}</TD>
+  </TR>
+  </TBODY>
+</TABLE>
+<H2>Resources</H2>
+<P>
+  <A href="https://www.smashingmagazine.com/2015/01/designing-for-print-with-css/">
+    Designing For Print With CSS
+  </A>
+</P>
+<P>
+  <A href="https://github.com/jin-gizmo/docma">
+    Docma on GitHbu
+  </A>
+</P>
+<H2>Woof woof</H2>
+<P>This is a sample of a dynamically generated chart.</P>
+<!------------------------------------------------------------------------------
+Here we construct a dynamic content generator call using tuple notation.
+------------------------------------------------------------------------------->
+<DIV style="text-align: center">
+  <IMG
+      style="width: 10cm;"
+      src="docma:vega?{{ (
+          ( 'spec', 'charts/woof.yaml'),
+          ( 'data', 'file;data/dogs.csv'),
+          ( 'scale', 2.0 ),
+        ) | urlencode }}"
+  >
+</DIV>
+<P>
+  The following table was included by reference to a CSV file in the template.
+  It is using the same base data file as the graph above.
+</P>
+<DIV>
+  <TABLE>
+    <THEAD>
+    <TR>
+      <TH>Dog</TH>
+      <TH>Woof</TH>
+    </TR>
+    </THEAD>
+    <TBODY>
+    {% for row in docma.data('file', 'data/dogs.csv') %}
+      <TR>
+        <TD class="Dog">{{ row.Dog }}</TD>
+        <TD class="Woof">{{ row.Woof }}</TD>
+      </TR>
+    {% endfor %}
+    </TBODY>
+  </TABLE>
+</DIV>
+<H2>QR Code Sample</H2>
+<DIV style="page-break-inside: avoid">
+  <P>This QR code is a link to the docma on GitHub.</P>
+  <!------------------------------------------------------------------------------
+  Here we construct a dynamic content generator call using dict notation.
+  ------------------------------------------------------------------------------->
+  <IMG
+      style="height: 3cm;"
+      src="docma:qrcode?{{ {
+      'text': 'https://github.com/jin-gizmo/docma',
+      'fg': 'white',
+      'bg': '#338888'
+     } | urlencode }}"
+  >
+</DIV>
+</BODY>
+</HTML>

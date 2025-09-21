@@ -11,7 +11,7 @@ import boto3
 
 from docma.config import IMPORT_MAX_SIZE
 from docma.exceptions import DocmaUrlFetchError
-from docma.lib.core import DocmaRenderContext
+from docma.jinja import DocmaRenderContext
 from .__common__ import fetcher
 
 

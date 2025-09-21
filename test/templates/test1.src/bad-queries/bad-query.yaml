@@ -1,4 +1,4 @@
-description: Test query
+description: Bad query specification - no query key
 
 #query: >-
 #  SELECT * FROM "{{ db.schema | sql_safe }}".custard

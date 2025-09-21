@@ -7,7 +7,7 @@ from typing import Any
 from urllib.parse import ParseResult
 
 from docma.exceptions import DocmaUrlFetchError
-from docma.lib.core import DocmaRenderContext
+from docma.jinja import DocmaRenderContext
 from .__common__ import fetcher
 
 

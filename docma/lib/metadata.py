@@ -4,72 +4,16 @@ from __future__ import annotations
 
 __author__ = 'Murray Andrews'
 
-from collections.abc import Iterable, MutableMapping
-from dataclasses import dataclass, field
-from functools import singledispatchmethod
+from collections.abc import MutableMapping
 from typing import Any
 
 from pydantic.alias_generators import to_camel, to_snake
 
-from docma.lib.jinja import JinjaEnvironment
-from docma.lib.misc import deep_update_dict, flatten_iterable
-from docma.lib.packager import PackageReader
+from docma.lib.misc import flatten_iterable
 
 
 # ------------------------------------------------------------------------------
-@dataclass
-class DocmaRenderContext:
-    """Simple grouping construct for essential bits involved in rendering."""
-
-    tpkg: PackageReader
-    params: dict[str, Any] = field(default_factory=dict)
-    env: JinjaEnvironment = None
-
-    # --------------------------------------------------------------------------
-    def __post_init__(self):
-        """Create a default JinjaEnvironment if required."""
-        if self.env is None:
-            self.env = JinjaEnvironment(loader=self.tpkg, autoescape=True)
-
-    # --------------------------------------------------------------------------
-    @singledispatchmethod
-    def render(self, v, *args, **kwargs):
-        """Raise exception on unhandled types."""
-        raise TypeError(f'Cannot render type {type(v)}')
-
-    @render.register
-    def _(self, s: str, *args: dict[str, Any], **kwargs) -> str:
-        """
-        Render a string using the context.
-
-        :param s:       The string to render
-        :param args:    Additional dictionaries of parameters for rendering.
-        :param kwargs:  Additional keyword parameters for rendering.
-        """
-
-        params = (
-            deep_update_dict({}, self.params, *args, kwargs) if any((args, kwargs)) else self.params
-        )
-        return self.env.from_string(s).render(**params)
-
-    @render.register
-    def _(self, v: Iterable, *args: dict[str, Any], **kwargs) -> list[str]:
-        """
-        Render each element of an iterable to produce a list of strings.
-
-        :param v:       The iterable to render.
-        :param args:    Additional dictionaries of parameters for rendering.
-        :param kwargs:  Additional keyword parameters for rendering.
-        """
-
-        params = (
-            deep_update_dict({}, self.params, *args, kwargs) if any((args, kwargs)) else self.params
-        )
-        return [self.env.from_string(s).render(**params) for s in v]
-
-
-# ------------------------------------------------------------------------------
-class Metadata(MutableMapping):
+class DocumentMetadata(MutableMapping):
     """Document metadata manager and format converter."""
 
     @staticmethod
@@ -132,10 +76,6 @@ class Metadata(MutableMapping):
     def __str__(self):
         """Implement core dict methods."""
         return str(self._attrs)
-
-    def __getattr__(self, item):
-        """Delegate everything else to the instance attribute."""
-        return getattr(self._attrs, item)
 
     def as_dict(self, format=None) -> dict[str, Any]:  # noqa A002
         """

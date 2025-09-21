@@ -2,11 +2,11 @@
 
 from __future__ import annotations
 
-import pytest
+import pytest  # noqa
 
 from docma.data_providers.file import *
 from docma.exceptions import DocmaDataProviderError
-from docma.lib.core import DocmaRenderContext
+from docma.jinja import DocmaRenderContext
 from docma.lib.packager import PackageReader
 
 

@@ -12,35 +12,20 @@ the output document. Failing validation will halt the production process.
 > document incorrectly or with nonsensical values.
 
 All of the normal facilities of  [JSON Schema](https://json-schema.org) are
-available, except for external schema referencing with `$ref` directives.
-
-### Custom JSON Schema Formats Provided by Docma
-
-In addition to the standard format specifiers supported by JSON Schema, docma
-also provides the following.
-
-| Format            | Description                                               |
-|-------------------|-----------------------------------------------------------|
-| ABN               | Australian Business Number.                               |
-| ACN               | Australian Company Number.                                |
-| DD/MM/YYYY        | Date formatted as day/month/year (e.g. `31/12/2024`).     |
-| MIRN              | Gas Meter Installation Registration Number.               |
-| NMI               | National Metering Identifier.                             |
-| energy\_unit      | An energy unit (e.g. kWh, MVArh).                         |
-| power\_unit       | A power unit (e.g. kW, MVA).                              |
-| semantic\_version | A version in the form `major.minor.patch` (e.g. `1.3.0`). |
-
-> These are format / syntax checks only. For example, the `ABN` format
-> check will confirm the value is correctly constructed (including valid checksum)
-> but will not do a look-up to confirm it applies to any particular entity.
+available, except for external schema referencing with `$ref` directives. Like
+the [JSON Schema built-in string
+formats](https://json-schema.org/draft/2020-12/draft-bhutton-json-schema-validation-00#rfc.section.7.3),
+docma provided [format checkers](#format-checkers-provided-by-docma) can be used
+in a schema specification with the `format` attribute of string objects
 
 The following sample schema fragment shows how these are used:
 
 ```yaml
+type: object
 properties:
   customer_abn:
     type: string
-    format: ABN
+    format: au.ABN
   target_consumption:
     type: number
     minimum: 0
@@ -49,8 +34,7 @@ properties:
     format: energy_unit
   start_date:
     type: string
-    format: DD/MM/YYYY
+    format: date.dmy
 ```
 
-> It is straightforward to add new format checkers.
-> See [JSON Schema Format Checkers](#json-schema-format-checkers).
+See also [Format Checkers Provided by Docma](#format-checkers-provided-by-docma).

@@ -12,7 +12,7 @@ from pydantic import BaseModel, ConfigDict, Field, constr, field_validator
 from referencing.jsonschema import EMPTY_REGISTRY
 
 from docma.exceptions import DocmaDataProviderError
-from docma.lib.core import DocmaRenderContext
+from docma.jinja import DocmaRenderContext
 from docma.lib.jsonschema import FORMAT_CHECKER
 from docma.lib.misc import str2bool
 
@@ -85,8 +85,8 @@ class DocmaQuerySpecification(BaseModel):
         validator_cls = jsonschema.validators.validator_for(value)
         try:
             validator_cls.check_schema(value)
-        except jsonschema.ValidationError as e:
-            raise ValueError(f'Bad row schema: {e}')
+        except (jsonschema.ValidationError, jsonschema.SchemaError) as e:
+            raise ValueError(f'Bad row schema: {e}') from e
         return value
 
     # --------------------------------------------------------------------------

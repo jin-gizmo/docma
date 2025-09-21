@@ -8,7 +8,7 @@ from typing import Any
 import qrcode
 from pydantic import BaseModel, ConfigDict, PositiveInt, conint
 
-from docma.lib.core import DocmaRenderContext
+from docma.jinja import DocmaRenderContext
 from .__common__ import content_generator
 
 

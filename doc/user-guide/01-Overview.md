@@ -30,8 +30,8 @@ Features include:
     sources, including live database connections.
 *   Extensible interfaces for content assembly, dynamic content
     generation and data access.
+*   Locale support for content such as numbers, currencies, phone numbers etc.
 
 <div style="text-align: center;">
     <img src="img/docma-logo/svg/docma-logo-horizontal-light.svg" alt="Docma logo (horizontal)" width="300"/>
 </div>
-

@@ -6,8 +6,8 @@
 Docma API Documentation
 =======================
 
-Docma is a PDF document generator that can assemble and compose PDF documents
-from document templates with dynamic content.
+Docma is a HTML and PDF document generator that can assemble and compose
+documents from document templates with dynamic content.
 
 .. toctree::
    :maxdepth: 4

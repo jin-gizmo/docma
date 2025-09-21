@@ -1,14 +1,14 @@
 """Tests for the vega generator."""
 
 from __future__ import annotations
-import pytest
+
+import pytest  # noqa
 from pydantic import ValidationError
 
-from docma.generators.vega import *
 from docma.generators import content_generator_for_type
-from docma.lib.core import DocmaRenderContext
+from docma.generators.vega import *
+from docma.jinja import DocmaRenderContext
 from docma.lib.packager import PackageReader
-
 from utils import images_are_identical
 
 
@@ -20,7 +20,7 @@ from utils import images_are_identical
         (['a', 'data', 'list'], ['a', 'data', 'list']),
     ],
 )
-def test_vega_options_ok(pre_data, post_data):
+def test_vega_options_data_ok(pre_data, post_data):
     params = {'p1': 'v1', 'p2': 22}
     options_data = {
         'spec': 'spec',
@@ -32,6 +32,20 @@ def test_vega_options_ok(pre_data, post_data):
     # Data attribute is always coerced to list
     assert options_model.data == post_data
     assert options_model.params == params
+
+
+# ------------------------------------------------------------------------------
+@pytest.mark.parametrize(
+    'pre_params, post_params',
+    [
+        ({'d1': {'k1': 'v1'}}, {'d1': {'k1': 'v1'}}),
+        ('{"d1": {"k1": "v1"}}', {'d1': {'k1': 'v1'}}),  # JSON string input
+    ],
+)
+def test_vega_options_params_ok(pre_params, post_params):
+    options_data = {'spec': 'spec', 'data': [], 'params': pre_params}
+    options_model = VegaOptions(**options_data)
+    assert options_model.params == post_params
 
 
 # ------------------------------------------------------------------------------

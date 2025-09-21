@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import atexit
 import os
+from contextlib import suppress
 from functools import cache
 from logging import getLogger
 from pathlib import Path
@@ -17,7 +18,7 @@ from pydantic import BaseModel, ConfigDict, Field, NonNegativeInt, computed_fiel
 
 from docma.config import LOGNAME
 from docma.exceptions import DocmaDataProviderError
-from docma.lib.core import DocmaRenderContext
+from docma.jinja import DocmaRenderContext
 from docma.lib.db import get_paramstyle_from_conn
 from docma.lib.misc import env_config, str2bool
 from docma.lib.path import relative_path
@@ -30,6 +31,7 @@ except ImportError:
     duckdb = None
 
 try:
+    # noinspection PyPackageRequirements
     from lava.connection import get_pysql_connection
 except ImportError:
     get_pysql_connection = None
@@ -84,16 +86,22 @@ def postgress_connect(conn_info: ConnectionInfo) -> pg8000.Connection:
         LOG.debug('Closing Postgres connection %s @ %s', conn_info.user, conn_info.host)
         try:
             conn.close()
-        except Exception as e:
+        except Exception as _e:
             LOG.warning(
                 'Failed to close Postgres connection %s @ %s : %s',
                 conn_info.user,
                 conn_info.host,
-                e,
+                _e,
             )
 
     LOG.debug('Connecting as %s to Postgres @ %s', conn_info.user, conn_info.host)
-    conn = pg8000.connect(application_name='docma', **conn_info.model_dump())
+
+    try:
+        conn = pg8000.connect(application_name='docma', **conn_info.model_dump())
+    except Exception as e:
+        raise DocmaDataProviderError(
+            f'Postgres connection error: {conn_info.host}:{conn_info.port}: {e}'
+        ) from e
     LOG.info('Connected as %s to Postgres @ %s', conn_info.user, conn_info.host)
     atexit.register(closer)
     return conn
@@ -153,13 +161,20 @@ def postgres_loader(
         )
     except Exception as e:
         raise DocmaDataProviderError(f'{data_src.query}: {e}') from e
-    conn_info = ConnectionInfo(**env_config('DOCMA', data_src.location.upper()))
 
+    conn_info = ConnectionInfo(**env_config('DOCMA', data_src.location.upper()))
     # We deliberately don't close connection to allow reuse.
     conn = postgress_connect(conn_info)
     cursor = conn.cursor()
-    cursor.execute(query_txt, query_params)
-    return query_spec.fetch_from_cursor(cursor)
+
+    try:
+        cursor.execute(query_txt, query_params)
+        return query_spec.fetch_from_cursor(cursor)
+    except Exception as e:
+        # Attempt a rollback (Mostly required for coverage tests)
+        with suppress(Exception):
+            conn.rollback()
+        raise DocmaDataProviderError(f'{data_src.query}: {e}') from e
 
 
 # ------------------------------------------------------------------------------
@@ -207,18 +222,20 @@ def duckdb_loader(
             f'DuckDB location not relative to current directory: {data_src.location}'
         )
 
-    query_spec = DocmaQuerySpecification(
-        name=data_src.query, **yaml.safe_load(context.tpkg.read_text(data_src.query))
-    )
-    query_txt, query_params = query_spec.prepare_query(
-        context, params=params, paramstyle=duckdb.paramstyle
-    )
-
-    with duckdb.connect(data_src.location, read_only=DUCKDB_READONLY) as conn:
-        LOG.info('Connected to DuckDB @ %s', data_src.location)
-        conn.execute(query_txt, query_params)
-        # Duckdb conn obeys cursor protocol.
-        return query_spec.fetch_from_cursor(conn)
+    try:
+        query_spec = DocmaQuerySpecification(
+            name=data_src.query, **yaml.safe_load(context.tpkg.read_text(data_src.query))
+        )
+        query_txt, query_params = query_spec.prepare_query(
+            context, params=params, paramstyle=duckdb.paramstyle
+        )
+        with duckdb.connect(data_src.location, read_only=DUCKDB_READONLY) as conn:
+            LOG.info('Connected to DuckDB @ %s', data_src.location)
+            conn.execute(query_txt, query_params)
+            # Duckdb conn obeys cursor protocol.
+            return query_spec.fetch_from_cursor(conn)
+    except Exception as e:
+        raise DocmaDataProviderError(f'{data_src.query}: {e}') from e
 
 
 # ------------------------------------------------------------------------------
@@ -231,11 +248,14 @@ def get_lava_db_conn(conn_id: str, realm: str):
         LOG.debug('Closing lava connection %s @ %s', conn_id, realm)
         try:
             conn.close()
-        except Exception as e:
-            LOG.warning('Failed to close lava connection %s @ %s : %s', conn_id, realm, e)
+        except Exception as _e:
+            LOG.warning('Failed to close lava connection %s @ %s : %s', conn_id, realm, _e)
 
     LOG.debug('Connecting via lava to %s @ %s', conn_id, realm)
-    conn = get_pysql_connection(conn_id=conn_id, realm=realm)
+    try:
+        conn = get_pysql_connection(conn_id=conn_id, realm=realm)
+    except Exception as e:
+        raise DocmaDataProviderError(f'Lava connection error: {conn_id}: {e}') from e
     LOG.info('Connected via lava to %s @ %s', conn_id, realm)
     atexit.register(closer)
     return conn
@@ -279,14 +299,20 @@ def lava_loader(
     except KeyError:
         raise DocmaDataProviderError('Realm must be set for "lava" data source type')
 
-    query_spec = DocmaQuerySpecification(
-        name=data_src.query, **yaml.safe_load(context.tpkg.read_text(data_src.query))
-    )
-
     conn = get_lava_db_conn(conn_id=data_src.location, realm=realm)
-    query_txt, query_params = query_spec.prepare_query(
-        context, params=params, paramstyle=get_paramstyle_from_conn(conn)
-    )
-    cursor = conn.cursor()
-    cursor.execute(query_txt, query_params)
-    return query_spec.fetch_from_cursor(cursor)
+
+    try:
+        query_spec = DocmaQuerySpecification(
+            name=data_src.query, **yaml.safe_load(context.tpkg.read_text(data_src.query))
+        )
+        query_txt, query_params = query_spec.prepare_query(
+            context, params=params, paramstyle=get_paramstyle_from_conn(conn)
+        )
+        cursor = conn.cursor()
+        cursor.execute(query_txt, query_params)
+        return query_spec.fetch_from_cursor(cursor)
+    except Exception as e:
+        # Attempt a rollback (Mostly required for coverage tests)
+        with suppress(Exception):
+            conn.rollback()
+        raise DocmaDataProviderError(f'{data_src.query}: {e}') from e

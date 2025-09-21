@@ -1,7 +1,9 @@
 
 # Credits
 
-Thanks to MG, AB, and Art Dorokhov for inspiring and contributing to **docma**.
+Thanks to MenaG for inspiring this idea in the first place.
+
+Thanks to Alex Boul, and Art Dorokhov for contributing to **docma**.
 
 **Docma** is possible because of these amazing Python packages:
 
@@ -13,3 +15,8 @@ Thanks to MG, AB, and Art Dorokhov for inspiring and contributing to **docma**.
 
 *   [PyPDF](https://pypdf.readthedocs.io/en/stable/)
 
+Honourable mentions:
+
+* [Babel](https://babel.pocoo.org/en/latest/)
+
+* [Phonenumbers](https://pypi.org/project/phonenumbers/)

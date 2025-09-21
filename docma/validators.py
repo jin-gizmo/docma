@@ -20,8 +20,8 @@ import yaml
 
 from docma.config import LOGNAME
 from docma.exceptions import DocmaInternalError, DocmaPackageError
+from docma.jinja import DocmaJinjaEnvironment
 from docma.lib.http import get_url
-from docma.lib.jinja import JinjaEnvironment
 from docma.lib.jsonschema import FORMAT_CHECKER
 from docma.lib.query import DocmaQuerySpecification
 
@@ -29,7 +29,7 @@ LOG = getLogger(LOGNAME)
 
 _validators = []
 
-_jinja_env = JinjaEnvironment(autoescape=True)
+_jinja_env = DocmaJinjaEnvironment(autoescape=True)
 
 
 # ------------------------------------------------------------------------------
@@ -67,6 +67,10 @@ def _config(content: bytes):
         LOG.debug('Validating parameter schema')
         params_validator_cls = jsonschema.validators.validator_for(params_schema)
         params_validator_cls.check_schema(params_schema)
+
+    # Transitional warning until locale becomes mandatory
+    if not config.get('parameters', {}).get('defaults', {}).get('locale'):
+        LOG.warning('parameters->defaults->locale should be set in config.yaml')
 
 
 # ------------------------------------------------------------------------------

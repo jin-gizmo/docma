@@ -1,0 +1,37 @@
+description: Test query that assumes "named" paramstyle
+
+query: >-
+  SELECT count(*) FROM "{{ db.schema | sql_safe }}".custard
+  WHERE favouritecustard=:favouritecustard
+    AND custardbidprice > :custardbidprice
+    AND custardjedi=:custardjedi
+
+parameters:
+  - name: favouritecustard
+    value: '{{ db.favouritecustard }}'
+  - name: custardbidprice
+    value: '{{ db.custardbidprice }}'
+    type: decimal
+  - name: custardjedi
+    value: '{{ db.custardjedi }}'
+    type: boolean
+
+options:
+  fold_headers: true
+
+schema:
+  $schema: https://json-schema.org/draft/2020-12/schema
+  type: object
+  required:
+    - favouritecustard
+    - custardbidprice
+    - custardjedi
+  properties:
+    favouritecustard:
+      type: string
+      minLength: 1
+    custardbidprice:
+      type: number
+      # minimum: 200
+    custardjedi:
+      type: boolean

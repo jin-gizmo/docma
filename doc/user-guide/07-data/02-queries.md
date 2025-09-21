@@ -149,9 +149,9 @@ schema:
       maximum: 200
     abn:
       type: string
-      format: ABN
+      format: au.ABN  # This is a docma provided format checker
 ```
 
 In addition to the standard format specifiers supported by JSON Schema, the
-[custom JSON Schema formats provided by
-docma](#custom-json-schema-formats-provided-by-docma) are available.
+[format checkers provided by
+docma](#format-checkers-provided-by-docma) are available for `string` objects.
