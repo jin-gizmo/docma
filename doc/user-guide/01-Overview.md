@@ -8,6 +8,10 @@
 > Kudos to Origin for fostering a culture that empowers its people
 > to build complex technology solutions in-house.
 
+<div style="text-align: center;">
+    <img src="img/docma-logo/svg/docma-logo-horizontal-light.svg" alt="Docma logo (horizontal)" width="300"/>
+</div>
+
 **Docma** is a PDF document generator that can assemble and compose PDF and
 self-contained HTML documents from document templates with dynamic content.
 
@@ -32,6 +36,3 @@ Features include:
     generation and data access.
 *   Locale support for content such as numbers, currencies, phone numbers etc.
 
-<div style="text-align: center;">
-    <img src="img/docma-logo/svg/docma-logo-horizontal-light.svg" alt="Docma logo (horizontal)" width="300"/>
-</div>

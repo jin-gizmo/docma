@@ -15,7 +15,7 @@
 ## Overview
 
 **Docma** is a document generator that can assemble and compose PDF and HTML
-documents from document templates with dynamic content.
+documents from document templates with dynamic, data driven content.
 
 Features include:
 

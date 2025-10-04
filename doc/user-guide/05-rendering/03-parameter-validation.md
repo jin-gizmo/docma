@@ -23,18 +23,21 @@ The following sample schema fragment shows how these are used:
 ```yaml
 type: object
 properties:
+  customer_email:
+  	type: string
+  	format: email  # This is a JSON schema built-in format checker
   customer_abn:
     type: string
-    format: au.ABN
+    format: au.ABN  # This is a docma provided format checker
   target_consumption:
     type: number
     minimum: 0
   consumption_unit:
     type: string
-    format: energy_unit
+    format: energy_unit  # This is a docma provided format checker
   start_date:
     type: string
-    format: date.dmy
+    format: date.dmy  # This is a docma provided format checker
 ```
 
 See also [Format Checkers Provided by Docma](#format-checkers-provided-by-docma).
