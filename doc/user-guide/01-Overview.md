@@ -9,7 +9,11 @@
 > to build complex technology solutions in-house.
 
 <div style="text-align: center;">
-    <img src="img/docma-logo/svg/docma-logo-horizontal-light.svg" alt="Docma logo (horizontal)" width="300"/>
+  <img src="img/docma-logo/svg/docma-logo-horizontal-dark.svg" 
+       alt="Docma Logo" 
+       width="300" 
+       height="auto"
+       class="docma-logo-horizontal">
 </div>
 
 **Docma** is a PDF document generator that can assemble and compose PDF and
@@ -35,4 +39,3 @@ Features include:
 *   Extensible interfaces for content assembly, dynamic content
     generation and data access.
 *   Locale support for content such as numbers, currencies, phone numbers etc.
-

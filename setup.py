@@ -32,8 +32,8 @@ def find_cli_entry_points(*cli_pkg: str, entry_point: str = 'main') -> list[str]
 
 
 # ------------------------------------------------------------------------------
-# Import README.md and use it as the long-description. Must be in MANIFEST.in
-with open('README.md') as fp:
+# Import PYPI.md and use it as the long-description. Must be in MANIFEST.in
+with open('PYPI.md') as fp:
     long_description = '\n' + fp.read()
 
 # ------------------------------------------------------------------------------
@@ -53,7 +53,7 @@ packages = find_packages(exclude=['tests', '*.tests', '*.tests.*', 'tests.*'])
 setup(
     name='docma',
     version=__version__,
-    packages=find_packages(exclude=['tests', '*.tests', '*.tests.*', 'tests.*']),
+    packages=packages,
     entry_points={
         'console_scripts': find_cli_entry_points(*(p for p in packages if p.endswith('.cli')))
     },
@@ -62,6 +62,7 @@ setup(
     author='Murray Andrews',
     description='Document manufacturer',
     long_description=long_description,
+    long_description_content_type='text/markdown',
     platforms=['macOS', 'Linux'],
     python_requires=REQUIRES_PYTHON,
     install_requires=required,

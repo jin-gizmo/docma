@@ -24,8 +24,8 @@ The following sample schema fragment shows how these are used:
 type: object
 properties:
   customer_email:
-  	type: string
-  	format: email  # This is a JSON schema built-in format checker
+    type: string
+    format: email  # This is a JSON schema built-in format checker
   customer_abn:
     type: string
     format: au.ABN  # This is a docma provided format checker

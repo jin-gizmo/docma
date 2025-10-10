@@ -2,9 +2,9 @@ docma.importers package
 =======================
 
 .. automodule:: docma.importers
-   :members: content_importer, import_content
-   :undoc-members:
+   :members:
    :show-inheritance:
+   :undoc-members:
 
 Submodules
 ----------

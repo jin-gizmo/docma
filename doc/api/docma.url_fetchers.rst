@@ -3,8 +3,8 @@ docma.url\_fetchers package
 
 .. automodule:: docma.url_fetchers
    :members:
-   :undoc-members:
    :show-inheritance:
+   :undoc-members:
 
 Submodules
 ----------

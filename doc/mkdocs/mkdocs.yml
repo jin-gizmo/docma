@@ -2,18 +2,87 @@
 
 site_author: Murray Andrews
 site_name: Docma User Guide
+site_description: Document manufacture for fun and profit
 site_url: ''
-theme: readthedocs
+copyright: "&copy; Origin Energy"
+
+theme:
+  name: material
+  features:
+    # - toc.integrate
+    - navigation.instant
+    - content.code.copy
+  logo: img/docma-logo/svg/docma-icon-mid-2.svg
+  favicon: img/docma-logo/png/docma-icon-light.png
+  font:
+    text: Roboto
+    code: Roboto Mono
+  extra:
+    generator: false
+  palette:
+    - media: (prefers-color-scheme)
+      primary: custom  # Add this
+      toggle:
+        icon: material/brightness-auto
+        name: Switch to light mode
+    - media: '(prefers-color-scheme: light)'
+      scheme: default
+      primary: custom  # Add this
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    - media: '(prefers-color-scheme: dark)'
+      scheme: slate
+      primary: custom  # Add this
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+
 use_directory_urls: false
+
 markdown_extensions:
-  - codehilite:
-      # Pygments seems to stuff up plain text blocks.
-      use_pygments: false
-      linenums: false
+  - admonition
+  - toc:
+      permalink: true
+      toc_depth: 3
+  - pymdownx.highlight:
+      # anchor_linenums: true
+      # linenums: true
       guess_lang: false
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.details
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.superfences
+  - pymdownx.tabbed:
+      alternate_style: true
 
 extra_css:
   - css/extra.css
 
+exclude_docs: |
+  README.md
+
+not_in_nav: |
+  /index.md
+
+remote_branch: gh-pages
+
 nav:
-  - This gets replaced at build time
+  - "**md-split**"
+  - API Reference: api/index.html
+
+plugins:
+  - search
+  - mkdocstrings:
+      handlers:
+        python:
+          options:
+            docstring_style: sphinx   # <-- interpret :param:, :returns:, etc.
+            show_source: true
+            show_signature_annotations: true
+            show_root_heading: true
+            separate_signature: true
+            docstring_section_style: table
+

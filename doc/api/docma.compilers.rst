@@ -2,9 +2,9 @@ docma.compilers package
 =======================
 
 .. automodule:: docma.compilers
-   :members: compiler_for_file, compiler_for_suffix, content_compiler
-   :undoc-members:
+   :members:
    :show-inheritance:
+   :undoc-members:
 
 Submodules
 ----------

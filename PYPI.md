@@ -9,10 +9,6 @@
 >
 > See more tools at [Jin Gizmo on GitHub](https://jin-gizmo.github.io).
 
-<div align="center">
-<img src="doc/img/docma-logo/svg/docma-logo-horizontal-light.svg" alt="Docma Logo" width="300px" height="auto">
-</div>
-
 ## Overview
 
 **Docma** is a document generator that can assemble and compose PDF and HTML
@@ -66,3 +62,7 @@ Honourable mentions:
 *   [Babel](https://babel.pocoo.org/en/latest/)
 
 *   [Phonenumbers](https://pypi.org/project/phonenumbers/)
+
+## Installation and Usage
+
+See [Docma on GitHub](https://github.com/jin-gizmo/docma).

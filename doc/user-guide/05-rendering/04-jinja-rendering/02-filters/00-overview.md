@@ -8,6 +8,8 @@ In addition to the standard filters provided by Jinja, docma provides a number o
 * [Generic filters](#generic-filters)
 * [Region / country specific filters](#region-specific-filters).
 
+Note that custom filter names are case insensitive.
+
 #### Generic Filters
 
 Filters marked with * are locale aware.

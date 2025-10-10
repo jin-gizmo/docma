@@ -10,6 +10,7 @@ ignore: |
   .idea/
   untracked/
   test/templates/bad-config-1.src/config.yaml
+  dist/
 
 rules:
   comments:

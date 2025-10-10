@@ -7,7 +7,8 @@ dist=$(BASEDIR)/dist
 SPHINXOPTS    =
 SPHINXBUILD   = sphinx-build
 SOURCEDIR     = .
-BUILDDIR      = $(dist)/doc/api/_build
+# BUILDDIR      = $(dist)/doc/api/_build
+BUILDDIR      = $(dist)/doc/docma-user-guide.src/docs/api
 
 DOCMA_VERSION=$(shell cat $(BASEDIR)/docma/VERSION)
 
@@ -18,23 +19,35 @@ help:
 
 .PHONY: help Makefile zip init
 
-zip:	$(dist)/doc/docma-api-doc-$(DOCMA_VERSION).zip
-
-# Create / update the *.rst files. We don't need --full, or modules.rst (hence the --no-toc)
-init:
-	@echo Creating/updating API doc setup
-	@sphinx-apidoc -q -o . --no-toc --separate --module-first --ext-autodoc --ext-viewcode \
-		$(BASEDIR) \
-		$(BASEDIR)/setup.py
-
 $(dist)/doc/docma-api-doc-$(DOCMA_VERSION).zip: init html
 	@echo Generating $@
 	@mkdir -p $(dist)/doc
 	@(cd $(BUILDDIR)/html && zip -q -r - .) > $@
 
+zip:	$(dist)/doc/docma-api-doc-$(DOCMA_VERSION).zip
+
+# Create / update the *.rst files. We don't need --full, or modules.rst (hence the --no-toc)
+# Also not trailing positional arguments are exclusions.
+init:
+	@echo Creating/updating API doc setup
+	@sphinx-apidoc -q -o . --no-toc --separate --module-first --ext-autodoc --ext-viewcode \
+		$(BASEDIR) \
+		$(BASEDIR)/setup.py \
+		$(BASEDIR)/docma/cli/ \
+		$(BASEDIR)/docma/docma_core.py \
+		$(BASEDIR)/docma/version.py \
+		"$(BASEDIR)/docma/commands/*.py" \
+		==SENTINEL==
+
+
 clean:
 	$(RM) $(dist)/doc/docma-api-doc-$(DOCMA_VERSION).zip
 	@$(SPHINXBUILD) -M $@ "$(SOURCEDIR)" "$(BUILDDIR)" $(SPHINXOPTS) $(O)
+
+
+build:	init
+	@echo "Building Sphinx into MkDocs $(BUILDDIR)..."
+	@$(SPHINXBUILD) -b html "$(SOURCEDIR)" "$(BUILDDIR)"
 
 # Catch-all target: route all unknown targets to Sphinx using the new
 # "make mode" option.  $(O) is meant as a shortcut for $(SPHINXOPTS).

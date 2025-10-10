@@ -14,6 +14,9 @@ Kudos to Origin for fostering a culture that empowers its people
 to build complex technology solutions in-house.
 
 <div style="text-align: center;">
-    <img src="img/docma-logo/svg/docma-logo-horizontal-light.svg" alt="Docma logo (horizontal)" width="300"/>
+  <img src="img/docma-logo/svg/docma-logo-horizontal-dark.svg" 
+       alt="Docma Logo" 
+       width="300" 
+       height="auto"
+       class="docma-logo-horizontal">
 </div>
-

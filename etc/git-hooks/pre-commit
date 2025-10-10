@@ -25,8 +25,40 @@ function abort {
 	exit 1
 }
 
+# Get the git branch being committed.
+function git_branch {
+	git rev-parse --abbrev-ref HEAD
+}
+
 # Output to stderr
 exec 1>&2
+
+# ------------------------------------------------------------------------------
+# In case we need to distinguish between manual and git hook mode
+case "$1"
+in
+	-m | --manual)	mode=manual;;
+	*)		mode=hook;;
+esac
+
+# ------------------------------------------------------------------------------
+# Branch checks
+branch=$(git_branch)
+
+case "$branch"
+in
+	master | main)
+
+		if [ "$mode" == hook ]
+		then
+			warning "‼️  You should not be committing to ${branch}!"
+		else
+			info "Don't forget - Check on $branch branch ✅. Commit ❌"
+		fi
+		;;
+	*)
+		;;
+esac
 
 # ------------------------------------------------------------------------------
 # Python.

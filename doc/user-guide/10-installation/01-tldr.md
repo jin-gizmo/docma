@@ -3,17 +3,14 @@
 
 ## TL;DR
 
-> **Docma** is not yet available in PyPI, sorry. Coming soon. For now, it will
-> need to be [installed from the repo](#installing-from-the-repo).
-
 First install the [prerequisites](#prerequisites) then ...
 
 ```bash
-python3 -m pip install docma
+pip install docma
 
 # Optionally, add duckdb and lava support
-python3 -m pip install 'docma[duckdb]'
-python3 -m pip install 'docma[lava]'
+pip install 'docma[duckdb]'
+pip install 'docma[lava]'
 
 # Check docma installed ok
 docma --help

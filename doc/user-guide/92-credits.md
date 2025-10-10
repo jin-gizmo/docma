@@ -1,7 +1,8 @@
 
 # Credits
 
-Thanks to MenaG for inspiring this idea in the first place.
+Thanks to MenaG for inspiring this idea in the first place and for having faith
+that it was worth the bother.
 
 Thanks to Alex Boul, and Art Dorokhov for contributing to **docma**.
 

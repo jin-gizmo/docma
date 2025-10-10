@@ -5,6 +5,7 @@ docma package
    :members:
    :show-inheritance:
    :undoc-members:
+   :imported-members:
 
 Subpackages
 -----------
@@ -12,7 +13,6 @@ Subpackages
 .. toctree::
    :maxdepth: 4
 
-   docma.cli
    docma.commands
    docma.compilers
    docma.data_providers
@@ -30,7 +30,5 @@ Submodules
    :maxdepth: 4
 
    docma.config
-   docma.docma_core
    docma.exceptions
    docma.validators
-   docma.version

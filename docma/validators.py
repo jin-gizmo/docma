@@ -142,9 +142,9 @@ def validate_content(path: Path, content: bytes):
 
 
 # ------------------------------------------------------------------------------
-def validate(path: Path) -> None:
+def validate_file(path: Path) -> None:
     """
-    Validate content during the compilation phase.
+    Validate the contents og a file during the compilation phase.
 
     This looks for a validator, based on filename pattern and runs the first
     one it finds. If there is no validator that matches it is assumed to be

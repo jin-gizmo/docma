@@ -22,6 +22,12 @@ author = 'Murray Andrews'
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
 
+autodoc_default_options = {
+    'members': True,
+    'undoc-members': True,
+    'show-inheritance': True,
+}
+
 extensions = [
     'sphinx.ext.autodoc',
     'sphinx.ext.viewcode',

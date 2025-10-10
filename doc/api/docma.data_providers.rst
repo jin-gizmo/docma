@@ -2,9 +2,9 @@ docma.data\_providers package
 =============================
 
 .. automodule:: docma.data_providers
-   :members: DataSourceSpec, data_provider, load_data
-   :undoc-members:
+   :members:
    :show-inheritance:
+   :undoc-members:
 
 Submodules
 ----------

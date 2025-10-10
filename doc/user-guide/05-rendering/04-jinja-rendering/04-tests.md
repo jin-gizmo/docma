@@ -33,7 +33,7 @@ It is easy to [add new format checkers](#format-checkers), as required.
 
 #### Region Specific Format Checkers
 
-| Test Name        | Description         |
+| Checker Name | Description         |
 | ---------------- | -------------------------- |
 | ACN           | Deprecated. Use `au.abn` instead.  |
 | ABN           | Deprecated. Use `au.abn` instead.   |
@@ -42,7 +42,7 @@ It is easy to [add new format checkers](#format-checkers), as required.
 | au.MIRN          | Australian energy industry Gas Meter Installation Registration Number. |
 | au.NMI           | Australian energy industry National Metering Identifier. |
 | MIRN             | Deprecated. Use `au.MIRN` instead. |
-| NMI              | Deprecated. Use `au.NMI instead. |
+| NMI              | Deprecated. Use au.NMI instead. |
 
 #### Using Format Checkers in JSON Schema Specifications
 
@@ -60,9 +60,9 @@ docma provided format checkers can be used in a schema specification with the
 ```yaml
 type: object
 properies:
-	prop1:
-		type: string
-		format: ...  # Use a built in format like "email" or one of docma's format checkers
+  prop1:
+    type: string
+    format: ...  # Use a built in format like "email" or one of docma's format checkers
 ```
 
 > Examples are given in YAML rather than JSON for readability, and because they
@@ -80,23 +80,23 @@ parameters:
     title: Parameters validation schema
     type: object
     required:
-    	- locale
-    	- customer_email
-    	- customer_abn
-    	- contract_start_date
+      - locale
+      - customer_email
+      - customer_abn
+      - contract_start_date
     properties:
-    	locale:
-    		type: string
-    		format: locale  # This is a docma provided format checker
-    	customer_email:
-    		type: string
-    		format: email  # This is a standard JSON schema format checker
-			customer_abn:
-				type: string
-				format: au.ABN   # This is a docma provided format checker.
-			contract_start_date
-				type: string
-				format: date.dmy  # This is a docma provided format checker
+      locale:
+        type: string
+        format: locale  # This is a docma provided format checker
+      customer_email:
+        type: string
+        format: email  # This is a standard JSON schema format checker
+      customer_abn:
+        type: string
+        format: au.ABN   # This is a docma provided format checker.
+      contract_start_date:
+        type: string
+        format: date.dmy  # This is a docma provided format checker
 ```
 
 Docma will validate values provided at run-time against this schema.

@@ -5,7 +5,6 @@ Slice and dice markdown for use with mkdocs.
 
 WARNING: Only uses a single level of headers.
 
-
 """
 
 from __future__ import annotations
@@ -307,7 +306,11 @@ def main() -> int:
     # ----------------------------------------
     # Update the nav key in the config.
     if args.config:
-        config['nav'] = nav
+        try:
+            idx = config['nav'].index('**md-split**')
+        except ValueError:
+            raise Exception(f'No **md-split** entry in nav key in {args.config}')
+        config['nav'][idx:idx+1] = nav
 
         with open(args.config, 'w') as fp:
             yaml.safe_dump(config, fp, default_flow_style=False, indent=2)

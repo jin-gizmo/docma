@@ -7,6 +7,8 @@ from importlib import import_module
 
 from .__common__ import CliCommand as CliCommand
 
+__all__ = ['CliCommand']
+
 # Auto import our handler classes
 for _, module_name, _ in pkgutil.iter_modules(__path__):
     if module_name.startswith('_'):

@@ -16,7 +16,29 @@ from docma.lib.misc import StoreNameValuePair, deep_update_dict
 
 # ------------------------------------------------------------------------------
 class CliCommand(ABC):
-    """ClI command handler."""
+    """
+    CLI subcommand handler.
+
+    CLI subcommands should be declared as a subclass and also registered using
+    the `register` decorator so that they are automatically discovered.
+
+    Subclasses may implement `add_arguments` and `check_arguments` methods and
+    must implement the `execute` method.
+
+    Thus:
+
+    .. code-block:: python
+
+        @CliCommand.register('command-name')
+        class Whatever(CliCommand):
+
+            def add_arguments(self) -> None:
+                self.argp.add_argument('--arg1', action='store')
+
+            def execute(self, args: Namespace) -> None:
+                print(f'The argument value for arg1 is {args.arg1}')
+
+    """
 
     commands: dict[str, type[CliCommand]] = {}
     name = None  # Set by @register decorator for subclasses.

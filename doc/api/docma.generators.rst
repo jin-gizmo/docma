@@ -2,9 +2,9 @@ docma.generators package
 ========================
 
 .. automodule:: docma.generators
-   :members: content_generator, content_generator_for_type
-   :undoc-members:
+   :members:
    :show-inheritance:
+   :undoc-members:
 
 Submodules
 ----------

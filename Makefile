@@ -106,7 +106,7 @@ black:  _venv_is_on
 	black $(HIDDEN_PYTHON)
 
 check:	_venv_is_on
-	etc/git-hooks/pre-commit
+	etc/git-hooks/pre-commit --manual
 
 
 all:	pkg docker doc

@@ -28,10 +28,10 @@ user-guide: DOC_TITLE=Docma User Guide
 user-guide: $(DOCS)
 
 api-doc:
-	$(MAKE) -C api zip dist=$(abspath $(dist))
+	$(MAKE) -C api build dist=$(abspath $(dist))
 
 clean:
-	$(RM) $(DOCS) 
+	$(RM) -r $(DOCS) 
 	$(RM) -r $(dist)/img
 	$(MAKE) -C api $(MAKECMDGOALS)
 
@@ -39,7 +39,7 @@ clean:
 $(dist)/doc/$(USER_GUIDE).md: $(MARKDOWN_SRC) $(IMAGES)
 	@echo Generating $@
 	@mkdir -p $(dist)/doc
-	@find user-guide -name '*.md' -print0 | sort -z | xargs -0 cat > $@
+	@find user-guide -name '*.md' -print0 | sort -z | xargs -0 -n1 sed -e '1s/^/\n/' > $@
 	@cp -r img $(dist)/doc
 
 %.docx:	%.md
@@ -82,19 +82,24 @@ $(dist)/doc/$(USER_GUIDE).md: $(MARKDOWN_SRC) $(IMAGES)
 		--metadata "publisher=$(DOC_PUBLISHER)" \
 		< $< > $@ || $(RM) $@
 
-# Generate a standalone HTML site using mkdocs
-%.site: %.md $(shell find mkdocs)
+# Generate prepared source area for published docs
+%.src: %.md $(shell find mkdocs)
 	@echo Generating $@
 	@( \
-		z=3 ; \
-		TMP=/tmp/docma-doc-build.$$$$ ; \
-		trap '$(RM) -r $$TMP; exit $$z' 0 ; \
-		cp -RL mkdocs $$TMP ; \
-		../etc/jinja -p version="$(DOCMA_VERSION)" mkdocs/docs/index.md > $$TMP/docs/index.md ; \
-		../etc/md-split --config $$TMP/mkdocs.yml --dir $$TMP/docs $< ; \
-		( cd $$TMP ; mkdocs build --clean --site-dir $(abspath $@) ) ; \
-		z=0 ; \
+		$(RM) -r "$@" ; \
+		cp -RL mkdocs "$@" ; \
+		../etc/jinja -p version="$(DOCMA_VERSION)" mkdocs/docs/index.md > "$@/docs/index.md" ; \
+		../etc/md-split --config "$@/mkdocs.yml" --dir "$@/docs" $< ; \
 	)
+
+# Generate a standalone HTML site using mkdocs
+%.site: %.src $(shell find mkdocs)
+	@echo Generating $@
+	mkdocs build --clean -f $</mkdocs.yml --site-dir $(abspath $@)
+
+# Serve the user guide on port 8000 for local review
+serve:	$(dist)/doc/$(USER_GUIDE).src
+	mkdocs serve -f $</mkdocs.yml --open
 
 # Spell check the user guide
 spell:

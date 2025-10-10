@@ -28,7 +28,7 @@ problem: "no $schema"
     ],
 )
 def test_validate_content_ok(filename, dirs):
-    validate(dirs.templates / 'test1.src' / filename)
+    validate_file(dirs.templates / 'test1.src' / filename)
 
 
 # ------------------------------------------------------------------------------
@@ -41,4 +41,4 @@ def test_load_config_validation_schema_fail(dirs, monkeypatch):
 
     monkeypatch.setattr('pathlib.Path.read_text', bad_read_text)
     with pytest.raises(DocmaInternalError, match='Kaboom'):
-        validate(dirs.templates / 'test1.src' / 'config.yaml')
+        validate_file(dirs.templates / 'test1.src' / 'config.yaml')
