@@ -1,4 +1,4 @@
-"""JSONschema utilities."""
+"""JSON schema utilities."""
 
 from __future__ import annotations
 

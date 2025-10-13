@@ -1,4 +1,4 @@
-personal_ws-1.1 en 109 
+personal_ws-1.1 en 115 
 ABN
 ACN
 AUD
@@ -17,6 +17,7 @@ GTK
 Goyen
 ITU
 JSON
+Jin
 Jindabyne
 Jinja
 Kablammo
@@ -80,8 +81,11 @@ jsonl
 kwargs
 libphonenumber
 loopcontrols
+macOS
 md
 mdy
+mkdocs
+nav
 netloc
 numerics
 optimize
@@ -102,9 +106,11 @@ schemas
 sql
 src
 stylesheets
+submodules
 timedelta
 truthy
 uncompiled
 underlaid
+url
 vega
 ymd

@@ -1,20 +1,22 @@
 
 # Fonts
 
-> This section primarily applies to PDF output documents. For HTML output
-> documents, font handling is exactly as it is for HTML in general. Docma does
-> not embed fonts in HTML output documents.
+!!! note
+    This section primarily applies to PDF output documents. For HTML output
+    documents, font handling is exactly as it is for HTML in general. Docma does
+    not embed fonts in HTML output documents.
 
 Docma inherits the [font handling capabilities of
 WeasyPrint](https://doc.courtbouillon.org/weasyprint/v0.42.3/features.html#fonts),
 which are essentially those of native HTML / CSS. TrueType (TTF), OpenType (OTF)
 and Web Open Font Format (WOFF), but not WOFF2, fonts should work fine.
 
-> **WARNING**: Fonts are Intellectual Property and may be subject to licence
-> conditions, just like software. Take care to comply with licence terms and be
-> aware that the font is likely to be embedded in the PDF produced by docma.
-> [Google fonts](https://fonts.google.com) is quite a good source for royalty
-> free fonts.
+!!! warning
+    Fonts are Intellectual Property and may be subject to licence conditions,
+    just like software. Take care to comply with licence terms and be aware that
+    the font is likely to be embedded in the PDF produced by docma.
+    [Google fonts](https://fonts.google.com) is quite a good source for royalty
+    free fonts.
 
 Fonts installed on the base platform generally can be used directly in CSS
 styles. However, it is risky to rely on this beyond the most basic common font
@@ -36,7 +38,8 @@ CSS.  These fonts can be either:
 3.  Loaded at run-time during template rendering using standard HTML / CSS
     features for remote font access.
 
-> Option 3 is strongly deprecated for performance reasons.
+!!! tip
+    Option 3 is strongly deprecated for performance reasons.
 
 ## Fonts Included in the Template Source
 
@@ -64,9 +67,11 @@ document.
     src: url(file:fonts/my-corporate-font.ttf) format('truetype');
 }
 ```
-> In docma version <= 1.9, the font-face declaration must be in the HTML
-> document using it. In version >= 1.10, the declaration can also be in a
-> separate style sheet (preferred).
+
+!!! info
+    In docma versions <= 1.9, the font-face declaration must be in the HTML
+    document using it. In versions >= 1.10, the declaration can also be in a
+    separate style sheet (preferred).
 
 This makes the font available for use in CSS styling in the normal way. e.g.
 
@@ -119,10 +124,10 @@ The font declaration then goes into `styles.css` like so:
 }
 ```
 
-> In docma version <= 1.9, the font-face declaration must be in the HTML
-> document using it. In version >= 1.10, the declaration can also be in a
-> separate style sheet (preferred).
-
+!!! info
+    In docma versions <= 1.9, the font-face declaration must be in the HTML
+    document using it. In versions >= 1.10, the declaration can also be in a
+    separate style sheet (preferred).
 
 This makes the font available for use in CSS styling, thus:
 
@@ -148,7 +153,8 @@ This makes the font available for use in CSS styling, thus:
 Fonts can also be dynamically loaded at run-time during template rendering using
 standard HTML / CSS mechanisms. 
 
-> Please don't do this in a production environment.
+!!! tip
+    Please don't do this in a production environment.
 
 For example, the following shows two different mechanisms for incorporating the
 *Barrio* and *Dokdo* fonts from Google Fonts using HTML `<link>` and CSS

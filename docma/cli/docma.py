@@ -61,7 +61,7 @@ def process_cli_args() -> argparse.Namespace:
 
     # ----------------------------------------
     # Add the sub-commonads
-    subp = argp.add_subparsers(required=True)
+    subp = argp.add_subparsers(title='subcommands', required=True)
     for cmd in sorted(CliCommand.commands.values(), key=lambda c: c.name):
         cmd(subp).add_arguments()
 

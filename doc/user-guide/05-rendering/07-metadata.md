@@ -11,7 +11,6 @@ In HTML, the metadata fields are added into the `<HEAD>` of the final document
 in this form:
 
 ```html
-
 <meta content="Fred Nurk" name="author"/>
 <meta content="A document about stuff" name="title"/>
 <meta content="DRAFT, Top-Secret" name="keywords"/>

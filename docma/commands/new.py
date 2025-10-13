@@ -2,15 +2,16 @@
 
 from __future__ import annotations
 
+import json
 import os
 from argparse import Namespace
 from contextlib import contextmanager
+from importlib import resources
 from pathlib import Path
 
 from cookiecutter.main import cookiecutter
 
 import docma
-from docma.lib import lib_path
 from docma.lib.misc import StoreNameValuePair
 from .__common__ import CliCommand
 
@@ -33,6 +34,10 @@ class New(CliCommand):
             ),
         )
 
+        cookie_obj = json.loads(
+            resources.files(docma.lib).joinpath('cookiecutter', 'cookiecutter.json').read_text()
+        )
+        cookie_keys = sorted(k for k in cookie_obj if not k.startswith('_'))
         self.argp.add_argument(
             '-p',
             '--param',
@@ -43,7 +48,7 @@ class New(CliCommand):
             help=(
                 'Specify default parameters for the underlying cookiecutter used'
                 ' to create the new docma template. Can be used multiple times.'
-                f' See {lib_path / "cookiecutter/cookiecutter.json"} for available parameters.'
+                f' Available parameters are {", ".join(cookie_keys)}.'
             ),
         )
 
@@ -63,12 +68,18 @@ class New(CliCommand):
         if (d := Path(args.directory)).exists():
             raise ValueError(f'{args.directory} already exists')
 
+        template_path = resources.files(docma.lib).joinpath('cookiecutter')
+
         # We want to make the docma package available to the cookiecutter
         # validation scripts. As cookiecutter runs in a subprocess we need to
         # mutate PYTHONPATH.
-        with pythonpath_prepended(Path(docma.__file__).resolve().parent.parent):
+        # noinspection PyUnresolvedReferences
+        with (
+            pythonpath_prepended(resources.files(docma).parent.resolve()),
+            resources.as_file(template_path) as template_dir,
+        ):
             new_dir = cookiecutter(
-                str(lib_path / 'cookiecutter'),
+                str(template_dir),
                 overwrite_if_exists=False,
                 extra_context={'template_id': d.stem, 'template_src_dir': args.directory}
                 | args.params,

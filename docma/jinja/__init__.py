@@ -1,4 +1,4 @@
-"""Jinja plugins, extra filters etc."""
+"""Core Jinja components for docma: plugins, extra filters etc."""
 
 __author__ = 'Murray Andrews'
 
@@ -13,3 +13,13 @@ from .extensions import (
     jext as jext,
 )
 from .utils import NoLoader as NoLoader
+
+__all__ = [  # noqa: RUF022
+    'DOCMA_JINJA_EXTRAS',
+    'DocmaJinjaEnvironment',
+    'DocmaRenderContext',
+    'custom_extensions',
+    'jext',
+    'jfunc',
+    'NoLoader',
+]

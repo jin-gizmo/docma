@@ -37,7 +37,7 @@ READERS = {
 def file_loader(
     data_src: DataSourceSpec, context: DocmaRenderContext, **kwargs
 ) -> list[dict[str, Any]]:
-    """Load data from the a file in the document template package."""
+    """Load data from a file in the document template package."""
 
     if data_src.query:
         raise DocmaDataProviderError('Query not allowed for "file" data source type')

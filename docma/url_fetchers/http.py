@@ -12,13 +12,13 @@ import requests
 from docma.config import IMPORT_MAX_SIZE
 from docma.exceptions import DocmaUrlFetchError
 from docma.jinja import DocmaRenderContext
-from .__common__ import fetcher
+from docma.url_fetchers import url_fetcher
 
 
 # ------------------------------------------------------------------------------
 # noinspection PyUnusedLocal
 @lru_cache(maxsize=10)
-@fetcher('http', 'https')
+@url_fetcher('http', 'https')
 def http_url_fetcher(purl: ParseResult, context: DocmaRenderContext) -> dict[str, Any]:
     """
     Fetch http(s)://... URLs.

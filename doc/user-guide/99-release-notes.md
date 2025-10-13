@@ -18,10 +18,10 @@
     *   Docma templates now support [locales](#locale-in-docma-templates). A
         locale is a string such as `en_AU`, `fr_CA`, etc and can
         influence the behaviour of things such as
-        [Jinja filters](#custom-jinja-filters-provided-by-docma).
+        [Jinja filters](#docma-jinja-filters).
 
     *   The names of docma custom Jinja filters, Jinja tests and
-        [format checkers](#format-checkers-provided-by-docma) are case insensitive.
+        [format checkers](#docma-format-checkers) are case insensitive.
 
 *   The following Jinja filters have been added for use in document templates.
     These are all locale / region aware. Credit to the
@@ -55,7 +55,7 @@
         [parse_time](#jinja-filter-parse_time) parse dates and times into the
         appropriate Python objects using locale specific conventions.
 
-*   A new suite of [format checkers](#format-checkers-provided-by-docma) has
+*   A new suite of [format checkers](#docma-format-checkers) has
     been introduced. These serve the dual purpose of being available as `format`
     entries for string objects in JSON Schema specifications as well as custom
     Jinja tests.
@@ -67,7 +67,7 @@
 
     *   The default `locale` for the template must now be specified.
 
-*   The [docma.format](#jinja-rendering-parameters-provided-by-docma) rendering
+*   The [docma.format](#rendering-parameters-provided-by-docma) rendering
     parameter has been added to indicate the type of output document being
     produced, `HTML` or `PDF`.
 
@@ -75,6 +75,8 @@
     been made. (Credit MN.)
 
 *   Added the `make count` target to count lines of code, doc, stuff. Why not?
+
+*   Converted user guide to mkdocs material.
 
 #### Version 2.1.0
 

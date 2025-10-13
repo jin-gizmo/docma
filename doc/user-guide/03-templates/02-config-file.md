@@ -27,10 +27,11 @@ elements.
 | -> subject     | string         | No       | Document subject.                                            |
 | -> keywords    | string \| list | No       | A string of semi-colon separated keywords or a list of keywords for the PDF. |
 
-> Prior to docma v2.0, metadata fields were specified in the PDF convention of
-> `/Author` instead of `author`. This is still supported for backward
-> compatibility but the naming shown above should now be used. Docma will use
-> the appropriate conventions for PDF and HTML when producing output.
+!!! note
+    Prior to docma v2.0, metadata fields were specified in the PDF convention of
+    `/Author` instead of `author`. This is still supported for backward
+    compatibility but the naming shown above should now be used. Docma will use
+    the appropriate conventions for PDF and HTML when producing output.
 
 ### Document References
 
@@ -66,10 +67,11 @@ can be used. e.g.
 Unlike imports, dynamically referenced content documents must be in HTML or PDF
 format. There is no compilation of other formats to HTML.
 
-> It is *strongly* recommended to include all content files in the template
-> itself (e.g using [document imports](#document-imports) for remote files).
-> This will be faster and more predictable at run-time as well as
-> improving traceability of documents.
+!!! tip
+    It is *strongly* recommended to include all content files in the template
+    itself (e.g using [document imports](#document-imports) for remote files).
+    This will be faster and more predictable at run-time as well as
+    improving traceability of documents.
 
 For example:
 
@@ -94,15 +96,18 @@ rendering must use the HTML file name. So, for example, a file `content/text.md`
 in the template source, will be present as `content/text.html` in the compiled
 template.
 
-> The original, uncompiled files are also replicated into the template to allow
-> later recompilation and for traceability. The uncompiled files are not used in the rendering process.
+!!! note
+    The original, uncompiled files are also replicated into the template to
+    allow later recompilation and for traceability. The uncompiled files are not
+    used in the rendering process.
 
 See [Document Template Content](#document-template-content) for more
 information.
 
 ### Overlay Documents
 
-> PDF outputs only.
+!!! info
+    PDF outputs only.
 
 The `overlays` key in the configuration file is a list of documents that are
 prepared in the same way as the primary documents. These are used when the final document requires
@@ -156,11 +161,13 @@ imports:
     as: fonts/my-corporate-font.ttf
 ```
 
-> Imported docs are limited to 10MB in size.
+!!! info
+    Imported docs are limited to 10MB in size.
 
 ### WeasyPrint Options
 
-> PDF outputs only.
+!!! info
+    PDF outputs only.
 
 WeasyPrint is used for converting HTML to PDF for PDF document production.  It
 provides a number of
@@ -179,7 +186,8 @@ template but it's best not to.
 
 ### CSS Style Sheets
 
-> PDF outputs only.
+!!! info
+    PDF outputs only.
 
 The [configuration file](#template-configuration-file) may contain an `options
 --> styesheets` key that lists files containing style sheets that will be

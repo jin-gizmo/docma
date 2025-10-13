@@ -14,9 +14,9 @@ time, and docma produces an output document using that combination. The source
 data for the batch parameters is specified using a [docma data source
 specification](#data-source-specifications).
 
-> The following describes the process for PDF document batches. The process is
-> similar for HTML batches.
-
+!!! note
+    The following describes the process for PDF document batches. The process is
+    similar for HTML batches.
 
 ![](img/render-batch.svg)
 
@@ -61,8 +61,8 @@ used to render one PDF document:
     --data-source-spec 'postgres;pglocal;queries/batch.yaml' \
 ```
 
-> The [docma data source specification](#data-source-specifications)
-> is interpreted within the context of the document template.
+The [docma data source specification](#data-source-specifications)
+is interpreted within the context of the document template.
 
 As docma will be producing a series of PDF documents, it needs a mechanism to
 provide each document with a unique name that corresponds to the batch data
@@ -75,6 +75,7 @@ that these are a unique combination to avoid filename clashes:
     --output 'whatever-{{id}}-{{familyname|lower}}.pdf'
 ```
 
-> There are some strict constraints on the filename rendering process for safety
-reasons.
+!!! note
+    There are some strict constraints on the filename rendering process for
+    safety reasons.
 

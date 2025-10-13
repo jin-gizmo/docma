@@ -1,5 +1,5 @@
 
-# Caveats and Known Issues
+# Caveats and Known Issues [nav: Caveats and Issues]
 
 *   Docma does not try particularly hard to be parsimonious with memory usage.
 

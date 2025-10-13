@@ -8,11 +8,11 @@ from urllib.parse import ParseResult
 
 from docma.exceptions import DocmaUrlFetchError
 from docma.jinja import DocmaRenderContext
-from .__common__ import fetcher
+from docma.url_fetchers import url_fetcher
 
 
 # ------------------------------------------------------------------------------
-@fetcher('file')
+@url_fetcher('file')
 def file_url_fetcher(purl: ParseResult, context: DocmaRenderContext) -> dict[str, Any]:
     """
     Fetch file:... URLs for WeasyPrint from the document template package.

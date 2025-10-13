@@ -22,8 +22,11 @@ pytest
 pytest-xdist
 pytest-cov
 mkdocs
+mkdocs-material
+mkdocs-material-extensions
+mkdocstrings[python]
 twine
 moto
 
-sphinx
-sphinx-rtd-theme
+# sphinx
+# sphinx-rtd-theme

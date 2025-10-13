@@ -30,15 +30,15 @@ def content_generator(content_type: str, validator: type[BaseModel]) -> Callable
 
     This is a decorator used like so:
 
-    .. code-block:: python
+    ```python
+    class WhateverOptions(BaseModel):
+        param_a: str
+        param_b: int
 
-        class WhateverOptions(BaseModel):
-            param_a: str
-            param_b: int
-
-        @content_generator('whatever', WhateverOptions)
-        def _(pkg: PackageReader, options: WhateverOptions, params: dict[str]) -> dict[str, Any]:
-            ...
+    @content_generator('whatever', WhateverOptions)
+    def _(pkg: PackageReader, options: WhateverOptions, params: dict[str]) -> dict[str, Any]:
+        ...
+    ```
 
     :param content_type: The content type. This is the first component of the
                         URL after the `docma` scheme.

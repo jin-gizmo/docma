@@ -46,15 +46,17 @@ style sheets etc.) using URLs in the format `file:filename`. For example
 <IMG src="file:resources/logo.png" alt="logo">
 ```
 
-> The `file:` scheme indicator is essential. The filename is relative to the
-> template base directory. Do not use `file://` as that implies a network
-> location will follow, which makes no sense for local files.
+!!! warning
+    The `file:` scheme indicator is essential. The filename is relative to the
+    template base directory. Do not use `file://` as that implies a network
+    location will follow, which makes no sense for local files.
 
 HTML files may contain [Jinja](https://jinja.palletsprojects.com/en/) markup to
 manipulate content during the [rendering phase](#docma-template-rendering).
 
-> Take care when re-purposing HTML content from other systems that may leave
-> Jinja detritus behind. This may need to be manually deleted first.
+!!! tip
+    Take care when re-purposing HTML content from other systems that may leave
+    Jinja detritus behind. This may need to be manually deleted first.
 
 HTML files can also reference dynamic content generators that will be invoked
 during the [rendering phase](#docma-template-rendering). This can be used to
@@ -63,7 +65,7 @@ accessed by referencing a URL with the `docma` scheme.
 
 For example, the following will generate and insert a QR code:
 
-```html
+```html+jinja
 <IMG
   src="docma:qrcode?{{
     {
@@ -84,7 +86,6 @@ This is the same thing, more cryptically:
 See [Dynamic Content Generation](#dynamic-content-generation) for more
 information.
 
-
 Important points to note:
 
 *   The [WeasyPrint](https://weasyprint.org) package is designed to convert HTML
@@ -98,7 +99,8 @@ Important points to note:
 
 ### PDF Files (\*.pdf)
 
-> PDF output only.
+!!! info
+    PDF output only.
 
 PDF files in the template are copied to the compiled template unchanged. They
 are simply added into the final document composition process as-is. This is
@@ -113,8 +115,9 @@ All Markdown files are converted to HTML during the compilation phase. i.e.
 `myfile.md` in the template source becomes `myfile.html` in the compiled
 template.
 
-> The HTML variant of the name **must** be used everywhere in the template when
-> referencing the file.
+!!! warning
+    The HTML variant of the name **must** be used everywhere in the template when
+    referencing the file.
 
 Markdown files may contain [Jinja](https://jinja.palletsprojects.com/en/) markup
 to manipulate content during the [rendering phase](#docma-template-rendering).

@@ -30,3 +30,4 @@ RUN \
     docma --version
 
 ENTRYPOINT ["docma"]
+WORKDIR /docma

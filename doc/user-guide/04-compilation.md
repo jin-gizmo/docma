@@ -1,5 +1,5 @@
 
-# Docma Template Compilation
+# Docma Template Compilation [nav: Template Compilation]
 
 The compilation process is a build-time activity consisting of the following steps:
 
@@ -15,7 +15,8 @@ The compilation process is a build-time activity consisting of the following ste
 4.  Zip up the contents of the template staging area to produce the compiled
     document template.
 
->   The docma CLI also supports the option of saving the compiled template,
+!!! note
+    The docma CLI also supports the option of saving the compiled template,
     uncompressed, into a local directory. This is primarily for development and
     testing.
 

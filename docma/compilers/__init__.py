@@ -19,3 +19,5 @@ for _, module_name, _ in pkgutil.iter_modules(__path__):
     if module_name.startswith('_'):
         continue
     import_module(f'.{module_name}', package=__name__)
+
+__all__ = ['compiler_for_file', 'compiler_for_suffix', 'content_compiler']

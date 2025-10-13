@@ -92,7 +92,15 @@ class DocmaJinjaEnvironment(jinja2.Environment):
 # ------------------------------------------------------------------------------
 @dataclass
 class DocmaRenderContext:
-    """Simple grouping construct for essential bits involved in rendering."""
+    """
+    Simple grouping construct for essential bits involved in rendering.
+
+    The render context provides the following attributes:
+
+    -   the package reader for the document template;
+    -   the rendering parameters; and
+    -   the Jinja environment
+    """
 
     tpkg: PackageReader
     params: dict[str, Any] = field(default_factory=dict)

@@ -1,4 +1,4 @@
-"""Core components for docma."""
+"""Document metadata management for docma."""
 
 from __future__ import annotations
 
@@ -14,7 +14,13 @@ from docma.lib.misc import flatten_iterable
 
 # ------------------------------------------------------------------------------
 class DocumentMetadata(MutableMapping):
-    """Document metadata manager and format converter."""
+    """
+    Document metadata manager and format converter.
+
+    This provides an output format agnostic container for document metadata
+    (title, subject, author etc.). It can provide a metadata structure in the
+    format required for either PDF or HTML.
+    """
 
     @staticmethod
     def to_pdf_name(name: str) -> str:
@@ -77,12 +83,12 @@ class DocumentMetadata(MutableMapping):
         """Implement core dict methods."""
         return str(self._attrs)
 
-    def as_dict(self, format=None) -> dict[str, Any]:  # noqa A002
+    def as_dict(self, format:str =None) -> dict[str, Any]:  # noqa A002
         """
         Return a dictionary with all attributes.
 
         :param format:  Adjust metadata for the specified format. Allowed values
-                        are None, 'html' and 'pdf', PDF has names like `/Author`
+                        are None, `html` and `pdf`, PDF has names like `/Author`
                         whereas HTML convention is `author`. PDF convention on
                         list items (e.g. /Keywords) is to join them with semi-colons.
                         HTML convention is commas.

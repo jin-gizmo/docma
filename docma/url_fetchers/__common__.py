@@ -8,8 +8,8 @@ _URL_FETCHERS = {}
 
 
 # ------------------------------------------------------------------------------
-def fetcher(*schemes: str) -> Callable:
-    """Register URL fetcher for the specified URL schemes."""
+def url_fetcher(*schemes: str) -> Callable:
+    """Register a URL fetcher for the specified URL schemes."""
 
     def decorate(func: Callable) -> Callable:
         """Register the handler function."""

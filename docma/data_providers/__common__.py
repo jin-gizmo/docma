@@ -17,13 +17,13 @@ def data_provider(data_src_type: str) -> Callable:
 
     This is a decorator used like so:
 
-    .. code-block:: python
-
-        @data_provider('postgres')
-        def postgres(
-            data_src: DataSourceSpec, pkg: PackageReader, params: dict[str, Any]
-        )  -> list[dict[str, Any]]:
-            ...
+    ```python
+    @data_provider('postgres')
+    def postgres(
+        data_src: DataSourceSpec, pkg: PackageReader, params: dict[str, Any]
+    )  -> list[dict[str, Any]]:
+        ...
+    ```
 
     :param data_src_type: Data source type.
 

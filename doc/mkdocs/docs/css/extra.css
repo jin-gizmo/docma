@@ -29,6 +29,12 @@
     content: url('../img/docma-logo/svg/docma-logo-horizontal-light.svg');
 }
 
+.md-typeset img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
 /*tr:nth-child(odd) code {*/
 /*    !* background-color: var(--table-shading); *!*/
 /*    background-color: var(--table-shading);*/

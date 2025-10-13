@@ -17,11 +17,11 @@ from urllib.parse import ParseResult, parse_qs
 from docma.exceptions import DocmaUrlFetchError
 from docma.generators import content_generator_for_type
 from docma.jinja import DocmaRenderContext
-from .__common__ import fetcher
+from docma.url_fetchers import url_fetcher
 
 
 # ------------------------------------------------------------------------------
-@fetcher('docma')
+@url_fetcher('docma')
 def docma_url_fetcher(purl: ParseResult, context: DocmaRenderContext) -> dict[str, Any]:
     """
     Fetch docma:... URLs for WeasyPrint.

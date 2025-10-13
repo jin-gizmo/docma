@@ -7,9 +7,11 @@ via a custom *URL fetcher* that allows content requests to be intercepted and
 the resulting content generated dynamically. In this way, docma can generate
 dynamic content, such as charts, for inclusion in the final output document.
 
-> There are some differences in this process depending on whether the final
-> output is PDF of HTML. See
-[Dynamic Content Generation Differences Between PDF and HTML Output](#dynamic-content-generation-differences-between-pdf-and-html-output).
+!!! note
+    There are some differences in this process depending on whether the final
+    output is PDF of HTML. See [Dynamic Content Generation Differences Between
+    PDF and HTML
+    Output](#dynamic-content-generation-differences-between-pdf-and-html-output).
 
 All URLs are constituted thus:
 
@@ -29,8 +31,9 @@ Docma currently handles the following non-standard schemes:
 | [file](#scheme-file)   | Interface to access files contained within the compiled document template. |
 | [s3](#scheme-s3)       | Interface to access files from AWS S3.                                     |
 
-> The docma URL fetcher interface is easily expandable to handle other schemes.
-> See [URL Fetchers](#url-fetchers).
+!!! note
+    The docma URL fetcher interface is easily expandable to handle other
+    schemes. See [URL Fetchers](#url-fetchers).
 
 ### Dynamic Content Generation Differences Between PDF and HTML Output
 
@@ -104,7 +107,7 @@ For example, this will generate a QR code:
 The URL should be properly URL encoded. This can be fiddly, but Jinja can help
 here. The example above could also have been written in dictionary format thus:
 
-```html
+```html+jinja
 <IMG style="height: 40px" src=docma:qrcode?{{
   {
     'text': 'Hello world',
@@ -116,7 +119,7 @@ here. The example above could also have been written in dictionary format thus:
 
 It could also have been written as a sequence of tuples:
 
-```html
+```html+jinja
 <IMG style="height: 40px" src=docma:qrcode?{{
   (
     ('text', 'Hello world'),
@@ -125,8 +128,10 @@ It could also have been written as a sequence of tuples:
   ) | urlencode
 }}">
 ```
-> The sequence format is **required** if any of the parameters needs to be used
-> more than once.
+
+!!! info
+    The sequence format is **required** if any of the parameters needs to be
+    used more than once.
 
 Available content generators are:
 
@@ -136,8 +141,9 @@ Available content generators are:
 | [swatch](#generating-graphic-placeholders-swatches) | Generate a colour swatch as graphic placeholder. |
 | [vega](#generating-charts-and-graphs) | Generate a chart based on the [Vega-Lite](https://vega.github.io/vega-lite/) declarative syntax for specifying charts / graphs. |
 
-> The dynamic content generator interface is readily extensible to add new types
-> of content. See [Content Generators](#content-generators).
+!!! note
+    The dynamic content generator interface is readily extensible to add new
+    types of content. See [Content Generators](#content-generators).
 
 #### Generating QR Codes
 
@@ -158,7 +164,7 @@ Examples:
     src="docma:qrcode?text=Hello%s20world&fg=white&bg=red">
 ```
 
-```html
+```html+jinja
 <IMG style="height: 40px" src=docma:qrcode?{{
   {
     'text': 'Hello world',
@@ -199,7 +205,7 @@ Examples:
     src="docma:vega?spec=charts/my-chart.yaml&data=...">
 ```
 
-```html
+```html+jinja
 <IMG style="width: 10cm;" src=docma:vega?{{
   (
     ( 'spec', 'charts/my-chart.yaml' ),
@@ -232,9 +238,10 @@ notwithstanding. It has two purposes:
 | text_color | String | No | Colour for text. Default is black. |
 | width | Integer | Yes | Swatch width in pixels. |
 
-> **Colour** or **color**? The code and docma templates stick with `color`,
-> because, well, that battle is lost. The user guide uses `colour` in descriptive
-> text. Blame Webster for messing it up, not me.
+!!! question *Colour* or *color*?
+    The code and docma templates stick with `color`, because, well, that battle
+    is lost. The user guide uses `colour` in descriptive text. Blame Webster for
+    messing it up, not me.
 
 Examples:
 
@@ -242,7 +249,7 @@ Examples:
 <IMG src="docma:swatch?width=150&height=150&color=seagreen">
 ```
 
-```html
+```html+jinja
 <IMG src="docma:swatch?{{ {
     'width': 150,
     'height': 150,
@@ -265,7 +272,8 @@ like so:
 <IMG src="file:resources/logo.png" alt="logo">
 ```
 
-> Do not include `//` after `file:`. It will not work.
+!!! warning
+    Do not include `//` after `file:`. It will not work.
 
 ### Scheme: s3
 
@@ -275,4 +283,6 @@ content is extracted from AWS S3. A typical usage would be something like:
 ```html
 <IMG src="s3://my-bucket/some/path/logo.png" alt="logo">
 ```
-> Files are limited to 10MB in size.
+
+!!! info
+    Files are limited to 10MB in size.

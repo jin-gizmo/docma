@@ -1,24 +1,31 @@
 # Docma -- Document Manufacturing for Fun and Profit
 
-> **Docma** was developed at [Origin Energy](https://www.originenergy.com.au) as part of the
-> *Jindabyne* initiative. While not part of our core IP, it proved valuable
-> internally, and we're sharing it in the hope it's useful to others.
-> 
-> Kudos to Origin for fostering a culture that empowers its people
-> to build complex technology solutions in-house.
->
-> See more tools at [Jin Gizmo on GitHub](https://jin-gizmo.github.io).
-
 <div align="center">
 <img src="doc/img/docma-logo/svg/docma-logo-horizontal-light.svg" alt="Docma Logo" width="300px" height="auto">
 </div>
 
-## Overview
-
 **Docma** is a document generator that can assemble and compose PDF and HTML
 documents from document templates with dynamic, data driven content.
 
-Features include:
+[![PyPI version](https://img.shields.io/pypi/v/docma)](https://pypi.org/project/docma/)
+[![Python versions](https://img.shields.io/pypi/pyversions/docma)](https://pypi.org/project/docma/)
+[![GitHub Licence](https://img.shields.io/github/license/jin-gizmo/docma)](https://github.com/jin-gizmo/docma/blob/master/LICENCE.txt)
+[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
+
+## Genesis
+
+**Docma** was developed at [Origin Energy](https://www.originenergy.com.au)
+as part of the *Jindabyne* initiative. While not part of our core IP, it proved
+valuable internally, and we're sharing it in the hope it's useful to others.
+
+Kudos to Origin for fostering a culture that empowers its people to build
+complex technology solutions in-house.
+
+[![Jin Gizmo Home](https://img.shields.io/badge/Jin_Gizmo_Home-d30000?logo=GitHub&color=d30000)](https://jin-gizmo.github.io)
+
+## Features
+
+**Docma** features include:
 
 *   Document content can be defined in any combination of HTML and PDF.
 
@@ -42,7 +49,9 @@ Features include:
 
 *   Readily extensible to add new data sources and content types.
 
-See the user guide for details.
+## Installation and Usage
+
+See the [user guide](https://jin-gizmo.github.io/docma/) for details.
 
 ## Credits
 

@@ -19,11 +19,11 @@ def content_importer(*schemes: str) -> Callable:
 
     This is a decorator used like so:
 
-    .. code-block:: python
-
-        @content_importer('http', 'https')
-        def http(url: str) -> bytes:
-            ...
+    ```python
+    @content_importer('http', 'https')
+    def http(url: str) -> bytes:
+        ...
+    ```
 
     """
 

@@ -15,11 +15,11 @@ def content_compiler(*suffixes: str) -> Callable:
 
     This is a decorator used like so:
 
-    .. code-block:: python
-
-        @content_compiler('md')
-        def compile_markdown(src_data: bytes) -> str:
-            ...
+    ```python
+    @content_compiler('md')
+    def compile_markdown(src_data: bytes) -> str:
+        ...
+    ```
 
     :param suffixes:    File suffixes (without the dot) handled by the decorated
                         function.

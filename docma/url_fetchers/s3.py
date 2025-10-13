@@ -12,7 +12,7 @@ import boto3
 from docma.config import IMPORT_MAX_SIZE
 from docma.exceptions import DocmaUrlFetchError
 from docma.jinja import DocmaRenderContext
-from .__common__ import fetcher
+from docma.url_fetchers import url_fetcher
 
 
 # ------------------------------------------------------------------------------
@@ -24,7 +24,7 @@ def s3resource():
 
 # ------------------------------------------------------------------------------
 # noinspection PyUnusedLocal
-@fetcher('s3')
+@url_fetcher('s3')
 def s3_url_fetcher(purl: ParseResult, context: DocmaRenderContext) -> dict[str, Any]:
     """
     Fetch s3://... URLs for WeasyPrint.
@@ -33,6 +33,8 @@ def s3_url_fetcher(purl: ParseResult, context: DocmaRenderContext) -> dict[str, 
     :param context: Document rendering context. Not used in this handler.
 
     :return:        A dict containing the URL content and mime type.
+
+    :raise DocmaUrlFetchError: If the URL could not be fetched.
     """
 
     s3obj = s3resource().Bucket(purl.netloc).Object(purl.path.lstrip('/'))

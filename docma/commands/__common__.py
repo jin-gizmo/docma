@@ -27,16 +27,16 @@ class CliCommand(ABC):
 
     Thus:
 
-    .. code-block:: python
+    ```python
+    @CliCommand.register('command-name')
+    class Whatever(CliCommand):
 
-        @CliCommand.register('command-name')
-        class Whatever(CliCommand):
+        def add_arguments(self) -> None:
+            self.argp.add_argument('--arg1', action='store')
 
-            def add_arguments(self) -> None:
-                self.argp.add_argument('--arg1', action='store')
-
-            def execute(self, args: Namespace) -> None:
-                print(f'The argument value for arg1 is {args.arg1}')
+        def execute(self, args: Namespace) -> None:
+            print(f'The argument value for arg1 is {args.arg1}')
+    ```
 
     """
 
@@ -52,11 +52,11 @@ class CliCommand(ABC):
 
         This is a decorator. Usage is:
 
-        .. code-block:: python
-
-            @CliCommand.register('my_command')
-            class MyCommand(CliCommand):
-                ...
+        ```python
+        @CliCommand.register('my_command')
+        class MyCommand(CliCommand):
+            ...
+        ```
 
         The help for the command is taken from the first line of the docstring.
         """
@@ -74,7 +74,7 @@ class CliCommand(ABC):
         return decorate
 
     # --------------------------------------------------------------------------
-    def __init__(self, subparser):
+    def __init__(self, subparser) -> None:
         """Initialize the command handler."""
         self.argp = subparser.add_parser(self.name, help=self.help_, description=self.help_)
         self.argp.set_defaults(handler=self)

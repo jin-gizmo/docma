@@ -1,5 +1,5 @@
 
-# Docma Template Rendering
+# Docma Template Rendering [nav: Template Rendering]
 
 The document rendering phase combines a compiled docma template with run-time
 specified parameters and dynamically generated content to produce a final output
@@ -35,9 +35,8 @@ The main steps in the process for PDF production are:
     [template configuration file](#template-configuration-file) and add it to
     the PDF.
 
-9.  Optionally, compress the PDF using lossless compression.
-
->   Depending on the PDF contents, compression may, or may not, help.
+9.  Optionally, compress the PDF using lossless compression. Depending on the
+    PDF contents, compression may, or may not, help.
 
 ## Rendering for HTML Outputs
 

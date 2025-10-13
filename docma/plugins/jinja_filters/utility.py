@@ -40,7 +40,7 @@ def sql_safe(value: str) -> str:
 
 # ------------------------------------------------------------------------------
 @jfilter('require')
-def require(value: Any, message: str):
+def require(value: Any, message: str) -> Any:
     """Ensure a value is specified."""
 
     if not value:

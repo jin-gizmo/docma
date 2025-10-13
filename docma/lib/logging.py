@@ -15,14 +15,12 @@ def get_log_level(s: str) -> int:
     """
     Convert string log level to the corresponding integer log level.
 
-    Raises ValueError if a bad string is provided.
-
     :param s:       A string version of a log level (e.g. 'error', 'info').
                     Case is not significant.
 
     :return:        The numeric logLevel equivalent.
 
-    :raises:        ValueError if the supplied string cannot be converted.
+    :raise ValueError: If the supplied string cannot be converted.
     """
 
     if not s or not isinstance(s, str):

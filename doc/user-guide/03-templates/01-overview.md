@@ -26,5 +26,6 @@ Only the `config.yaml` file is mandated. While the other components can be
 present, or not, as required, and directory structure is arbitrary, it is
 **strongly** recommended to adhere to the layout shown above.
 
-> Files and directories in the template source directory matching `.*` are not
-> copied into the compiled template.
+!!! info
+    Files and directories in the template source directory matching `.*` are not
+    copied into the compiled template.

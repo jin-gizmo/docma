@@ -18,18 +18,18 @@ Resolvers don't have to worry about cacheing. PluginRouter does that.
 
 In the case of JInja filters, this gets used like so ...
 
-.. code-block:: python
+```python
+from jinja2 import Environment
+from docma.lib.plugin import MappingResolver, PackageResolver, PluginRouter
 
-    from jinja2 import Environment
-    from docma.lib.plugin import MappingResolver, PackageResolver, PluginRouter
-
-    e = Environment()
-    e.filters = PluginRouter(
-        [
-            MappingResolver(e.filters),  # Preserve Jinja built-in filters
-            PackageResolver('docma.plugins.jinja_filters'),
-        ],
-    )
+e = Environment()
+e.filters = PluginRouter(
+    [
+        MappingResolver(e.filters),  # Preserve Jinja built-in filters
+        PackageResolver('docma.plugins.jinja_filters'),
+    ],
+)
+```
 
 """
 
@@ -252,10 +252,10 @@ class MappingResolver(PluginResolver):
     In the case of Jinja filters, for example, This can be used to hold Jinja's
     factory-fitted filters. e.g.
 
-    .. code-block:: python
-
-        env = jinja2.Environment()
-        env.filters = PluginRouter([MappingResolver(env.filters)])
+    ```python
+    env = jinja2.Environment()
+    env.filters = PluginRouter([MappingResolver(env.filters)])
+    ```
 
     """
 
@@ -292,8 +292,7 @@ class PackageResolver(PluginResolver):
 
     This is a sample hierarchy for a plugin package.
 
-    .. code-block:: text
-
+    ```text
         .
         ├── __init__.py
         └── filters                 (Base for all plugins)
@@ -305,6 +304,7 @@ class PackageResolver(PluginResolver):
                 └── tax             (Base for all "au.tax.*" plugins)
                     ├── __init__.py
                     └── tax.py      (Can contain multiple plugins, eg. "tfn")
+    ```
 
     In this example, we are defining plugins named `au.abn` and `au.tax.tfn`.
     The "category" here is `au`.
