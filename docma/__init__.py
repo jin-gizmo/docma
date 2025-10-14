@@ -22,8 +22,6 @@ pdf.write(pdf_location)
 
 """
 
-from pathlib import Path
-
 from .docma_core import (
     compile_template as compile_template,
     get_template_info as get_template_info,
@@ -32,8 +30,8 @@ from .docma_core import (
     render_template_to_pdf as render_template_to_pdf,
     safe_render_path as safe_render_path,
 )
+from .version import __version__ as __version__
 
-__version__ = (Path(__file__).parent / 'VERSION').read_text().strip()
 __author__ = 'Murray Andrews'
 
 __all__ = [
@@ -43,4 +41,5 @@ __all__ = [
     'render_template_to_html',
     'render_template_to_pdf',
     'safe_render_path',
+    '__version__',
 ]

@@ -9,7 +9,7 @@
 Docma inherits the [font handling capabilities of
 WeasyPrint](https://doc.courtbouillon.org/weasyprint/v0.42.3/features.html#fonts),
 which are essentially those of native HTML / CSS. TrueType (TTF), OpenType (OTF)
-and Web Open Font Format (WOFF), but not WOFF2, fonts should work fine.
+and Web Open Font Format (WOFF), and, more recently, WOFF2, fonts should work fine.
 
 !!! warning
     Fonts are Intellectual Property and may be subject to licence conditions,
@@ -104,7 +104,7 @@ would contain something like this:
 ```yaml
 # config.yaml
 
-import:
+imports:
   - src: https://fonts.gstatic.com/s/kablammo/v1/bWtm7fHPcgrhC-J3lcXhcQTY5Ixs6Au9YgCjjw.ttf
     as: fonts/kablammo.ttf
 

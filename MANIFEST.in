@@ -2,6 +2,7 @@ include *.md
 include LICENCE.txt
 include requirements*.txt
 include */VERSION
-include docma/lib/*.yaml
-recursive-include docma/lib/cookiecutter *
+recursive-include docma/resources *
 global-exclude .DS_Store .env
+global-exclude */__pycache__/*
+global-exclude *.pyc

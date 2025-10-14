@@ -15,9 +15,9 @@ options:
   stylesheets:
     - styles.css
 
-#import:
-#  - src: s3://my-bucket/a/file.png
-#    as: logo.png
+# imports:
+#   - src: s3://my-bucket/a/file.png
+#     as: logo.png
 
 # Overlays can be defined here but they are only used if explicitly
 # requested during the rendering phase and are only supported for PDF output.

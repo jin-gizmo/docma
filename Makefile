@@ -13,14 +13,12 @@ HIDDEN_PYTHON=$(shell \
 		-print0 | xargs -r -0 file | grep 'Python script' | cut -d: -f1)
 
 
-.PHONY: black help _venv_is_off _venv_is_on _venv update check cookie doc spell test coverage
+.PHONY: black help _venv_is_off _venv_is_on _venv update check doc spell test coverage
 
 DOCMA_VERSION=$(shell cat docma/VERSION)
 
 # Add --progress=plain for debugging
 DOCKER_BUILD=docker buildx build
-
-COOKIE_DIR=docma/lib/cookiecutter
 
 # ------------------------------------------------------------------------------
 help:
@@ -127,26 +125,6 @@ docker:	pkg
 
 doc spell:
 	$(MAKE) -C doc $(MAKECMDGOALS) dist=$(abspath dist)
-
-# This is redundant now. Use `docma new ...` instead
-cookie:	dist/cookiecutter-docma-$(DOCMA_VERSION).zip
-
-dist/cookiecutter-docma-$(DOCMA_VERSION).zip: _venv_is_on $(shell find $(COOKIE_DIR))
-	@echo Generating $@ - THIS IS OBSOLETE
-	@mkdir -p dist
-	@( \
-		zip -q -r - $(COOKIE_DIR) \
-			--exclude \
-				'*dist/*' \
-				'*.pyc' \
-				'*__pycache__/*' \
-				'*.swp' \
-				'*.zip' \
-				'*.tar.*' \
-				'*-info/*' \
-				'*/.DS_Store' \
-			> $@ ; \
-	) || (echo Failed -- Removing $@ ; $(RM) $@)
 
 
 # ------------------------------------------------------------------------------

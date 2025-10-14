@@ -10,6 +10,7 @@ critical.
 from __future__ import annotations
 
 import json
+from importlib import resources
 from logging import getLogger
 from pathlib import Path
 from typing import Callable
@@ -18,6 +19,7 @@ import altair as alt
 import jsonschema
 import yaml
 
+import docma.resources
 from docma.config import LOGNAME
 from docma.exceptions import DocmaInternalError, DocmaPackageError
 from docma.jinja import DocmaJinjaEnvironment
@@ -53,7 +55,7 @@ def _config(content: bytes):
     config = yaml.safe_load(content)
     try:
         config_schema = yaml.safe_load(
-            (Path(__file__).parent / 'lib/config-schema.yaml').read_text()
+            resources.files(docma.resources).joinpath('config-schema.yaml').read_text()
         )
     except Exception as e:
         raise DocmaInternalError(f'Error reading config-schema.yaml: {e}')

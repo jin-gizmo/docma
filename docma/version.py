@@ -1,7 +1,7 @@
 """Version information for docma."""
 
-from __future__ import annotations
+from importlib.resources import files
 
-from pathlib import Path
+import docma
 
-__version__ = (Path(__file__).parent / 'VERSION').read_text().strip()
+__version__ = files(docma).joinpath('VERSION').read_text().strip()

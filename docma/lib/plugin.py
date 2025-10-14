@@ -40,7 +40,6 @@ import inspect
 import pkgutil
 from abc import ABC, abstractmethod
 from collections.abc import Iterable, Mapping, MutableMapping, Sequence
-from pathlib import Path
 from types import ModuleType
 from typing import Any, Callable
 from warnings import warn
@@ -355,6 +354,8 @@ class PackageResolver(PluginResolver):
         """Load plugins from modules directly under the package (no category)."""
 
         pkg = importlib.import_module(self._package)
+        # pkgutil.iter_modules needs a path list, not the module itself
+        # We can still use pkgutil since it works with __path__ attribute
         search_path = getattr(pkg, '__path__', None)
         if search_path is None:
             return
@@ -380,11 +381,8 @@ class PackageResolver(PluginResolver):
                 modules.append(importlib.import_module(modname))
 
         for module in modules:
-            module_file = getattr(module, '__file__', None)
-            # Skip namespace packages
-            if not module_file:
-                continue
-            prefix = self._module_prefix(Path(module_file))
+            # Use module.__name__ to derive the prefix instead of __file__
+            prefix = self._module_prefix_from_name(module.__name__)
             self._register_module_plugins(module, prefix)
 
         self._categories.add(category)
@@ -403,18 +401,25 @@ class PackageResolver(PluginResolver):
                 self._plugins[fqname] = obj
 
     # --------------------------------------------------------------------------
-    def _module_prefix(self, module_path: Path) -> str:
-        """Return the namespace prefix for plugins in a module file path."""
+    def _module_prefix_from_name(self, module_name: str) -> str:
+        """
+        Return the namespace prefix for plugins in a module based on its name.
 
-        module_path = module_path.resolve()
-        rel_parts = module_path.parent.parts
+        For example:
+        - Base package: 'docma.plugins.filters'
+        - Module name: 'docma.plugins.filters.au.tax.tax'
+        - Result: 'au.tax'
+
+        The module filename (last component) is not included in the prefix.
+        """
         base_parts = self._package.split('.')
+        module_parts = module_name.split('.')
 
-        try:
-            idx = rel_parts.index(base_parts[-1])
-        except ValueError:
-            # This really shouldn't happen
-            raise RuntimeError(f'Cannot locate base package {self._package} in {module_path}')
+        # Everything between the base package and the module name itself forms the prefix
+        if len(module_parts) <= len(base_parts):
+            return ''
 
-        prefix_parts = rel_parts[idx + 1 :]
+        # Get the package path (exclude the base and the module filename)
+        # For 'docma.plugins.filters.au.tax.tax', we want 'au.tax'
+        prefix_parts = module_parts[len(base_parts) : -1]
         return '.'.join(prefix_parts)

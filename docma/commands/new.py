@@ -35,7 +35,9 @@ class New(CliCommand):
         )
 
         cookie_obj = json.loads(
-            resources.files(docma.lib).joinpath('cookiecutter', 'cookiecutter.json').read_text()
+            resources.files(docma)
+            .joinpath('resources', 'cookiecutter', 'cookiecutter.json')
+            .read_text()
         )
         cookie_keys = sorted(k for k in cookie_obj if not k.startswith('_'))
         self.argp.add_argument(
@@ -68,7 +70,7 @@ class New(CliCommand):
         if (d := Path(args.directory)).exists():
             raise ValueError(f'{args.directory} already exists')
 
-        template_path = resources.files(docma.lib).joinpath('cookiecutter')
+        template_path = resources.files(docma).joinpath('resources', 'cookiecutter')
 
         # We want to make the docma package available to the cookiecutter
         # validation scripts. As cookiecutter runs in a subprocess we need to
