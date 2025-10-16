@@ -4,6 +4,8 @@ site_author: Murray Andrews
 site_name: Docma User Guide
 site_description: Document manufacture for fun and profit
 site_url: ''
+repo_url: "https://github.com/jin-gizmo/docma"
+repo_name: Docma on GitHub
 copyright: "&copy; Origin Energy"
 
 theme:
@@ -15,6 +17,8 @@ theme:
     # The navigation footer is as ugly as sin.
     # - navigation.footer
     - content.code.copy
+    - icon:
+        repo: material/github
   logo: img/docma-logo/svg/docma-icon-mid-2.svg
   favicon: img/docma-logo/png/docma-icon-light.png
   font:

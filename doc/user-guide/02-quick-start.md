@@ -96,10 +96,10 @@ The template is ready for rendering into either PDF or HTML output.
 
 ```bash
 # Render to PDF
-docma pdf --template demo.zip --output demo.pdf
+docma pdf --template demo.d --output demo.pdf
 
 # Render to HTML
-docma html --template demo.zip --output demo.html
+docma html --template demo.d --output demo.html
 ```
 
 ## Now What?

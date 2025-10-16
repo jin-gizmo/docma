@@ -28,7 +28,7 @@ pip install 'docma[lava]'
 
 ### Installing from the Repo
 
-Clone the **docma** repo.
+Clone the [**docma** repo](https://github.com/jin-gizmo/docma).
 
 The rest of the setup is handled by the Makefile.
 

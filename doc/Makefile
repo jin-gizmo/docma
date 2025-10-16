@@ -53,9 +53,9 @@ preview: $(dist)/doc/$(USER_GUIDE).site
 	mkdocs serve -f $</mkdocs.yml --open
 
 _publish: $(dist)/doc/$(USER_GUIDE).site
-	echo mkdocs gh-deploy -f $</mkdocs.yml --clean
+	mkdocs gh-deploy -f $</mkdocs.yml --clean
 
-ifeq ($(GIT_BRANCH),dev)
+ifeq ($(GIT_BRANCH),master)
 publish: _publish
 
 else
