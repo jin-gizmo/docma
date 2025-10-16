@@ -1,6 +1,6 @@
 ### Data Provider Type: params
 
-Docma can extract data from a list of objects in the rendering parameters.
+**Docma** can extract data from a list of objects in the rendering parameters.
 
 The `type` component of the [data source specification](#data-sources-in-docma)
 is `params`.

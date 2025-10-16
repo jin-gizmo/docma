@@ -26,7 +26,7 @@ specified in one of two ways:
 1.  By providing an argument to the currency filter `{{ 1 | currency('AUD') }}`;
     or
 2.  Using the currency name itself as an alias for the filter name
-    `{{ 1 | AUD }}`. Docma dynamically generates a filter alias for known
+    `{{ 1 | AUD }}`. **Docma** dynamically generates a filter alias for known
     currencies. Case is not significant.
 
 The locale is determined as described in [Locale in Docma

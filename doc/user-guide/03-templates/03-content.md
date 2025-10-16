@@ -29,14 +29,14 @@ When producing standalone HTML outputs, normal HTML conventions should be
 followed, keeping in mind the limitations of the target rendering environment
 (e.g. a variety of email clients).
 
-When producing PDF outputs, the source HTML used in a docma template should be
+When producing PDF outputs, the source HTML used in a **docma** template should be
 written explicitly for print, rather than web layout. There are a set of special
 HTML constructs available when the target media is print. Effective use of
 these is essential to producing nice output. For an excellent short tutorial on
 the subject, see [Designing For Print With
 CSS](https://www.smashingmagazine.com/2015/01/designing-for-print-with-css/)
 
-HTML source files are copied unchanged to the compiled docma template during the
+HTML source files are copied unchanged to the compiled **docma** template during the
 compilation phase.
 
 HTML files can reference other resources in the compiled template (e.g. images,

@@ -10,7 +10,7 @@ pip install docma
 ```
 
 This will
-install the base **docma** Python package and the docma CLI. This will not
+install the base **docma** Python package and the **docma** CLI. This will not
 install support for [duckdb](#data-provider-type-duckdb) or
 [lava](#data-provider-type-lava) data providers.
 
@@ -28,7 +28,7 @@ pip install 'docma[lava]'
 
 ### Installing from the Repo
 
-Clone the docma repo.
+Clone the **docma** repo.
 
 The rest of the setup is handled by the Makefile.
 
@@ -45,7 +45,7 @@ To run the **docma** CLI directly from the repo:
 python3 -m docma.cli.docma --help
 ```
 
-To build docma, use the Makefile.
+To build **docma**, use the Makefile.
 
 ```bash
 # See what we can build ...

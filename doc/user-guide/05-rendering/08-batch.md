@@ -1,17 +1,17 @@
 
 ## Batch Rendering
 
-Docma supports the ability to generate a batch of output documents from a single
-document template using the `pdf-batch` (PDF) and `html-batch` (HTML) sub-commands
-of the [docma CLI](#the-docma-cli).
+**Docma** supports the ability to generate a batch of output documents from a
+single document template using the `pdf-batch` (PDF) and `html-batch` (HTML)
+sub-commands of the [**docma** CLI](#the-docma-cli).
 
 The document template needs to anticipate the need for batch rendering by
 including some Jinja controlled content that will be varied for each document
 produced via document specific parameters. The source for the document specific
-batch parameters is a [docma data loader](#data-sources-in-docma). Data returned
+batch parameters is a [**docma** data loader](#data-sources-in-docma). Data returned
 by the data loader is merged in with the fixed rendering parameters, a row at a
-time, and docma produces an output document using that combination. The source
-data for the batch parameters is specified using a [docma data source
+time, and **docma** produces an output document using that combination. The source
+data for the batch parameters is specified using a [**docma** data source
 specification](#data-source-specifications).
 
 !!! note
@@ -38,7 +38,7 @@ docma pdf-batch -t my-template.zip \
 
 Let's examine this bit by bit.
 
-The docma `pdf-batch` sub-command is invoked specifying the compiled document
+The **docma** `pdf-batch` sub-command is invoked specifying the compiled document
 template:
 
 ```bash
@@ -52,7 +52,7 @@ process. These parameters are the same for every document in the rendering batch
     --file static-params.yaml \
 ```
 
-The [docma data source specification](#data-source-specifications) tells docma
+The [**docma** data source specification](#data-source-specifications) tells **docma**
 how to obtain rows of data to control the batch rendering. Each row is a set of
 key/value pairs that will be merged into the static rendering parameters and
 used to render one PDF document:
@@ -61,10 +61,10 @@ used to render one PDF document:
     --data-source-spec 'postgres;pglocal;queries/batch.yaml' \
 ```
 
-The [docma data source specification](#data-source-specifications)
+The [**docma** data source specification](#data-source-specifications)
 is interpreted within the context of the document template.
 
-As docma will be producing a series of PDF documents, it needs a mechanism to
+As **docma** will be producing a series of PDF documents, it needs a mechanism to
 provide each document with a unique name that corresponds to the batch data
 entry that was used to produce it. This is done using the `--output` option with
 an argument that is Jinja rendered to construct the filename. In this example,

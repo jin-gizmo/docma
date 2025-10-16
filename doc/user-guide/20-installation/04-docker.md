@@ -12,7 +12,15 @@ make docker
 This will include support for the [duckdb](#data-provider-type-duckdb) data
 provider, but not the [lava](#data-provider-type-lava) data provider.
 
+This image is also available from Docker Hub:
+
+```bash
+docker pull jingizmo/docma`
+```
+
 !!! info
     The basic image doesn't add any fonts to the minimal set already available
     in the Amazon Linux 2023 image. To add fonts, build your own image on the
-    **docma** base image.
+    **docma** base image. A better alternative is to include important fonts
+    within document templates to avoid any dependency on host fonts. See
+    [Fonts](#fonts).

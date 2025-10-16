@@ -28,9 +28,9 @@ elements.
 | -> keywords    | string \| list | No       | A string of semi-colon separated keywords or a list of keywords for the PDF. |
 
 !!! note
-    Prior to docma v2.0, metadata fields were specified in the PDF convention of
+    Prior to **docma** v2.0, metadata fields were specified in the PDF convention of
     `/Author` instead of `author`. This is still supported for backward
-    compatibility but the naming shown above should now be used. Docma will use
+    compatibility but the naming shown above should now be used. **Docma** will use
     the appropriate conventions for PDF and HTML when producing output.
 
 ### Document References
@@ -176,7 +176,7 @@ to control aspects of the PDF production process. These can be specified under
 the `options` key of the [template configuration
 file](#template-configuration-file).
 
-The following options are set by docma itself. They can be overridden in the
+The following options are set by **docma** itself. They can be overridden in the
 template but it's best not to.
 
 |Option|Value set by docma| Notes |
@@ -225,10 +225,10 @@ imports:
   - src: s3://my-bucket/common-files/standard-terms.pdf
     as: content/standard-terms.pdf
 
-# Used in the HTML to PDF conversion
+# Used by Weasyprint in the HTML to PDF conversion
 options:
   stylesheets:
-    - styles.css
+    - css/pdf.css
 
 parameters:
   # These defaults are deep-merged into any parameters specified at run-time

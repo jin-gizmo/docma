@@ -1,9 +1,9 @@
 ## Rendering Parameters
 
-The parameters used by docma during the template rendering process is the union
+The parameters used by **docma** during the template rendering process is the union
 of the following (from highest to lowest precedence):
 
-1.  [Parameters provided by docma](#rendering-parameters-provided-by-docma).
+1.  [Parameters provided by **docma**](#rendering-parameters-provided-by-docma).
 
 2.  Parameters supplied by the user at run-time.
 
@@ -18,13 +18,13 @@ are not merged. One list will replace another if they occur at the same location
 
 ### Rendering Parameters Provided by Docma
 
-In addition to user supplied parameters, docma includes the following items
+In addition to user supplied parameters, **docma** includes the following items
 under the `docma` key.
 
 | Key      | Notes | Description                   |
 | ---------------------- |--| ----------------------------- |
 | calendar | | The Python `calendar` module. |
-| data     | | Function to invoke a [docma data provider](#data-sources-in-docma) and return the data as a list of dictionaries. See [Data Source Specifications for HTML Rendering](#data-source-specifications-for-html-rendering).|
+| data     | | Function to invoke a [**docma** data provider](#data-sources-in-docma) and return the data as a list of dictionaries. See [Data Source Specifications for HTML Rendering](#data-source-specifications-for-html-rendering).|
 | datetime | | The Python `datetime` module. |
 | format | | The format of the output document to be produced, `PDF` or `HTML`. This can be used, among other things, for format specific content or formatting (e.g. CSS variations). |
 | paramstyle | (1) |Corresponds to the DBAPI 2.0 `paramstyle` attribute of the underlying database driver when processing a  [query specification](#query-specifications). |
@@ -37,7 +37,7 @@ under the `docma` key.
 | --> overlay\_path |(3) | The path for the current overlay file being rendered. This is a pathlib `Path()` instance.|
 | --> page |(2) | The starting page number for the current document with respect to the final output document. This may be useful for manipulating page numbering in multipart documents. Or not.|
 | --> version | | The `version` field from the [template configuration file](#template-configuration-file).|
-| version  | | The docma version. |
+| version  | | The **docma** version. |
 
 !!! note "Notes"
     1.  The `paramstyle` parameter is only available for use in
@@ -59,6 +59,6 @@ For example, to insert today's date:
 To check whether we are producing HTML or PDF:
 
 ```jinja
-This is {{ docma.format }} output using docma version {{ docma.version }}.
+This is {{ docma.format }} output using **docma** version {{ docma.version }}.
 ```
 

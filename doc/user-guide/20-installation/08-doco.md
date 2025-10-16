@@ -1,7 +1,7 @@
 
 ## Building the Documentation
 
-Docma comes with this user guide and auto-generated API documentation.
+**Docma** comes with this user guide and auto-generated API documentation.
 
 To build the documentation:
 

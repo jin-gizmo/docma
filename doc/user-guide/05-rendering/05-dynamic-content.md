@@ -1,10 +1,10 @@
 
 ## Dynamic Content Generation
 
-When docma converts HTML into PDF or stand-alone HTML, it needs to resolve all
+When **docma** converts HTML into PDF or stand-alone HTML, it needs to resolve all
 URLs in the source HTML in things such as `<img src="...">` tags. It does this
 via a custom *URL fetcher* that allows content requests to be intercepted and
-the resulting content generated dynamically. In this way, docma can generate
+the resulting content generated dynamically. In this way, **docma** can generate
 dynamic content, such as charts, for inclusion in the final output document.
 
 !!! note
@@ -19,20 +19,20 @@ All URLs are constituted thus:
 scheme://netloc/path;parameters?query#fragment
 ```
 
-Docma determines which custom URL fetcher to apply based on the URL scheme (i.e.
+**Docma** determines which custom URL fetcher to apply based on the URL scheme (i.e.
 the first part before the colon). The URL fetchers handle a range of non-standard,
-docma specific schemes, as well as the standard `http` and `https` schemes.
+**docma** specific schemes, as well as the standard `http` and `https` schemes.
 
-Docma currently handles the following non-standard schemes:
+**Docma** currently handles the following non-standard schemes:
 
 | Scheme                 | Description                                                                |
 |------------------------|----------------------------------------------------------------------------|
-| [docma](#scheme-docma) | Interface to docma dynamic content generators of various types.            |
+| [docma](#scheme-docma) | Interface to **docma** dynamic content generators of various types.            |
 | [file](#scheme-file)   | Interface to access files contained within the compiled document template. |
 | [s3](#scheme-s3)       | Interface to access files from AWS S3.                                     |
 
 !!! note
-    The docma URL fetcher interface is easily expandable to handle other
+    The **docma** URL fetcher interface is easily expandable to handle other
     schemes. See [URL Fetchers](#url-fetchers).
 
 ### Dynamic Content Generation Differences Between PDF and HTML Output
@@ -42,7 +42,7 @@ URL fetcher for *any* URL it needs to access during the conversion process.
 This includes, *but is not limited to*, `<IMG>` tags.
 
 For standalone HTML output, the process of invoking a custom URL fetcher is done
-by docma itself. It is *only* applied to the `src` attribute of `<IMG>` tags
+by **docma** itself. It is *only* applied to the `src` attribute of `<IMG>` tags
 under specific circumstances. When it is done, the `src` attribute is replaced
 in the `<IMG>` tag with the actual content returned by the URL fetcher. i.e.
 the data is embedded within the standalone HTML output.
@@ -53,7 +53,7 @@ environment for the produced document, static PDF or dynamic HTML.
 By default, in HTML outputs, `<IMG>` tags have the content embedded
 in place of the `src` attribute in the following circumstances:
 
-*   The `src` URL is not `http(s)://` (i.e. any of the docma custom
+*   The `src` URL is not `http(s)://` (i.e. any of the **docma** custom
     schemes described below); or
 
 *   The `src` URL is `http(s)://`, has no query component `?...`, 
@@ -87,14 +87,14 @@ client or web browser) will fetch the images as required at display time.
 
 ### Scheme: docma
 
-URLs of the following form are intercepted by docma and used to invoke a dynamic
+URLs of the following form are intercepted by **docma** and used to invoke a dynamic
 content generator.
 
 ```bare
 docma:<generator-name>?<generator-params>
 ```
 
-Note that for these docma URLs, there is no *netloc* component and hence no `//`
+Note that for these **docma** URLs, there is no *netloc* component and hence no `//`
 in the URL.
 
 For example, this will generate a QR code:
@@ -176,9 +176,9 @@ Examples:
 
 #### Generating Charts and Graphs
 
-Docma supports the [Vega-Lite](https://vega.github.io/vega-lite/) declarative
+**Docma** supports the [Vega-Lite](https://vega.github.io/vega-lite/) declarative
 syntax for specifying charts / graphs. Vega-Lite specifies a mapping between
-source data and visual representations of the data. Docma provides mechanisms
+source data and visual representations of the data. **Docma** provides mechanisms
 for specifying and accessing various data sources and feeding this data through
 a Vega-Lite specification to generate charts and graphs.
 
@@ -224,7 +224,7 @@ notwithstanding. It has two purposes:
 1.  As a simple code sample for dynamic content generators that can be copied
     and modified for new requirements.
 
-2.  As a temporary placeholder when developing the structure of a docma template
+2.  As a temporary placeholder when developing the structure of a **docma** template
     that will be replaced subsequently by a real piece of content (e.g. a chart).
 
 
@@ -239,7 +239,7 @@ notwithstanding. It has two purposes:
 | width | Integer | Yes | Swatch width in pixels. |
 
 !!! question *Colour* or *color*?
-    The code and docma templates stick with `color`, because, well, that battle
+    The code and **docma** templates stick with `color`, because, well, that battle
     is lost. The user guide uses `colour` in descriptive text. Blame Webster for
     messing it up, not me.
 
@@ -263,7 +263,7 @@ Examples:
 
 ### Scheme: file
 
-URLs in HTML files of the form `file:...` are intercepted by docma and the
+URLs in HTML files of the form `file:...` are intercepted by **docma** and the
 content is extracted from a file within the compiled document template. As the
 file is local to the template, there is no network location so the URL will be
 like so:
@@ -277,7 +277,7 @@ like so:
 
 ### Scheme: s3
 
-URLs in HTML files of the form `s3://...` are intercepted by docma and the
+URLs in HTML files of the form `s3://...` are intercepted by **docma** and the
 content is extracted from AWS S3. A typical usage would be something like:
 
 ```html

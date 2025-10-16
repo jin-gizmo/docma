@@ -1,7 +1,7 @@
 
 ## Creating a New Document Template
 
-To create a new docma template directory:
+To create a new **docma** template directory:
 
 ```bash
 docma new <DIRECTORY>

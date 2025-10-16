@@ -1,7 +1,7 @@
 
 # Docma Template Rendering [nav: Template Rendering]
 
-The document rendering phase combines a compiled docma template with run-time
+The document rendering phase combines a compiled **docma** template with run-time
 specified parameters and dynamically generated content to produce a final output
 document.
 

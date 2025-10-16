@@ -28,5 +28,5 @@ mkdocstrings[python]
 twine
 moto
 
-# sphinx
-# sphinx-rtd-theme
+# Required for local multiplatform docker builds
+jindr

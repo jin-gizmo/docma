@@ -1,8 +1,8 @@
 
 # Document Templates
 
-The source directory for a document template should be created using the docma
-CLI:
+The source directory for a document template should be created using the
+**docma** CLI:
 
 ```bash
 docma new <DIRECTORY>
@@ -15,6 +15,7 @@ The resulting directory is structured thus:
 ├── config.yaml    ... Mandatory
 ├── charts/        ... Specification files for charts
 ├── content/       ... Document content (HTML, PDF, Markdown etc.)
+├── css/           ... Style sheets
 ├── data/          ... Data files (e.g CSV / JSONL files)
 ├── fonts/         ... Font files (e.g. .ttf files)
 ├── overlays/      ... Overlay content files (Typically HTML or PDF)

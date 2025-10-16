@@ -7,7 +7,7 @@ unless otherwise indicated. These are automatically discovered as required.
 
 ## Content Importers
 
-Content importers operate during the docma [compile](#docma-template-compilation)
+Content importers operate during the **docma** [compile](#docma-template-compilation)
 phase. They collect components from external sources and inject them into the
 compilation process.
 
@@ -21,7 +21,7 @@ See the [API reference][docma.importers] for details.
 
 ## Content Compilers
 
-Content compilers operate during the docma [compile](#docma-template-compilation)
+Content compilers operate during the **docma** [compile](#docma-template-compilation)
 phase. They transform a source format into HTML. The source format is determined
 by the filename suffix.
 
@@ -32,7 +32,7 @@ See the [API reference][docma.compilers] for details.
 
 ## URL Fetchers
 
-[URL fetchers](#dynamic-content-generation) operate during the docma
+[URL fetchers](#dynamic-content-generation) operate during the **docma**
 [render](#docma-template-rendering) phase. They provide WeasyPrint with the
 means to resolve URLs within the HTML being converted to PDF. They are also used
 when producing HTML output documents to populate the data for `IMG` tags.
@@ -46,7 +46,7 @@ See the [API reference][docma.url_fetchers] for details.
 
 ## Content Generators
 
-[Content generators](#dynamic-content-generation) operate during the docma
+[Content generators](#dynamic-content-generation) operate during the **docma**
 [render](#docma-template-rendering) phase. They dynamically generate content for
 WeasyPrint when a URL in the following form is accessed.
 
@@ -66,7 +66,7 @@ See the [API reference][docma.generators] for details.
 
 ## Data Providers
 
-[Data providers](#data-sources-in-docma) operate during the docma
+[Data providers](#data-sources-in-docma) operate during the **docma**
 [render](#docma-template-rendering) phase.
 
 The data provider handler is selected by the `type` component of a
@@ -80,7 +80,7 @@ See the [API reference][docma.data_providers] for details.
 
 ## Format Checkers
 
-Docma has a number of custom [format
+**Docma** has a number of custom [format
 checkers](#docma-format-checkers) that serve a dual role as JSON
 Schema string formats and custom Jinja tests. These are implemented using a
 simple plugin mechanism. Read the docstring at the top of `docma/lib/plugin.py`
@@ -107,7 +107,7 @@ you.
 
 ## Custom Jinja Filters
 
-Docma has a number of custom Jinja
+**Docma** has a number of custom Jinja
 [filters](#docma-jinja-filters). These are implemented using
 a simple plugin mechanism. Read the docstring at the top of
 `docma/lib/plugin.py`  before launching into it.
@@ -130,7 +130,7 @@ strikes.
 
 ## Custom Jinja Tests
 
-Docma does not currently provide any custom Jinja tests, other than custom
+**Docma** does not currently provide any custom Jinja tests, other than custom
 [format checkers](#docma-format-checkers) which are kept separate
 because they server both Jinja and JSON Schema.
 
@@ -146,7 +146,7 @@ discovery and loading process is automatic.
 
 ## Custom Jinja Extensions
 
-Docma has a number of custom Jinja
+**Docma** has a number of custom Jinja
 [extensions](#docma-jinja-extensions). These are all
 contained in the file `docma/jinja/extensions.py`. New ones can be added to this
 file but if you think you need to, think again.

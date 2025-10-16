@@ -1,9 +1,9 @@
 ## Locale in Docma Templates
 
-Prior to version 2.2.0, docma had no particular notion of the region or locale
-with which a particular template, or the documents it produces, is associated.
-If special formatting was required, it was up to the template designer to handle
-that manually.
+Prior to version 2.2.0, **docma** had no particular notion of the region or
+locale with which a particular template, or the documents it produces, is
+associated.  If special formatting was required, it was up to the template
+designer to handle that manually.
 
 This applied for elements such as:
 
@@ -12,8 +12,8 @@ This applied for elements such as:
 * numbers and percentages
 * dates and times.
 
-Version 2.2.0 introduces the concept of *locale*. A new suite of [docma provided
-Jinja filters](#docma-jinja-filters) use locale information
+Version 2.2.0 introduces the concept of *locale*. A new suite of [**docma**
+provided Jinja filters](#docma-jinja-filters) use locale information
 to handle the elements listed above in accordance with locale specific
 conventions instead of requiring the template designer to handle everything
 manually. For example:
@@ -42,8 +42,8 @@ or all, of the following (from lowest precedence to highest):
 *   In some [jinja filters](#docma-jinja-filters), specifying
     locale as an explicit argument to override the current effective value.
 
-From version 2.2.0, new templates created using [docma
-new](#creating-a-new-document-template) will include a default value in the
+From version 2.2.0, new templates created using [`docma
+new`](#creating-a-new-document-template) will include a default value in the
 [template configuration file](#template-configuration-file). It's a good idea to
 add it to earlier templates, thus:
 

@@ -1,7 +1,7 @@
 
 ### Data Provider Type: postgres
 
-Docma can read data from a Postgres database.
+**Docma** can read data from a Postgres database.
 
 The `type` component of the [data source specification](#data-sources-in-docma)
 is `postgres`.
@@ -10,8 +10,8 @@ The `location` component is an alpha-numeric label for the database. This is
 used to determine connection details from environment variables or the contents
 of a `.env` file.
 
-If the `location` component is `xyz`, then docma will read the following values
-from a `.env` file to connect to the database.
+If the `location` component is `xyz`, then **docma** will read the following
+values from a `.env` file to connect to the database.
 
 | Name | Description |
 |-|--------------|

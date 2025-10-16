@@ -16,9 +16,24 @@ HIDDEN_PYTHON=$(shell \
 .PHONY: black help _venv_is_off _venv_is_on _venv update check doc spell test coverage
 
 DOCMA_VERSION=$(shell cat docma/VERSION)
+DOCMA_URL=https://github.com/jin-gizmo/docma
+DOCMA_SOURCE=https://github.com/jin-gizmo/docma.git
+DOCMA_DOC=https://jin-gizmo.github.io/docma
 
+# .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .
+# Docker settings
+platform=linux/amd64,linux/arm64
+# This is the jindr default
+registry=localhost:5001
 # Add --progress=plain for debugging
-DOCKER_BUILD=docker buildx build
+DOCKER_BUILD=docker buildx build --platform="$(platform)"
+NS=org.opencontainers.image
+# Image label values
+BUILD_DATE=$(shell date -u +%Y-%m-%dT%H:%M:%SZ)
+L_MAINTAINER=Jin Gizmo
+ifneq ($(registry),)
+REGISTRY=$(registry:%/=%)/
+endif
 
 # ------------------------------------------------------------------------------
 help:
@@ -31,19 +46,25 @@ help:
 	@echo
 	@echo "[31mBuild / install targets[0m"
 	@echo "   all:       Combines pkg, docker and doc"
-	@echo "   doc:       Make the user guide."
-	@echo "   docker:    Build a docker image with docma installed."
+	@echo "   docker:    Build a docker image with docma installed. Add registry=..."
+	@echo "              to specify the target registry. Use \"registry=\" to push to"
+	@echo "              Docker Hub. Defaults to \"$(registry)\" provided by jindr."
 	@echo "   pkg:       Build the Python package."
 	@echo "   pypi:      Upload the pkg to the \"$(pypi)\" PyPI server via twine. The"
 	@echo "              \"$(pypi)\" server must be defined in ~/.pypirc. Add pypi=..."
 	@echo "              to specify a different index server entry in ~/.pypirc."
+	@echo
+	@echo "[31mUser guide / documentation targets[0m"
+	@echo "   doc:       Make the user guide into consolidated markdown."
+	@echo "   preview:   Build and preview the mkdocs version of the user guide."
+	@echo "   publish:   Publish the user guide to GitHub pages (must be on master branch)."
+	@echo "   spell:     Spell check the user guide (requires aspell)."
 	@echo
 	@echo "[31mMiscellaneous targets[0m"
 	@echo "   black      Format the code using black."
 	@echo "   check:     Run some code checks (flake8 etc)."
 	@echo "   clean:     Remove generated components, fluff etc."
 	@echo "   count:     Do line counts on source code (needs tokei)."
-	@echo "   spell:     Spell check the user guide (requires aspell)."
 	@echo
 	@echo "[31mTesting targets[0m"
 	@echo "   coverage:  Run the unit tests and produce a coverage report."
@@ -120,10 +141,26 @@ pypi:	~/.pypirc pkg
 	twine upload -r "$(pypi)" "dist/docma-$(DOCMA_VERSION).tar.gz"
 
 docker:	pkg
-	$(DOCKER_BUILD) --rm --build-arg DOCMA_VERSION="$(DOCMA_VERSION)" \
-		-t "docma:$(DOCMA_VERSION)" -t docma:latest .
+	( \
+		[[ "$(registry)" == localhost:* ]] && jindr --registry "$(registry)" up ; \
+		set -e ; \
+		TMP=$$(mktemp -d) ; \
+		z=1 ; \
+		trap '/bin/rm -rf $$TMP; exit $$z' 0 ; \
+		cp Dockerfile "dist/docma-$(DOCMA_VERSION).tar.gz" $$TMP ; \
+		$(DOCKER_BUILD) --rm --push --pull \
+			-t "$(REGISTRY)docma:$(DOCMA_VERSION)"  \
+			-t "$(REGISTRY)docma:latest" \
+			--build-arg DOCMA_VERSION="$(DOCMA_VERSION)" \
+			--label org.opencontainers.image.created="$(BUILD_DATE)" \
+			--label org.opencontainers.image.version="$(DOCMA_VERSION)" \
+			$$TMP ; \
+		z=0 ; \
+	)
 
-doc spell:
+# ------------------------------------------------------------------------------
+# Documentation related targets
+doc spell preview publish:
 	$(MAKE) -C doc $(MAKECMDGOALS) dist=$(abspath dist)
 
 

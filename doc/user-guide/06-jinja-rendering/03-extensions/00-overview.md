@@ -1,7 +1,7 @@
 ## Docma Jinja Extensions
 
-Docma provides some custom Jinja extensions.
-In Jinja, extensions are invoked using the following syntax:
+**Docma** provides some custom Jinja extensions. In Jinja, extensions are
+invoked using the following syntax:
 
 ```jinja
 {% tag [parameters] %}

@@ -15,12 +15,12 @@
 
     *   Adding new generic and region specific filters has been simplified.
 
-    *   Docma templates now support [locales](#locale-in-docma-templates). A
+    *   **Docma** templates now support [locales](#locale-in-docma-templates). A
         locale is a string such as `en_AU`, `fr_CA`, etc and can
         influence the behaviour of things such as
         [Jinja filters](#docma-jinja-filters).
 
-    *   The names of docma custom Jinja filters, Jinja tests and
+    *   The names of **docma** custom Jinja filters, Jinja tests and
         [format checkers](#docma-format-checkers) are case insensitive.
 
 *   The following Jinja filters have been added for use in document templates.

@@ -1,8 +1,8 @@
 
 ### Data Provider Type: duckdb
 
-Docma can read data from a local file containing a [DuckDB](https://duckdb.org)
-database.
+**Docma** can read data from a local file containing a
+[DuckDB](https://duckdb.org) database.
 
 The DuckDB data provider is a useful mechanism for handling data extracts with
 **docma**. **Docma**, running on a DuckDB data extract can be quite fast, even

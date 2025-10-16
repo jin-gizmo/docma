@@ -16,7 +16,7 @@ The compilation process is a build-time activity consisting of the following ste
     document template.
 
 !!! note
-    The docma CLI also supports the option of saving the compiled template,
+    The **docma** CLI also supports the option of saving the compiled template,
     uncompressed, into a local directory. This is primarily for development and
     testing.
 

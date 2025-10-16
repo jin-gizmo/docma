@@ -1,7 +1,7 @@
 
 # Data Sources in Docma [nav: Data Sources]
 
-Docma can access data files and live data sources during the rendering phase.
+**Docma** can access data files and live data sources during the rendering phase.
 This is done by the *data provider* subsystem.
 The returned data can be used in the following ways:
 
@@ -16,13 +16,14 @@ object.
 
 !!! tip
     Be careful with dataset sizes. This interface is not designed for very large
-    amounts of data. Do as much data preparation / reduction outside of docma as
-    possible (e.g. via database queries to generate just the essential data).
+    amounts of data. Do as much data preparation / reduction outside of
+    **docma** as possible (e.g. via database queries to generate just the
+    essential data).
 
 ## Data Source Specifications
 
-Docma uses the concept of **data source specifications** to control the process
-of obtaining the data and what to do with it. They contain the following
+**Docma** uses the concept of **data source specifications** to control the
+process of obtaining the data and what to do with it. They contain the following
 components.
 
 | Component | Description |
@@ -40,7 +41,7 @@ The HTML to include a chart is of the form:
 <IMG src="docma:vega?spec=charts/my-chart.yaml&data=...">
 ```
 
-The value of the `data` parameter is a docma
+The value of the `data` parameter is a **docma**
 [data source specification](#data-source-specifications)
 expressed in string form, like so:
 

@@ -100,4 +100,4 @@ def main() -> int:
 # This only gets used during dev/test. Once deployed as a package, main() gets
 # imported and run directly.
 if __name__ == '__main__':
-    exit(main())
+    exit(main())  # pragma: no cover

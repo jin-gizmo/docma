@@ -1,7 +1,7 @@
 
 ## Docma Parameter Validation
 
-Docma supports the use of [JSON Schema](https://json-schema.org) to validate
+**Docma** supports the use of [JSON Schema](https://json-schema.org) to validate
 rendering parameters at run-time. Parameters are validated against a schema
 provided in the `parameters->schema` key in the 
 [template configuration file](#template-configuration-file) prior to generating
@@ -16,7 +16,7 @@ All of the normal facilities of  [JSON Schema](https://json-schema.org) are
 available, except for external schema referencing with `$ref` directives. Like
 the [JSON Schema built-in string
 formats](https://json-schema.org/draft/2020-12/draft-bhutton-json-schema-validation-00#rfc.section.7.3),
-docma provided [format checkers](#docma-format-checkers) can be used
+**docma** provided [format checkers](#docma-format-checkers) can be used
 in a schema specification with the `format` attribute of string objects
 
 The following sample schema fragment shows how these are used:

@@ -16,6 +16,7 @@ from __future__ import annotations
 
 import os
 import re
+import warnings
 from base64 import b64encode
 from collections.abc import Sequence
 from contextlib import suppress
@@ -68,6 +69,9 @@ from docma.validators import validate_content
 from docma.version import __version__
 
 __author__ = 'Murray Andrews'
+
+# Tend to see this on Amazon Linux 2023 with crappy fonts.
+warnings.filterwarnings('ignore', message="'instantiateVariableFont' is deprecated")
 
 LOG = getLogger(LOGNAME)
 

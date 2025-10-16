@@ -3,10 +3,10 @@
 
 !!! note
     This section primarily applies to PDF output documents. For HTML output
-    documents, font handling is exactly as it is for HTML in general. Docma does
-    not embed fonts in HTML output documents.
+    documents, font handling is exactly as it is for HTML in general. **Docma**
+    does not embed fonts in HTML output documents.
 
-Docma inherits the [font handling capabilities of
+**Docma** inherits the [font handling capabilities of
 WeasyPrint](https://doc.courtbouillon.org/weasyprint/v0.42.3/features.html#fonts),
 which are essentially those of native HTML / CSS. TrueType (TTF), OpenType (OTF)
 and Web Open Font Format (WOFF), and, more recently, WOFF2, fonts should work fine.
@@ -14,7 +14,7 @@ and Web Open Font Format (WOFF), and, more recently, WOFF2, fonts should work fi
 !!! warning
     Fonts are Intellectual Property and may be subject to licence conditions,
     just like software. Take care to comply with licence terms and be aware that
-    the font is likely to be embedded in the PDF produced by docma.
+    the font is likely to be embedded in the PDF produced by **docma**.
     [Google fonts](https://fonts.google.com) is quite a good source for royalty
     free fonts.
 
@@ -29,8 +29,8 @@ CSS directives in either stand-alone style sheets or within CSS in the HTML.
 These specify where to find the font files and how to reference them from HTML /
 CSS.  These fonts can be either:
 
-1.  Placed in the docma template source directory for inclusion into the compiled
-    template; or
+1.  Placed in the **docma** template source directory for inclusion into the
+    compiled template; or
 
 2.  Imported into the document template during compilation via an
     [import directive](#document-imports); or
@@ -49,17 +49,18 @@ It is recommended to place fonts in the `fonts` sub-directory. e.g.
 ```bare
 <template-base-dir>
 │
+├── css
+│   └── pdf.css
 ├── ...
 ├── fonts
 │   └── my-corporate-font.ttf
-├── ...
-└── styles.css
+└── ...
 ```
 
 The font then needs to be declared in CSS. This can be in a standalone
 style sheet invoked via the `options->stylesheets` key in the template
-configuration file or directly within a `<STYLE>...</STYLE>` block in a HTML
-document.
+configuration file (PDF output only) or directly within a `<STYLE>...</STYLE>` 
+block in a HTML document.
 
 ```css
 @font-face {
@@ -69,7 +70,7 @@ document.
 ```
 
 !!! info
-    In docma versions <= 1.9, the font-face declaration must be in the HTML
+    In **docma** versions <= 1.9, the font-face declaration must be in the HTML
     document using it. In versions >= 1.10, the declaration can also be in a
     separate style sheet (preferred).
 
@@ -95,7 +96,7 @@ This makes the font available for use in CSS styling in the normal way. e.g.
 ## Importing Fonts during Template Compilation
 
 Remote fonts can be incorporated into a document template during the compilation
-phase using the [import directive](#document-imports) in the [template
+phase using the [imports directive](#document-imports) in the [template
 configuration file](#template-configuration-file) .
 
 For example, to include the *Kablammo* font from Google fonts, `config.yaml`
@@ -110,10 +111,11 @@ imports:
 
 options:
   stylesheets:
-    - styles.css
+    - css/pdf.css
 ```
 
-The font declaration then goes into `styles.css` like so:
+For PDF output, the font declaration can then go into `css/pdf.css` (or any
+other style sheet being referenced in the document content HTML) like so:
 
 ```css
 @font-face {
@@ -125,7 +127,7 @@ The font declaration then goes into `styles.css` like so:
 ```
 
 !!! info
-    In docma versions <= 1.9, the font-face declaration must be in the HTML
+    In **docma** versions <= 1.9, the font-face declaration must be in the HTML
     document using it. In versions >= 1.10, the declaration can also be in a
     separate style sheet (preferred).
 
@@ -154,7 +156,7 @@ Fonts can also be dynamically loaded at run-time during template rendering using
 standard HTML / CSS mechanisms. 
 
 !!! tip
-    Please don't do this in a production environment.
+    Best to avoid doing this in a production environment when producing PDF output.
 
 For example, the following shows two different mechanisms for incorporating the
 *Barrio* and *Dokdo* fonts from Google Fonts using HTML `<link>` and CSS

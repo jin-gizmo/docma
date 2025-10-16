@@ -58,7 +58,7 @@ setup(
         'console_scripts': find_cli_entry_points(*(p for p in packages if p.endswith('.cli')))
     },
     url=REPO_URL,
-    license='3-Clause BSD License',
+    license='BSD-3-Clause',
     author='Murray Andrews',
     description='Document manufacturer',
     long_description=long_description,
@@ -73,7 +73,6 @@ setup(
         'Environment :: Console',
         'Intended Audience :: Developers',
         'Intended Audience :: Information Technology',
-        'License :: OSI Approved :: BSD License',
         'Natural Language :: English',
         'Operating System :: MacOS',
         'Operating System :: POSIX :: Linux',

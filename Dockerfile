@@ -2,10 +2,20 @@
 # FROM public.ecr.aws/lambda/python:3.12
 FROM amazonlinux:2023
 
+LABEL \
+    org.opencontainers.image.title="docma" \
+    org.opencontainers.image.description="Data driven PDF / HTML document generator" \
+    org.opencontainers.image.url="https://github.com/jin-gizmo/docma" \
+    org.opencontainers.image.source="https://github.com/jin-gizmo/docma.git" \
+    org.opencontainers.image.documentation="https://jin-gizmo.github.io/docma" \
+    org.opencontainers.image.licenses="BSD-3-Clause"
+
 ARG PIP_INDEX_URL
 ARG DOCMA_VERSION
 
-COPY dist/docma-${DOCMA_VERSION}.tar.gz /tmp/docma.tar.gz
+SHELL ["/bin/bash", "-c"]
+
+COPY docma-${DOCMA_VERSION}.tar.gz /tmp/docma.tar.gz
 
 RUN \
     os=$(uname -s) ; \

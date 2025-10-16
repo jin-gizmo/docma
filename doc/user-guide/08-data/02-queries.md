@@ -2,14 +2,14 @@
 ## Query Specifications
 
 Some data providers require a query to be specified to extract the data. In
-docma, this is done using a **query specification**.
+**docma**, this is done using a **query specification**.
 
 A query specification is a YAML formatted file in the document template. It is
 referenced as the third element of a
 [data source specification](#data-source-specifications). These should be placed
 in the `queries` directory in the template.
 
-Docma thus externalises all database queries into a single, visible collection
+**Docma** thus externalises all database queries into a single, visible collection
 rather than embedding them in random places within the template document
 components.
 
@@ -19,7 +19,7 @@ keys:
 
 | Key | Type |Required | Description|
 |---|---|---|--------------------------|
-| description | String | Yes | A description for human consumption. Not used by docma. |
+| description | String | Yes | A description for human consumption. Not used by **docma**. |
 | options | Object | No | Query control options.|
 |--> fold_headers | Boolean | No | Convert all headers to lowercase (prior to row validation). This is sometimes necessary as different database drivers can handle the case treatment of headers in different ways. The default is `false`.|
 |--> row_limit | Integer | No | Abort if the query returns more than the specified number of rows. This is a safety mechanism. The default is 0, meaning no limit is applied. |
@@ -58,7 +58,7 @@ options:
 
 The query itself is pretty vanilla (ha!) SQL with some notable exceptions.
 
-**Firstly,** the query text will be Jinja rendered with the docma run-time rendering
+**Firstly,** the query text will be Jinja rendered with the **docma** run-time rendering
 parameters. This makes it easy to do things such as switching schemas without
 having to alter the document template. (This is close to impossible in some
 popular analytics platforms that shall remain nameless.)
@@ -69,7 +69,7 @@ popular analytics platforms that shall remain nameless.)
     Don't cross the streams.
 
 Care is required to avoid SQL injection risks. In the example above, the schema
-is quoted and also filtered using the docma specific
+is quoted and also filtered using the **docma** specific
 [sql_safe](#docma-jinja-filters) Jinja filter. This filter
 will abort if the value contains something unsafe.
 
@@ -110,7 +110,7 @@ These contain the following keys:
 |---|---|---|-------------------------------------------------------------------|
 |name|String|Yes| The parameter name. This is used for database drivers that support `named` and `pyformat` [paramstyles](https://peps.python.org/pep-0249/#paramstyle). It is mandatory for all parameters for maintainability. |
 |value|String|Yes| The parameter value. In many cases this will be a Jinja value injection construct.|
-|type|String|No| A type indicator. Docma uses this to cast the value to the specified type. Only the following are supported: `str` / `string`, `int` / `integer`, `float`, `decimal`, `bool` / `boolean`. The default is `string`. Alternatively, cast string values within the DML. |
+|type|String|No| A type indicator. **Docma** uses this to cast the value to the specified type. Only the following are supported: `str` / `string`, `int` / `integer`, `float`, `decimal`, `bool` / `boolean`. The default is `string`. Alternatively, cast string values within the DML. |
 
 These are supplied to the query at run-time using the DBAPI 2.0 driver's
 query parameter mechanism to avoid SQL injection risks.
@@ -152,9 +152,9 @@ schema:
       maximum: 200
     abn:
       type: string
-      format: au.ABN  # This is a docma provided format checker
+      format: au.ABN  # This is a **docma** provided format checker
 ```
 
 In addition to the standard format specifiers supported by JSON Schema, the
 [format checkers provided by
-docma](#docma-format-checkers) are available for `string` objects.
+**docma**](#docma-format-checkers) are available for `string` objects.

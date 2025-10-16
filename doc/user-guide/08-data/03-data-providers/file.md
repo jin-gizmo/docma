@@ -1,7 +1,7 @@
 
 ### Data Provider Type: file
 
-Docma can read data from static files contained within the compiled document
+**Docma** can read data from static files contained within the compiled document
 template.
 
 

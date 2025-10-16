@@ -9,6 +9,7 @@ from contextlib import contextmanager
 from importlib import resources
 from pathlib import Path
 
+from babel import default_locale
 from cookiecutter.main import cookiecutter
 
 import docma
@@ -83,7 +84,11 @@ class New(CliCommand):
             new_dir = cookiecutter(
                 str(template_dir),
                 overwrite_if_exists=False,
-                extra_context={'template_id': d.stem, 'template_src_dir': args.directory}
+                extra_context={
+                    'locale': default_locale(),
+                    'template_id': d.stem,
+                    'template_src_dir': args.directory,
+                }
                 | args.params,
                 no_input=args.no_input,
             )

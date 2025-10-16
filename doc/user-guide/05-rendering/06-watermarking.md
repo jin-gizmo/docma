@@ -57,7 +57,7 @@ as well as having multiple overlays applied to a single document.
 
 !!! info
     A simple grid overlay is provided as part of the basic template created by
-    the [docma new](#creating-a-new-document-template) command. This can be
-    handy when adjusting page layout. To add the grid, the docma CLI rendering
+    the [**docma** new](#creating-a-new-document-template) command. This can be
+    handy when adjusting page layout. To add the grid, the **docma** CLI rendering
     command would be `docma pdf --stamp grid ...`. Grid size and colour are
     adjustable in the parameter defaults in the template config file.

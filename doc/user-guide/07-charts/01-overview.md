@@ -2,13 +2,13 @@
 # Charts and Graphs in Docma [nav: Charts and Graphs]
 
 
-Docma supports the [Vega-Lite](https://vega.github.io/vega-lite/) declarative
+**Docma** supports the [Vega-Lite](https://vega.github.io/vega-lite/) declarative
 syntax for specifying charts / graphs. Vega-Lite specifies a mapping between
 source data and visual representations of the data.
 
-To make all this work in docma requires three things:
+To make all this work in **docma** requires three things:
 
-1.  A means to tell docma that a chart needs to be generated. This is done using
+1.  A means to tell **docma** that a chart needs to be generated. This is done using
     a special URL format within `<IMG>` tags in the source HTML.
     See [Charts in HTML Content](#charts-in-html-content).
 
@@ -21,7 +21,7 @@ To make all this work in docma requires three things:
 
 ## Charts in HTML Content
 
-Docma provides a URL based mechanism to trigger creation of charts during the
+**Docma** provides a URL based mechanism to trigger creation of charts during the
 process of converting input HTML to a PDF or HTML output document. See
 [Dynamic Content Generation](#dynamic-content-generation) for more details.
 
@@ -31,7 +31,7 @@ It looks like this:
 <IMG src="docma:vega?spec=charts/my-chart.yaml&data=...">
 ```
 
-In a nutshell, when docma sees a URL in this form, it knows to
+In a nutshell, when **docma** sees a URL in this form, it knows to
 get data from the source specified by the `data` parameter and feed it into the
 chart generator with the Vega-Lite specification indicated by the `spec`
 parameter:
@@ -56,7 +56,7 @@ structure safely:
 }}">
 ```
 
-See also [docma scheme parameters for vega charts](#generating-charts-and-graphs).
+See also [**docma** scheme parameters for vega charts](#generating-charts-and-graphs).
 
 ## Chart Specification Files
 
@@ -66,7 +66,7 @@ The chart specification is a file in the document template containing a
 The chart specification will be Jinja rendered prior to use.
 
 The chart specification can be in either JSON or YAML format.
-Docma doesn't care which. There are pros and cons with each format.
+**Docma** doesn't care which. There are pros and cons with each format.
 YAML is easier to write and to read but JSON is the native format of the
 examples in the [Vega-Lite sample gallery](https://vega.github.io/vega-lite/examples/)
 or the [Vega-Lite on-line editor](https://vega.github.io/editor/#/). You're 
@@ -77,12 +77,12 @@ The chart specification file should still have a `.yaml` suffix, even if the
 contents are JSON. This all works because valid JSON is also valid YAML.
 
 !!! note
-    Docma uses the [Vega-Altair](https://altair-viz.github.io/index.html)
+    **Docma** uses the [Vega-Altair](https://altair-viz.github.io/index.html)
     Python package to process Vega-Lite specifications.
 
 ## Source Data for Charts
 
-The value of the `data` parameter in a `docma:vega?...` URL is a docma [data
+The value of the `data` parameter in a `docma:vega?...` URL is a **docma** [data
 source specification](#data-source-specifications) that indicates where to obtain
 the data and where to attach it to the chart specification.
 
@@ -110,7 +110,7 @@ Some suggestions for simplifying the development:
 
 *   Include a small sample data set in the chart specification to allow
     experimentation. The sample data can be left in the specification when
-    included into a docma document template. Docma will replace it at run-time.
+    included into a **docma** document template. **Docma** will replace it at run-time.
 
 *   Charts reference a JSON schema:
     `$schema: https://vega.github.io/schema/vega-lite/v5.json`. PyCharm will

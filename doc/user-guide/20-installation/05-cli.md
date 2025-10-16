@@ -17,7 +17,7 @@ It supports the following sub-commands.
 | html       | Render a document template to PDF.                                |
 | html-batch | Render a batch of HTML documents from a single document template. |
 | info       | Print information about a document template.                      |
-| new        | Create a new docma template source directory.                     |
+| new        | Create a new **docma** template source directory.                 |
 | pdf        | Render a document template to PDF.                                |
 | pdf-batch  | Render a batch of PDF documents from a single document template.  |
 

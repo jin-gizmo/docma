@@ -10,6 +10,7 @@ FORMATS=md site
 
 MARKDOWN_SRC=$(shell find user-guide -name '*.md')
 IMAGES=$(sort $(wildcard img/*.png) $(wildcard img/*.jpg) $(wildcard img/*.svg))
+GIT_BRANCH:=$(shell git branch --show-current)
 
 DOCS=$(patsubst %,$(dist)/doc/$(USER_GUIDE).%,$(FORMATS))
 CUSTOM_DICT=$(CURDIR)/.aspell-dict
@@ -48,9 +49,20 @@ $(dist)/doc/$(USER_GUIDE).md: $(MARKDOWN_SRC) $(IMAGES)
 	)
 
 # Serve the user guide on port 8000 for local review
-serve:	$(dist)/doc/$(USER_GUIDE).site
+preview: $(dist)/doc/$(USER_GUIDE).site
 	mkdocs serve -f $</mkdocs.yml --open
 
+_publish: $(dist)/doc/$(USER_GUIDE).site
+	echo mkdocs gh-deploy -f $</mkdocs.yml --clean
+
+ifeq ($(GIT_BRANCH),dev)
+publish: _publish
+
+else
+publish:
+	$(error User guide must be published from "master" not "$(GIT_BRANCH)")
+endif
+	
 # Spell check the user guide
 spell:
 	@for i in $$(find user-guide -name '*.md') ; \

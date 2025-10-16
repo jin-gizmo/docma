@@ -1,4 +1,4 @@
-personal_ws-1.1 en 115 
+personal_ws-1.1 en 117 
 ABN
 ACN
 AUD
@@ -15,6 +15,7 @@ DuckDB
 EPUB
 GTK
 Goyen
+Homebrew
 ITU
 JSON
 Jin
@@ -66,6 +67,7 @@ css
 csv
 datetime
 datetimes
+distro
 dmy
 docma
 docma's
