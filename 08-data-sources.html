@@ -1,0 +1,1709 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Document manufacture for fun and profit">
+      
+      
+        <meta name="author" content="Murray Andrews">
+      
+      
+      
+        <link rel="prev" href="07-charts-and-graphs.html">
+      
+      
+        <link rel="next" href="09-fonts.html">
+      
+      
+      <link rel="icon" href="img/docma-logo/png/docma-icon-light.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.21">
+    
+    
+      
+        <title>Data Sources - Docma User Guide</title>
+      
+    
+    
+      <link rel="stylesheet" href="assets/stylesheets/main.2a3383ac.min.css">
+      
+        
+        <link rel="stylesheet" href="assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="assets/_mkdocstrings.css">
+    
+      <link rel="stylesheet" href="css/extra.css">
+    
+    <script>__md_scope=new URL(".",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#data-sources-in-docma" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="." title="Docma User Guide" class="md-header__button md-logo" aria-label="Docma User Guide" data-md-component="logo">
+      
+  <img src="img/docma-logo/svg/docma-icon-mid-2.svg" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Docma User Guide
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Data Sources
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme)" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m14.3 16-.7-2h-3.2l-.7 2H7.8L11 7h2l3.2 9zM20 8.69V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12zm-9.15 3.96h2.3L12 9z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_2" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="custom" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_2">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="." title="Docma User Guide" class="md-nav__button md-logo" aria-label="Docma User Guide" data-md-component="logo">
+      
+  <img src="img/docma-logo/svg/docma-icon-mid-2.svg" alt="logo">
+
+    </a>
+    Docma User Guide
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="01-overview.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Overview
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="02-quick-start.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Quick Start
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="03-document-templates.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Document Templates
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="04-template-compilation.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Template Compilation
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="05-template-rendering.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Template Rendering
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="06-jinja-rendering.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Jinja Rendering
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="07-charts-and-graphs.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Charts and Graphs
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    Data Sources
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="08-data-sources.html" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    Data Sources
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#data-source-specifications" class="md-nav__link">
+    <span class="md-ellipsis">
+      Data Source Specifications
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Data Source Specifications">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#data-source-specifications-for-charts" class="md-nav__link">
+    <span class="md-ellipsis">
+      Data Source Specifications for Charts
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#data-source-specifications-for-html-rendering" class="md-nav__link">
+    <span class="md-ellipsis">
+      Data Source Specifications for HTML Rendering
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#query-specifications" class="md-nav__link">
+    <span class="md-ellipsis">
+      Query Specifications
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Query Specifications">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#query-text" class="md-nav__link">
+    <span class="md-ellipsis">
+      Query Text
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#query-parameters" class="md-nav__link">
+    <span class="md-ellipsis">
+      Query Parameters
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#query-schemas" class="md-nav__link">
+    <span class="md-ellipsis">
+      Query Schemas
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#data-provider-types" class="md-nav__link">
+    <span class="md-ellipsis">
+      Data Provider Types
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Data Provider Types">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#data-provider-type-duckdb" class="md-nav__link">
+    <span class="md-ellipsis">
+      Data Provider Type: duckdb
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#data-provider-type-file" class="md-nav__link">
+    <span class="md-ellipsis">
+      Data Provider Type: file
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#data-provider-type-lava" class="md-nav__link">
+    <span class="md-ellipsis">
+      Data Provider Type: lava
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#data-provider-type-params" class="md-nav__link">
+    <span class="md-ellipsis">
+      Data Provider Type: params
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#data-provider-type-postgres" class="md-nav__link">
+    <span class="md-ellipsis">
+      Data Provider Type: postgres
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="09-fonts.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Fonts
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="10-installation-and-usage.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Installation and Usage
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="11-extending-docma.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Extending Docma
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="12-api.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    API
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="13-caveats-and-issues.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Caveats and Issues
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="14-credits.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Credits
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="15-release-notes.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Release Notes
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#data-source-specifications" class="md-nav__link">
+    <span class="md-ellipsis">
+      Data Source Specifications
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Data Source Specifications">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#data-source-specifications-for-charts" class="md-nav__link">
+    <span class="md-ellipsis">
+      Data Source Specifications for Charts
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#data-source-specifications-for-html-rendering" class="md-nav__link">
+    <span class="md-ellipsis">
+      Data Source Specifications for HTML Rendering
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#query-specifications" class="md-nav__link">
+    <span class="md-ellipsis">
+      Query Specifications
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Query Specifications">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#query-text" class="md-nav__link">
+    <span class="md-ellipsis">
+      Query Text
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#query-parameters" class="md-nav__link">
+    <span class="md-ellipsis">
+      Query Parameters
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#query-schemas" class="md-nav__link">
+    <span class="md-ellipsis">
+      Query Schemas
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#data-provider-types" class="md-nav__link">
+    <span class="md-ellipsis">
+      Data Provider Types
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Data Provider Types">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#data-provider-type-duckdb" class="md-nav__link">
+    <span class="md-ellipsis">
+      Data Provider Type: duckdb
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#data-provider-type-file" class="md-nav__link">
+    <span class="md-ellipsis">
+      Data Provider Type: file
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#data-provider-type-lava" class="md-nav__link">
+    <span class="md-ellipsis">
+      Data Provider Type: lava
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#data-provider-type-params" class="md-nav__link">
+    <span class="md-ellipsis">
+      Data Provider Type: params
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#data-provider-type-postgres" class="md-nav__link">
+    <span class="md-ellipsis">
+      Data Provider Type: postgres
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="data-sources-in-docma">Data Sources in Docma<a class="headerlink" href="#data-sources-in-docma" title="Permanent link">&para;</a></h1>
+<p><strong>Docma</strong> can access data files and live data sources during the rendering phase.
+This is done by the <em>data provider</em> subsystem.
+The returned data can be used in the following ways:</p>
+<ul>
+<li>
+<p>Source data for <a href="#data-source-specifications-for-charts">charts and graphs</a>.</p>
+</li>
+<li>
+<p>Injection into the Jinja rendering process for
+    <a href="#data-source-specifications-for-html-rendering">HTML content</a> (e.g. for
+    tables or other variable content).</p>
+</li>
+</ul>
+<p>Data providers return their data as a list of objects, one row of data per
+object.</p>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>Be careful with dataset sizes. This interface is not designed for very large
+amounts of data. Do as much data preparation / reduction outside of
+<strong>docma</strong> as possible (e.g. via database queries to generate just the
+essential data).</p>
+</div>
+<h2 id="data-source-specifications">Data Source Specifications<a class="headerlink" href="#data-source-specifications" title="Permanent link">&para;</a></h2>
+<p><strong>Docma</strong> uses the concept of <strong>data source specifications</strong> to control the
+process of obtaining the data and what to do with it. They contain the following
+components.</p>
+<table>
+<thead>
+<tr>
+<th>Component</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>type</td>
+<td>The <a href="#data-provider-types">data provider type</a> (e.g. <code>file</code> if the data comes from a file). This controls the connection / access mechanism.</td>
+</tr>
+<tr>
+<td>location</td>
+<td>Where to find the data. For a file based source it would be the path to the file. For a database provider, it would point to the connection information for the database.</td>
+</tr>
+<tr>
+<td>query</td>
+<td>The file name in the document template containing a <a href="#query-specifications">query specification</a> that defines a query to execute on the data provider. This is required for database-like sources. It is not used for some data provider types.</td>
+</tr>
+<tr>
+<td>target</td>
+<td>For charts, the position in the Vega-Lite specification where the data will be attached. This is a dot separated dictionary key sequence pointing into the chart specification. If not provided, this defaults to <code>data.values</code>, which is the primary data location for a Vega-Lite specification.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="data-source-specifications-for-charts">Data Source Specifications for Charts<a class="headerlink" href="#data-source-specifications-for-charts" title="Permanent link">&para;</a></h3>
+<p>The HTML to include a chart is of the form:</p>
+<div class="language-html highlight"><pre><span></span><code><span id="__span-0-1"><span class="p">&lt;</span><span class="nt">IMG</span> <span class="na">src</span><span class="o">=</span><span class="s">&quot;docma:vega?spec=charts/my-chart.yaml&amp;data=...&quot;</span><span class="p">&gt;</span>
+</span></code></pre></div>
+<p>The value of the <code>data</code> parameter is a <strong>docma</strong>
+<a href="#data-source-specifications">data source specification</a>
+expressed in string form, like so:</p>
+<div class="language-bare highlight"><pre><span></span><code><span id="__span-1-1"><span class="err">data=type;location[;query[;target]</span>
+</span></code></pre></div>
+<div class="admonition question">
+<p class="admonition-title">Question</p>
+<p>Why jam all this together into a single URL parameter rather than have
+separate parameters for each component? The reason is because a Vega-Lite
+chart can have multiple data sources and hence multiple instances of the
+<code>data</code> parameter.</p>
+</div>
+<p>It can be fiddly combining all these components in a URL in a readable way. The
+recommended approach is to use Jinja to assemble all the pieces and handle the
+gory details of URL encoding, like so:</p>
+<div class="language-html+jinja highlight"><pre><span></span><code><span id="__span-2-1"><span class="p">&lt;</span><span class="nt">IMG</span> <span class="na">style</span><span class="o">=</span><span class="s">&quot;width: 10cm;&quot;</span> <span class="na">src</span><span class="o">=</span><span class="s">docma:vega?</span><span class="cp">{{</span>
+</span><span id="__span-2-2">  <span class="o">(</span>
+</span><span id="__span-2-3">    <span class="o">(</span> <span class="s1">&#39;spec&#39;</span><span class="o">,</span> <span class="s1">&#39;charts/my-chart.yaml&#39;</span> <span class="o">),</span>
+</span><span id="__span-2-4">    <span class="o">(</span> <span class="s1">&#39;data&#39;</span><span class="o">,</span> <span class="s1">&#39;file;data/my-data.csv&#39;</span> <span class="o">),</span>
+</span><span id="__span-2-5">    <span class="o">(</span> <span class="s1">&#39;data&#39;</span><span class="o">,</span> <span class="s1">&#39;file;data/more-data.csv;;datasets.more_data&#39;</span> <span class="o">),</span>
+</span><span id="__span-2-6">    <span class="o">(</span>
+</span><span id="__span-2-7">      <span class="s1">&#39;data&#39;</span><span class="o">,</span> <span class="o">(</span>
+</span><span id="__span-2-8">        <span class="s1">&#39;postgres&#39;</span><span class="o">,</span> <span class="s1">&#39;pgdb01&#39;</span><span class="o">,</span> <span class="s1">&#39;queries/usage-by-day.yaml&#39;</span><span class="o">,</span> <span class="s1">&#39;datasets.usage_by_day&#39;</span>
+</span><span id="__span-2-9">      <span class="o">)</span> <span class="o">|</span> <span class="nf">join</span><span class="o">(</span><span class="s1">&#39;;&#39;</span><span class="o">),</span>
+</span><span id="__span-2-10">    <span class="o">),</span>
+</span><span id="__span-2-11">  <span class="o">)</span> <span class="o">|</span> <span class="nf">urlencode</span>
+</span><span id="__span-2-12"><span class="cp">}}</span><span class="s">&quot;</span><span class="p">&gt;</span>
+</span></code></pre></div>
+<p>In this example, three data sets are specified:</p>
+<ol>
+<li>
+<p>The first one is extracted from a local CSV file and attached to the chart
+    specification at the default location of <code>data.values</code> (i.e the <code>values</code>
+    object under the <code>data</code> object is replaced with our CSV data).</p>
+</li>
+<li>
+<p>The second one is extracted from a local CSV file and attached to the chart
+    specification as the <code>datasets.more_data</code> object in the specification. Note
+    that the unused <code>query</code> component must be provided as an empty string to ensure the
+    <code>target</code> component is correctly placed.</p>
+</li>
+<li>
+<p>The third one is extracted by running a query against a Postgres database
+    and attached to the chart specification as the <code>datasets.usage_by_day</code>
+    object in the specification.</p>
+</li>
+</ol>
+<h3 id="data-source-specifications-for-html-rendering">Data Source Specifications for HTML Rendering<a class="headerlink" href="#data-source-specifications-for-html-rendering" title="Permanent link">&para;</a></h3>
+<p>A data source specification can be invoked directly in Jinja content within a
+document that is to be rendered. </p>
+<p>This is done using the <code>docma.data()</code> function provided in the <a href="06-jinja-rendering.html#rendering-parameters-provided-by-docma">run-time
+rendering parameters</a>. It accepts
+three arguments corresponding to the first three components of a <a href="#data-source-specifications">data source
+specification</a>:</p>
+<ul>
+<li>type </li>
+<li>location</li>
+<li>query (optional).</li>
+</ul>
+<p>The <code>docma.data()</code> function also accepts an optional <code>params</code> argument which is
+a dictionary of additional parameter values that will be merged into the Jinja
+rendering parameters when rendering the
+<a href="#query-specifications">query specification</a>.</p>
+<p>See also <a href="06-jinja-rendering.html#rendering-parameters-provided-by-docma">Jinja Rendering Parameters Provided by
+Docma</a>.</p>
+<p>For example, the following document content invokes the
+<a href="#data-provider-type-postgres">postgres</a> data provider to run a query on the
+Custard Appreciation Society membership records and present the data in a table.</p>
+<div class="language-html+jinja highlight"><pre><span></span><code><span id="__span-3-1"><span class="p">&lt;</span><span class="nt">TABLE</span><span class="p">&gt;</span>
+</span><span id="__span-3-2">  <span class="p">&lt;</span><span class="nt">THEAD</span><span class="p">&gt;</span>
+</span><span id="__span-3-3">  <span class="p">&lt;</span><span class="nt">TR</span><span class="p">&gt;</span>
+</span><span id="__span-3-4">    <span class="p">&lt;</span><span class="nt">TH</span><span class="p">&gt;</span>Custard Type<span class="p">&lt;/</span><span class="nt">TH</span><span class="p">&gt;</span>
+</span><span id="__span-3-5">    <span class="p">&lt;</span><span class="nt">TH</span><span class="p">&gt;</span>Bid Price<span class="p">&lt;/</span><span class="nt">TH</span><span class="p">&gt;</span>
+</span><span id="__span-3-6">  <span class="p">&lt;/</span><span class="nt">TR</span><span class="p">&gt;</span>
+</span><span id="__span-3-7">  <span class="p">&lt;/</span><span class="nt">THEAD</span><span class="p">&gt;</span>
+</span><span id="__span-3-8">  <span class="p">&lt;</span><span class="nt">TBODY</span><span class="p">&gt;</span>
+</span><span id="__span-3-9">  <span class="cp">{%</span> <span class="k">for</span> <span class="nv">row</span> <span class="k">in</span> <span class="nv">docma.data</span><span class="o">(</span><span class="s1">&#39;postgres&#39;</span><span class="o">,</span> <span class="s1">&#39;pgdb01&#39;</span><span class="o">,</span> <span class="s1">&#39;queries/custard-price.yaml&#39;</span><span class="o">)</span> <span class="cp">%}</span>
+</span><span id="__span-3-10">    <span class="p">&lt;</span><span class="nt">TR</span><span class="p">&gt;</span>
+</span><span id="__span-3-11">      <span class="p">&lt;</span><span class="nt">TD</span><span class="p">&gt;</span><span class="cp">{{</span> <span class="nv">row.favouritecustard</span> <span class="cp">}}</span><span class="p">&lt;/</span><span class="nt">TD</span><span class="p">&gt;</span>
+</span><span id="__span-3-12">      <span class="p">&lt;</span><span class="nt">TD</span><span class="p">&gt;</span><span class="cp">{{</span> <span class="nv">row.price</span> <span class="o">|</span> <span class="nf">dollars</span><span class="o">(</span><span class="m">2</span><span class="o">)</span> <span class="cp">}}</span><span class="p">&lt;/</span><span class="nt">TD</span><span class="p">&gt;</span>
+</span><span id="__span-3-13">    <span class="p">&lt;/</span><span class="nt">TR</span><span class="p">&gt;</span>
+</span><span id="__span-3-14">  <span class="cp">{%</span> <span class="k">endfor</span> <span class="cp">%}</span>
+</span><span id="__span-3-15">  <span class="p">&lt;/</span><span class="nt">TBODY</span><span class="p">&gt;</span>
+</span><span id="__span-3-16"><span class="p">&lt;/</span><span class="nt">TABLE</span><span class="p">&gt;</span>
+</span><span id="__span-3-17"><span class="p">&lt;/</span><span class="nt">BODY</span><span class="p">&gt;</span>
+</span><span id="__span-3-18"><span class="p">&lt;/</span><span class="nt">HTML</span><span class="p">&gt;</span>
+</span></code></pre></div>
+<p>If a query only returns a single row, that would be referenced like so:</p>
+<div class="language-jinja highlight"><pre><span></span><code><span id="__span-4-1"><span class="cp">{{</span> <span class="nv">docma.data</span><span class="o">(</span><span class="err">...</span><span class="o">)[</span><span class="m">0</span><span class="o">]</span> <span class="cp">}}</span>
+</span></code></pre></div>
+<p>... or ...</p>
+<div class="language-jinja highlight"><pre><span></span><code><span id="__span-5-1"><span class="cp">{{</span> <span class="nv">docma.data</span><span class="o">(</span><span class="err">...</span><span class="o">)</span> <span class="o">|</span> <span class="nf">first</span> <span class="cp">}}</span>
+</span></code></pre></div>
+<h2 id="query-specifications">Query Specifications<a class="headerlink" href="#query-specifications" title="Permanent link">&para;</a></h2>
+<p>Some data providers require a query to be specified to extract the data. In
+<strong>docma</strong>, this is done using a <strong>query specification</strong>.</p>
+<p>A query specification is a YAML formatted file in the document template. It is
+referenced as the third element of a
+<a href="#data-source-specifications">data source specification</a>. These should be placed
+in the <code>queries</code> directory in the template.</p>
+<p><strong>Docma</strong> thus externalises all database queries into a single, visible collection
+rather than embedding them in random places within the template document
+components.</p>
+<p>A query specification file contains the DML of the query to be executed as well
+as information on how to handle query parameters. It contains the following
+keys:</p>
+<table>
+<thead>
+<tr>
+<th>Key</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>description</td>
+<td>String</td>
+<td>Yes</td>
+<td>A description for human consumption. Not used by <strong>docma</strong>.</td>
+</tr>
+<tr>
+<td>options</td>
+<td>Object</td>
+<td>No</td>
+<td>Query control options.</td>
+</tr>
+<tr>
+<td>--&gt; fold_headers</td>
+<td>Boolean</td>
+<td>No</td>
+<td>Convert all headers to lowercase (prior to row validation). This is sometimes necessary as different database drivers can handle the case treatment of headers in different ways. The default is <code>false</code>.</td>
+</tr>
+<tr>
+<td>--&gt; row_limit</td>
+<td>Integer</td>
+<td>No</td>
+<td>Abort if the query returns more than the specified number of rows. This is a safety mechanism. The default is 0, meaning no limit is applied.</td>
+</tr>
+<tr>
+<td>parameters</td>
+<td>List</td>
+<td>No</td>
+<td>A list of <a href="#query-parameters">query parameter specification</a> objects. If empty, the query has no parameters (which would be unusual). The parameter values are Jinja rendered using the run-time rendering parameters.</td>
+</tr>
+<tr>
+<td>query</td>
+<td>String</td>
+<td>Yes</td>
+<td>The <a href="#query-text">query text</a>. This will be Jinja rendered using the run-time rendering parameters.</td>
+</tr>
+<tr>
+<td>schema</td>
+<td>Object</td>
+<td>No</td>
+<td>A JSON Schema specification for each row of data returned by the query. See <a href="#query-schemas">Query Schemas</a> below.</td>
+</tr>
+</tbody>
+</table>
+<p>Here's a sample:</p>
+<div class="language-yaml+jinja highlight"><pre><span></span><code><span id="__span-6-1"><span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Extract Custard Appreciation Society membership records</span>
+</span><span id="__span-6-2">
+</span><span id="__span-6-3"><span class="nt">query</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">&gt;-</span>
+</span><span id="__span-6-4"><span class="w">  </span><span class="no">SELECT * FROM &quot;</span><span class="cp">{{</span> <span class="nv">db.schema</span> <span class="o">|</span> <span class="nf">sql_safe</span> <span class="cp">}}</span><span class="no">&quot;.custard</span>
+</span><span id="__span-6-5"><span class="w">  </span><span class="no">WHERE favouritecustard=%s</span>
+</span><span id="__span-6-6"><span class="w">    </span><span class="no">AND custardbidprice &gt; %s</span>
+</span><span id="__span-6-7"><span class="w">    </span><span class="no">AND custardjedi=%s;</span>
+</span><span id="__span-6-8"><span class="w">  </span><span class="no">SORT BY surname;</span>
+</span><span id="__span-6-9">
+</span><span id="__span-6-10"><span class="nt">parameters</span><span class="p">:</span>
+</span><span id="__span-6-11"><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">favouritecustard</span>
+</span><span id="__span-6-12"><span class="w">    </span><span class="nt">value</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;</span><span class="cp">{{</span> <span class="nv">db.favouritecustard</span> <span class="cp">}}</span><span class="s">&#39;</span>
+</span><span id="__span-6-13"><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">custardbidprice</span>
+</span><span id="__span-6-14"><span class="w">    </span><span class="nt">value</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;</span><span class="cp">{{</span> <span class="nv">db.custardbidprice</span> <span class="cp">}}</span><span class="s">&#39;</span>
+</span><span id="__span-6-15"><span class="w">    </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">decimal</span>
+</span><span id="__span-6-16"><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">custardjedi</span>
+</span><span id="__span-6-17"><span class="w">    </span><span class="nt">value</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;</span><span class="cp">{{</span> <span class="nv">db.custardjedi</span> <span class="cp">}}</span><span class="s">&#39;</span>
+</span><span id="__span-6-18"><span class="w">    </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">boolean</span>
+</span><span id="__span-6-19">
+</span><span id="__span-6-20"><span class="nt">options</span><span class="p">:</span>
+</span><span id="__span-6-21"><span class="w">  </span><span class="nt">row_limit</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">20</span>
+</span><span id="__span-6-22"><span class="w">  </span><span class="nt">fold_headers</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+</span></code></pre></div>
+<h3 id="query-text">Query Text<a class="headerlink" href="#query-text" title="Permanent link">&para;</a></h3>
+<p>The query itself is pretty vanilla (ha!) SQL with some notable exceptions.</p>
+<p><strong>Firstly,</strong> the query text will be Jinja rendered with the <strong>docma</strong> run-time rendering
+parameters. This makes it easy to do things such as switching schemas without
+having to alter the document template. (This is close to impossible in some
+popular analytics platforms that shall remain nameless.)</p>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>It is probably best not to embed data source specification references within
+a query specification (i.e. recursive calls to the data provider subsystem).
+Don't cross the streams.</p>
+</div>
+<p>Care is required to avoid SQL injection risks. In the example above, the schema
+is quoted and also filtered using the <strong>docma</strong> specific
+<a href="06-jinja-rendering.html#docma-jinja-filters">sql_safe</a> Jinja filter. This filter
+will abort if the value contains something unsafe.</p>
+<p><strong>Secondly,</strong> the values for query parameters are replaced with placeholders. The
+actual values are determined at run-time from the parameter specifications. The
+placeholder is database driver specific unfortunately, based on the
+<a href="https://peps.python.org/pep-0249/#paramstyle">paramstyle</a>
+it uses. The <code>pg8000</code> driver used for Postgres uses <code>%s</code> style, whereas DuckDB
+uses <code>?</code>. It's not my fault.</p>
+<div class="admonition danger">
+<p class="admonition-title">Danger</p>
+<p><strong>DO NOT</strong> attempt to use Jinja to format query parameters into the SQL text
+itself. This is seriously unsafe. Use
+<a href="#query-parameters">query parameter specifications</a>.</p>
+</div>
+<p><strong>Thirdly,</strong> when the data is to be used in a <a href="07-charts-and-graphs.html#charts-and-graphs-in-docma">Vega-Lite
+chart</a>, all of the data returned by the query needs
+to be JSON serialisable. i.e.  Python types such as <code>datetime</code>, <code>Decimal</code> etc
+will be a problem. The query should type cast everything to types that can be
+JSON serialised. For example:</p>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-7-1"><span class="c1">-- This will not work ...</span>
+</span><span id="__span-7-2"><span class="k">SELECT</span><span class="w"> </span><span class="n">date_of_birth</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="n">dob</span><span class="p">,</span><span class="w"> </span><span class="n">height_in_cm</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="n">height</span>
+</span><span id="__span-7-3"><span class="k">FROM</span><span class="w"> </span><span class="n">people</span><span class="p">;</span>
+</span><span id="__span-7-4">
+</span><span id="__span-7-5"><span class="c1">-- This will work (Postgres syntax) ...</span>
+</span><span id="__span-7-6"><span class="k">SELECT</span><span class="w"> </span><span class="n">date_of_birth</span><span class="p">::</span><span class="nb">text</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="n">dob</span><span class="p">,</span><span class="w"> </span><span class="n">height_in_cm</span><span class="p">::</span><span class="nb">float</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="n">height</span>
+</span><span id="__span-7-7"><span class="k">FROM</span><span class="w"> </span><span class="n">people</span><span class="p">;</span>
+</span></code></pre></div>
+<h3 id="query-parameters">Query Parameters<a class="headerlink" href="#query-parameters" title="Permanent link">&para;</a></h3>
+<p>Query parameters are specified as a list of query parameter specification objects.
+These contain the following keys:</p>
+<table>
+<thead>
+<tr>
+<th>Key</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>name</td>
+<td>String</td>
+<td>Yes</td>
+<td>The parameter name. This is used for database drivers that support <code>named</code> and <code>pyformat</code> <a href="https://peps.python.org/pep-0249/#paramstyle">paramstyles</a>. It is mandatory for all parameters for maintainability.</td>
+</tr>
+<tr>
+<td>value</td>
+<td>String</td>
+<td>Yes</td>
+<td>The parameter value. In many cases this will be a Jinja value injection construct.</td>
+</tr>
+<tr>
+<td>type</td>
+<td>String</td>
+<td>No</td>
+<td>A type indicator. <strong>Docma</strong> uses this to cast the value to the specified type. Only the following are supported: <code>str</code> / <code>string</code>, <code>int</code> / <code>integer</code>, <code>float</code>, <code>decimal</code>, <code>bool</code> / <code>boolean</code>. The default is <code>string</code>. Alternatively, cast string values within the DML.</td>
+</tr>
+</tbody>
+</table>
+<p>These are supplied to the query at run-time using the DBAPI 2.0 driver's
+query parameter mechanism to avoid SQL injection risks.</p>
+<h3 id="query-schemas">Query Schemas<a class="headerlink" href="#query-schemas" title="Permanent link">&para;</a></h3>
+<p>In some situations, it may be important to validate that the data returned by a
+query meets certain conditions and to abort document production if it does
+not. This can be achieved by including a <code>schema</code> object in the <a href="#query-specifications">query 
+specification</a>.</p>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>The data preparation process should take proper care to ensure valid data.
+Query Schemas are the last line of defence against bad data appearing in
+documents.</p>
+</div>
+<p>The <code>schema</code> object is a JSON Schema specification that is used to validate each
+row of data. Validation failures will abort the process. Note that all rows are
+returned as objects with keys based on the column names in the query.</p>
+<p>For example, consider the following query specification:</p>
+<div class="language-yaml highlight"><pre><span></span><code><span id="__span-8-1"><span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Get company information.</span>
+</span><span id="__span-8-2">
+</span><span id="__span-8-3"><span class="nt">query</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">&gt;-</span>
+</span><span id="__span-8-4"><span class="w">  </span><span class="no">SELECT name, age_in_years, abn</span>
+</span><span id="__span-8-5"><span class="w">  </span><span class="no">FROM companies;</span>
+</span><span id="__span-8-6">
+</span><span id="__span-8-7"><span class="c1"># This schema will validate each row. We don&#39;t have to</span>
+</span><span id="__span-8-8"><span class="c1"># validate every attribute in a row. Just the ones we&#39;re</span>
+</span><span id="__span-8-9"><span class="c1"># worried about.</span>
+</span><span id="__span-8-10"><span class="nt">schema</span><span class="p">:</span>
+</span><span id="__span-8-11"><span class="w">  </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">object</span><span class="w">  </span><span class="c1"># It&#39;s always one object per row of data</span>
+</span><span id="__span-8-12"><span class="w">  </span><span class="nt">properties</span><span class="p">:</span>
+</span><span id="__span-8-13"><span class="w">    </span><span class="nt">age_in_years</span><span class="p">:</span>
+</span><span id="__span-8-14"><span class="w">      </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">number</span>
+</span><span id="__span-8-15"><span class="w">      </span><span class="nt">minimum</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0</span>
+</span><span id="__span-8-16"><span class="w">      </span><span class="nt">maximum</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">200</span>
+</span><span id="__span-8-17"><span class="w">    </span><span class="nt">abn</span><span class="p">:</span>
+</span><span id="__span-8-18"><span class="w">      </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">string</span>
+</span><span id="__span-8-19"><span class="w">      </span><span class="nt">format</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">au.ABN</span><span class="w">  </span><span class="c1"># This is a **docma** provided format checker</span>
+</span></code></pre></div>
+<p>In addition to the standard format specifiers supported by JSON Schema, the
+<a href="06-jinja-rendering.html#docma-format-checkers">format checkers provided by
+<strong>docma</strong></a> are available for <code>string</code> objects.</p>
+<h2 id="data-provider-types">Data Provider Types<a class="headerlink" href="#data-provider-types" title="Permanent link">&para;</a></h2>
+<blockquote>
+<p>The data provider interface is readily extensible to add new data sources.
+See <a href="11-extending-docma.html#data-providers">Data Providers</a>.</p>
+</blockquote>
+<h3 id="data-provider-type-duckdb">Data Provider Type: duckdb<a class="headerlink" href="#data-provider-type-duckdb" title="Permanent link">&para;</a></h3>
+<p><strong>Docma</strong> can read data from a local file containing a
+<a href="https://duckdb.org">DuckDB</a> database.</p>
+<p>The DuckDB data provider is a useful mechanism for handling data extracts with
+<strong>docma</strong>. <strong>Docma</strong>, running on a DuckDB data extract can be quite fast, even
+with moderately large datasets.</p>
+<div class="admonition question">
+<p class="admonition-title">Why DuckDB?</p>
+<p>Why DuckDB rather than, for example, SQLite? DuckDB has a much more complete
+SQL implementation than SQLite, and one which is much closer to Postgres. It
+also has a very powerful and flexible mechanism for accessing data from
+other sources (files in various formats, AWS S3 etc.). And it goes like the
+clappers.</p>
+</div>
+<p>The <code>type</code> component of the <a href="#data-sources-in-docma">data source specification</a>
+is <code>duckdb</code>.</p>
+<p>The <code>location</code> component is the name of a local file (not a template file)
+containing the database.</p>
+<p>The <code>query</code> component is the name of a
+<a href="#query-specifications">query specification</a> file.</p>
+<div class="admonition example">
+<p class="admonition-title">Examples</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="1:2"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1">Chart</label><label for="__tabbed_1_2">HTML Table</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<p>This example shows a DuckDB database being used to supply data to a chart 
+(using Jinja tuple notation):</p>
+<div class="language-html+jinja highlight"><pre><span></span><code><span id="__span-9-1"><span class="p">&lt;</span><span class="nt">IMG</span>
+</span><span id="__span-9-2">    <span class="na">style</span><span class="o">=</span><span class="s">&quot;width: 10cm;&quot;</span>
+</span><span id="__span-9-3">    <span class="na">src</span><span class="o">=</span><span class="s">&quot;docma:vega?</span><span class="cp">{{</span> <span class="o">(</span>
+</span><span id="__span-9-4">        <span class="o">(</span> <span class="s1">&#39;spec&#39;</span><span class="o">,</span> <span class="s1">&#39;charts/dog-woof-power-chart.yaml&#39;</span> <span class="o">),</span>
+</span><span id="__span-9-5">        <span class="o">(</span> <span class="s1">&#39;data&#39;</span><span class="o">,</span> <span class="s1">&#39;duckdb;/tmp/demo/dogs.db;queries/woof-power.yaml&#39;</span> <span class="o">),</span>
+</span><span id="__span-9-6">    <span class="o">)</span> <span class="o">|</span> <span class="nf">urlencode</span> <span class="cp">}}</span><span class="s">&quot;</span>
+</span><span id="__span-9-7"><span class="p">&gt;</span>
+</span></code></pre></div>
+</div>
+<div class="tabbed-block">
+<p>This example shows a DuckDB database being used to populate an HTML table:</p>
+<div class="language-html+jinja highlight"><pre><span></span><code><span id="__span-10-1">    <span class="p">&lt;</span><span class="nt">TABLE</span><span class="p">&gt;</span>
+</span><span id="__span-10-2">      <span class="p">&lt;</span><span class="nt">THEAD</span><span class="p">&gt;</span>
+</span><span id="__span-10-3">      <span class="p">&lt;</span><span class="nt">TR</span><span class="p">&gt;</span>
+</span><span id="__span-10-4">        <span class="p">&lt;</span><span class="nt">TH</span><span class="p">&gt;</span>Dog<span class="p">&lt;/</span><span class="nt">TH</span><span class="p">&gt;</span>
+</span><span id="__span-10-5">        <span class="p">&lt;</span><span class="nt">TH</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;Woof&quot;</span><span class="p">&gt;</span>Woof<span class="p">&lt;/</span><span class="nt">TH</span><span class="p">&gt;</span>
+</span><span id="__span-10-6">      <span class="p">&lt;/</span><span class="nt">TR</span><span class="p">&gt;</span>
+</span><span id="__span-10-7">      <span class="p">&lt;/</span><span class="nt">THEAD</span><span class="p">&gt;</span>
+</span><span id="__span-10-8">      <span class="p">&lt;</span><span class="nt">TBODY</span><span class="p">&gt;</span>
+</span><span id="__span-10-9">      <span class="cp">{%</span> <span class="k">for</span> <span class="nv">row</span> <span class="k">in</span> <span class="nv">docma.data</span><span class="o">(</span><span class="s1">&#39;duckdb&#39;</span><span class="o">,</span> <span class="s1">&#39;/tmp/demo/dogs.db&#39;</span><span class="o">,</span> <span class="s1">&#39;queries/woof-power.yaml&#39;</span><span class="o">)</span> <span class="cp">%}</span>
+</span><span id="__span-10-10">      <span class="p">&lt;</span><span class="nt">TR</span><span class="p">&gt;</span>
+</span><span id="__span-10-11">        <span class="p">&lt;</span><span class="nt">TD</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;Dog&quot;</span><span class="p">&gt;</span><span class="cp">{{</span> <span class="nv">row.Dog</span> <span class="cp">}}</span><span class="p">&lt;/</span><span class="nt">TD</span><span class="p">&gt;</span>
+</span><span id="__span-10-12">        <span class="p">&lt;</span><span class="nt">TD</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;Woof&quot;</span><span class="p">&gt;</span><span class="cp">{{</span> <span class="nv">row.Woof</span> <span class="cp">}}</span><span class="p">&lt;/</span><span class="nt">TD</span><span class="p">&gt;</span>
+</span><span id="__span-10-13">      <span class="p">&lt;/</span><span class="nt">TR</span><span class="p">&gt;</span>
+</span><span id="__span-10-14">      <span class="cp">{%</span> <span class="k">endfor</span> <span class="cp">%}</span>
+</span><span id="__span-10-15">      <span class="p">&lt;/</span><span class="nt">TBODY</span><span class="p">&gt;</span>
+</span><span id="__span-10-16">    <span class="p">&lt;/</span><span class="nt">TABLE</span><span class="p">&gt;</span>
+</span></code></pre></div>
+</div>
+</div>
+</div>
+</div>
+<h3 id="data-provider-type-file">Data Provider Type: file<a class="headerlink" href="#data-provider-type-file" title="Permanent link">&para;</a></h3>
+<p><strong>Docma</strong> can read data from static files contained within the compiled document
+template.</p>
+<p>The <code>type</code> component of the <a href="#data-sources-in-docma">data source specification</a>
+is <code>file</code>.</p>
+<p>The <code>location</code> component is the name of the file, relative to the root of the
+template. Handling is determined based on the file suffix. The following formats
+are supported:</p>
+<table>
+<thead>
+<tr>
+<th>File Suffix</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>csv</td>
+<td>A CSV file with a header line. The excel dialect is assumed.</td>
+</tr>
+<tr>
+<td>jsonl</td>
+<td>A file containing one JSON formatted object per line.</td>
+</tr>
+</tbody>
+</table>
+<p>The <code>query</code> component is not used.</p>
+<div class="admonition example">
+<p class="admonition-title">Examples</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="2:3"><input checked="checked" id="__tabbed_2_1" name="__tabbed_2" type="radio" /><input id="__tabbed_2_2" name="__tabbed_2" type="radio" /><input id="__tabbed_2_3" name="__tabbed_2" type="radio" /><div class="tabbed-labels"><label for="__tabbed_2_1">CSV Data</label><label for="__tabbed_2_2">Chart</label><label for="__tabbed_2_3">HTML Table</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<p>In these examples, the csv file (<code>data/dogs.csv</code>) might look something
+like this:</p>
+<div class="language-bare highlight"><pre><span></span><code><span id="__span-11-1"><span class="err">Dog,Woof</span>
+</span><span id="__span-11-2"><span class="err">Bolliver,28</span>
+</span><span id="__span-11-3"><span class="err">Rin</span><span class="w"> </span><span class="err">Tin</span><span class="w"> </span><span class="err">Tin,55</span>
+</span><span id="__span-11-4"><span class="err">Fido,43</span>
+</span><span id="__span-11-5"><span class="err">Kipper,91</span>
+</span><span id="__span-11-6"><span class="err">Zoltan,81</span>
+</span><span id="__span-11-7"><span class="err">Pluto,53</span>
+</span><span id="__span-11-8"><span class="err">Scooby,24</span>
+</span><span id="__span-11-9"><span class="err">Cerberus,87</span>
+</span><span id="__span-11-10"><span class="err">Snoopy,52</span>
+</span></code></pre></div>
+</div>
+<div class="tabbed-block">
+<p>This example shows a CSV file being used to supply data to a chart
+(using Jinja tuple notation):</p>
+<div class="language-html+jinja highlight"><pre><span></span><code><span id="__span-12-1"><span class="p">&lt;</span><span class="nt">IMG</span>
+</span><span id="__span-12-2">    <span class="na">style</span><span class="o">=</span><span class="s">&quot;width: 10cm; justify-self: start;&quot;</span>
+</span><span id="__span-12-3">    <span class="na">src</span><span class="o">=</span><span class="s">&quot;docma:vega?</span><span class="cp">{{</span> <span class="o">(</span>
+</span><span id="__span-12-4">          <span class="o">(</span> <span class="s1">&#39;spec&#39;</span><span class="o">,</span> <span class="s1">&#39;charts/woof.yaml&#39;</span><span class="o">),</span>
+</span><span id="__span-12-5">          <span class="o">(</span> <span class="s1">&#39;data&#39;</span><span class="o">,</span> <span class="s1">&#39;file;data/dogs.csv&#39;</span><span class="o">),</span>
+</span><span id="__span-12-6">        <span class="o">)</span> <span class="o">|</span> <span class="nf">urlencode</span> <span class="cp">}}</span><span class="s">&quot;</span>
+</span><span id="__span-12-7"><span class="p">&gt;</span>
+</span></code></pre></div>
+</div>
+<div class="tabbed-block">
+<p>This example shows a CSV file being used to populate an HTML table:</p>
+<div class="language-html+jinja highlight"><pre><span></span><code><span id="__span-13-1"><span class="p">&lt;</span><span class="nt">TABLE</span><span class="p">&gt;</span>
+</span><span id="__span-13-2">  <span class="p">&lt;</span><span class="nt">THEAD</span><span class="p">&gt;</span>
+</span><span id="__span-13-3">  <span class="p">&lt;</span><span class="nt">TR</span><span class="p">&gt;</span>
+</span><span id="__span-13-4">    <span class="p">&lt;</span><span class="nt">TH</span><span class="p">&gt;</span>Dog<span class="p">&lt;/</span><span class="nt">TH</span><span class="p">&gt;</span>
+</span><span id="__span-13-5">    <span class="p">&lt;</span><span class="nt">TH</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;Woof&quot;</span><span class="p">&gt;</span>Woof<span class="p">&lt;/</span><span class="nt">TH</span><span class="p">&gt;</span>
+</span><span id="__span-13-6">  <span class="p">&lt;/</span><span class="nt">TR</span><span class="p">&gt;</span>
+</span><span id="__span-13-7">  <span class="p">&lt;/</span><span class="nt">THEAD</span><span class="p">&gt;</span>
+</span><span id="__span-13-8">  <span class="p">&lt;</span><span class="nt">TBODY</span><span class="p">&gt;</span>
+</span><span id="__span-13-9">  <span class="cp">{%</span> <span class="k">for</span> <span class="nv">row</span> <span class="k">in</span> <span class="nv">docma.data</span><span class="o">(</span><span class="s1">&#39;file&#39;</span><span class="o">,</span> <span class="s1">&#39;data/dogs.csv&#39;</span><span class="o">,</span> <span class="s1">&#39;queries/woof-power.yaml&#39;</span><span class="o">)</span> <span class="cp">%}</span>
+</span><span id="__span-13-10">  <span class="p">&lt;</span><span class="nt">TR</span><span class="p">&gt;</span>
+</span><span id="__span-13-11">    <span class="p">&lt;</span><span class="nt">TD</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;Dog&quot;</span><span class="p">&gt;</span><span class="cp">{{</span> <span class="nv">row.Dog</span> <span class="cp">}}</span><span class="p">&lt;/</span><span class="nt">TD</span><span class="p">&gt;</span>
+</span><span id="__span-13-12">    <span class="p">&lt;</span><span class="nt">TD</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;Woof&quot;</span><span class="p">&gt;</span><span class="cp">{{</span> <span class="nv">row.Woof</span> <span class="cp">}}</span><span class="p">&lt;/</span><span class="nt">TD</span><span class="p">&gt;</span>
+</span><span id="__span-13-13">  <span class="p">&lt;/</span><span class="nt">TR</span><span class="p">&gt;</span>
+</span><span id="__span-13-14">  <span class="cp">{%</span> <span class="k">endfor</span> <span class="cp">%}</span>
+</span><span id="__span-13-15">  <span class="p">&lt;/</span><span class="nt">TBODY</span><span class="p">&gt;</span>
+</span><span id="__span-13-16"><span class="p">&lt;/</span><span class="nt">TABLE</span><span class="p">&gt;</span>
+</span></code></pre></div>
+</div>
+</div>
+</div>
+</div>
+<h3 id="data-provider-type-lava">Data Provider Type: lava<a class="headerlink" href="#data-provider-type-lava" title="Permanent link">&para;</a></h3>
+<p>If the <strong>lava</strong> package is <a href="10-installation-and-usage.html#installing-docma">installed</a>, <strong>docma</strong> can use the
+<strong>lava</strong> connection subsystem to read data from a database. Lava provides support
+for connecting to a range of database types, including Postgres, Redshift, SQL
+Server, MySQL and Oracle. It also manages all of the connection details,
+credentials etc.</p>
+<p>The <code>type</code> component of the data source specification is <code>lava</code>.</p>
+<p>The <code>location</code> component is a <strong>lava</strong> connection ID for a database.</p>
+<p>The <code>query</code> component is the name of a
+<a href="#query-specifications">query specification</a> file.</p>
+<p>The <strong>lava</strong> realm must be specified during rendering, either by setting the
+<code>LAVA_REALM</code> environment variable, or via the <code>--realm</code> argument to the CLI.</p>
+<div class="admonition info">
+<p class="admonition-title">Info</p>
+<p>The <a href="#query-text">query text</a> must use a
+<a href="https://peps.python.org/pep-0249/#paramstyle">paramstyle</a> that matches the
+underlying driver being used by <strong>lava</strong>. Refer to the <strong>lava</strong> user guide for more
+information.</p>
+</div>
+<div class="admonition example">
+<p class="admonition-title">Examples</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="3:2"><input checked="checked" id="__tabbed_3_1" name="__tabbed_3" type="radio" /><input id="__tabbed_3_2" name="__tabbed_3" type="radio" /><div class="tabbed-labels"><label for="__tabbed_3_1">Chart</label><label for="__tabbed_3_2">HTML Table</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<p>This example shows a <strong>lava</strong> database connector (ID=<code>redshift/prod</code>) being
+used to supply data to a chart (using Jinja tuple notation):</p>
+<div class="language-html+jinja highlight"><pre><span></span><code><span id="__span-14-1"><span class="p">&lt;</span><span class="nt">IMG</span>
+</span><span id="__span-14-2">    <span class="na">style</span><span class="o">=</span><span class="s">&quot;width: 10cm;&quot;</span>
+</span><span id="__span-14-3">    <span class="na">src</span><span class="o">=</span><span class="s">&quot;docma:vega?</span><span class="cp">{{</span> <span class="o">(</span>
+</span><span id="__span-14-4">        <span class="o">(</span> <span class="s1">&#39;spec&#39;</span><span class="o">,</span> <span class="s1">&#39;charts/dog-woof-power-chart.yaml&#39;</span> <span class="o">),</span>
+</span><span id="__span-14-5">        <span class="o">(</span> <span class="s1">&#39;data&#39;</span><span class="o">,</span> <span class="s1">&#39;lava;redshift/prod;queries/woof-power.yaml&#39;</span> <span class="o">),</span>
+</span><span id="__span-14-6">    <span class="o">)</span> <span class="o">|</span> <span class="nf">urlencode</span> <span class="cp">}}</span><span class="s">&quot;</span>
+</span><span id="__span-14-7"><span class="p">&gt;</span>
+</span></code></pre></div>
+</div>
+<div class="tabbed-block">
+<p>This example shows a <strong>lava</strong> database connector (ID=<code>redshift/prod</code>) being
+used to populate an HTML table:</p>
+<div class="language-html+jinja highlight"><pre><span></span><code><span id="__span-15-1"><span class="p">&lt;</span><span class="nt">TABLE</span><span class="p">&gt;</span>
+</span><span id="__span-15-2">  <span class="p">&lt;</span><span class="nt">THEAD</span><span class="p">&gt;</span>
+</span><span id="__span-15-3">  <span class="p">&lt;</span><span class="nt">TR</span><span class="p">&gt;</span>
+</span><span id="__span-15-4">    <span class="p">&lt;</span><span class="nt">TH</span><span class="p">&gt;</span>Dog<span class="p">&lt;/</span><span class="nt">TH</span><span class="p">&gt;</span>
+</span><span id="__span-15-5">    <span class="p">&lt;</span><span class="nt">TH</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;Woof&quot;</span><span class="p">&gt;</span>Woof<span class="p">&lt;/</span><span class="nt">TH</span><span class="p">&gt;</span>
+</span><span id="__span-15-6">  <span class="p">&lt;/</span><span class="nt">TR</span><span class="p">&gt;</span>
+</span><span id="__span-15-7">  <span class="p">&lt;/</span><span class="nt">THEAD</span><span class="p">&gt;</span>
+</span><span id="__span-15-8">  <span class="p">&lt;</span><span class="nt">TBODY</span><span class="p">&gt;</span>
+</span><span id="__span-15-9">  <span class="cp">{%</span> <span class="k">for</span> <span class="nv">row</span> <span class="k">in</span> <span class="nv">docma.data</span><span class="o">(</span><span class="s1">&#39;lava&#39;</span><span class="o">,</span> <span class="s1">&#39;redshift/prod&#39;</span><span class="o">,</span> <span class="s1">&#39;queries/woof-power.yaml&#39;</span><span class="o">)</span> <span class="cp">%}</span>
+</span><span id="__span-15-10">  <span class="p">&lt;</span><span class="nt">TR</span><span class="p">&gt;</span>
+</span><span id="__span-15-11">    <span class="p">&lt;</span><span class="nt">TD</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;Dog&quot;</span><span class="p">&gt;</span><span class="cp">{{</span> <span class="nv">row.Dog</span> <span class="cp">}}</span><span class="p">&lt;/</span><span class="nt">TD</span><span class="p">&gt;</span>
+</span><span id="__span-15-12">    <span class="p">&lt;</span><span class="nt">TD</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;Woof&quot;</span><span class="p">&gt;</span><span class="cp">{{</span> <span class="nv">row.Woof</span> <span class="cp">}}</span><span class="p">&lt;/</span><span class="nt">TD</span><span class="p">&gt;</span>
+</span><span id="__span-15-13">  <span class="p">&lt;/</span><span class="nt">TR</span><span class="p">&gt;</span>
+</span><span id="__span-15-14">  <span class="cp">{%</span> <span class="k">endfor</span> <span class="cp">%}</span>
+</span><span id="__span-15-15">  <span class="p">&lt;/</span><span class="nt">TBODY</span><span class="p">&gt;</span>
+</span><span id="__span-15-16"><span class="p">&lt;/</span><span class="nt">TABLE</span><span class="p">&gt;</span>
+</span></code></pre></div>
+</div>
+</div>
+</div>
+</div>
+<h3 id="data-provider-type-params">Data Provider Type: params<a class="headerlink" href="#data-provider-type-params" title="Permanent link">&para;</a></h3>
+<p><strong>Docma</strong> can extract data from a list of objects in the rendering parameters.</p>
+<p>The <code>type</code> component of the <a href="#data-sources-in-docma">data source specification</a>
+is <code>params</code>.</p>
+<p>The <code>location</code>  component is a dot separated key sequence
+to select a data list within the parameters. Each element of the list must be
+an object (not a string).</p>
+<p>The <code>query</code> component is not used.</p>
+<div class="admonition example">
+<p class="admonition-title">Examples</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="4:3"><input checked="checked" id="__tabbed_4_1" name="__tabbed_4" type="radio" /><input id="__tabbed_4_2" name="__tabbed_4" type="radio" /><input id="__tabbed_4_3" name="__tabbed_4" type="radio" /><div class="tabbed-labels"><label for="__tabbed_4_1">Source Data</label><label for="__tabbed_4_2">Chart</label><label for="__tabbed_4_3">HTML Table</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<p>Consider the following rendering parameters:</p>
+<div class="language-yaml highlight"><pre><span></span><code><span id="__span-16-1"><span class="nt">param1</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">value1</span>
+</span><span id="__span-16-2"><span class="nt">param2</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">value2</span>
+</span><span id="__span-16-3">
+</span><span id="__span-16-4"><span class="nt">data</span><span class="p">:</span>
+</span><span id="__span-16-5"><span class="w">  </span><span class="nt">custard</span><span class="p">:</span>
+</span><span id="__span-16-6"><span class="w">    </span><span class="nt">prices</span><span class="p">:</span>
+</span><span id="__span-16-7"><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">lumpy</span>
+</span><span id="__span-16-8"><span class="w">        </span><span class="nt">price</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1.53</span>
+</span><span id="__span-16-9"><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">baked</span>
+</span><span id="__span-16-10"><span class="w">        </span><span class="nt">price</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2.84</span>
+</span><span id="__span-16-11"><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">runny</span>
+</span><span id="__span-16-12"><span class="w">        </span><span class="nt">price</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">3.50</span>
+</span></code></pre></div>
+<p>A data source specification of <code>params;data.custard.prices</code> would return
+the following data rows:</p>
+<div class="language-json highlight"><pre><span></span><code><span id="__span-17-1"><span class="p">{</span><span class="w"> </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;lumpy&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;price&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">1.53</span><span class="w"> </span><span class="p">}</span>
+</span><span id="__span-17-2"><span class="p">{</span><span class="w"> </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;baked&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;price&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">2.84</span><span class="w"> </span><span class="p">}</span>
+</span><span id="__span-17-3"><span class="p">{</span><span class="w"> </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;runny&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;price&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">3.5</span><span class="w"> </span><span class="p">}</span>
+</span></code></pre></div>
+</div>
+<div class="tabbed-block">
+<p>This example shows rendering parameters being used to supply data to a 
+chart (using Jinja tuple notation):</p>
+<div class="language-html+jinja highlight"><pre><span></span><code><span id="__span-18-1"><span class="p">&lt;</span><span class="nt">IMG</span>
+</span><span id="__span-18-2">    <span class="na">style</span><span class="o">=</span><span class="s">&quot;width: 10cm;&quot;</span>
+</span><span id="__span-18-3">    <span class="na">src</span><span class="o">=</span><span class="s">&quot;docma:vega?</span><span class="cp">{{</span> <span class="o">(</span>
+</span><span id="__span-18-4">        <span class="o">(</span> <span class="s1">&#39;spec&#39;</span><span class="o">,</span> <span class="s1">&#39;charts/custard-prices-chart.yaml&#39;</span> <span class="o">),</span>
+</span><span id="__span-18-5">        <span class="o">(</span> <span class="s1">&#39;data&#39;</span><span class="o">,</span> <span class="s1">&#39;params;data.custard.prices&#39;</span> <span class="o">),</span>
+</span><span id="__span-18-6">    <span class="o">)</span> <span class="o">|</span> <span class="nf">urlencode</span> <span class="cp">}}</span><span class="s">&quot;</span>
+</span><span id="__span-18-7"><span class="p">&gt;</span>
+</span></code></pre></div>
+</div>
+<div class="tabbed-block">
+<p>This example shows rendering parameters being used to populate an HTML
+table:</p>
+<div class="language-html+jinja highlight"><pre><span></span><code><span id="__span-19-1"><span class="p">&lt;</span><span class="nt">TABLE</span><span class="p">&gt;</span>
+</span><span id="__span-19-2">  <span class="p">&lt;</span><span class="nt">THEAD</span><span class="p">&gt;</span>
+</span><span id="__span-19-3">  <span class="p">&lt;</span><span class="nt">TR</span><span class="p">&gt;</span>
+</span><span id="__span-19-4">    <span class="p">&lt;</span><span class="nt">TH</span><span class="p">&gt;</span>Custard Type<span class="p">&lt;/</span><span class="nt">TH</span><span class="p">&gt;</span>
+</span><span id="__span-19-5">    <span class="p">&lt;</span><span class="nt">TH</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;price&quot;</span><span class="p">&gt;</span>Price<span class="p">&lt;/</span><span class="nt">TH</span><span class="p">&gt;</span>
+</span><span id="__span-19-6">  <span class="p">&lt;/</span><span class="nt">TR</span><span class="p">&gt;</span>
+</span><span id="__span-19-7">  <span class="p">&lt;/</span><span class="nt">THEAD</span><span class="p">&gt;</span>
+</span><span id="__span-19-8">  <span class="p">&lt;</span><span class="nt">TBODY</span><span class="p">&gt;</span>
+</span><span id="__span-19-9">  <span class="cp">{%</span> <span class="k">for</span> <span class="nv">row</span> <span class="k">in</span> <span class="nv">docma.data</span><span class="o">(</span><span class="s1">&#39;params&#39;</span><span class="o">,</span> <span class="s1">&#39;data.custard.prices&#39;</span><span class="o">)</span> <span class="cp">%}</span>
+</span><span id="__span-19-10">  <span class="p">&lt;</span><span class="nt">TR</span><span class="p">&gt;</span>
+</span><span id="__span-19-11">    <span class="p">&lt;</span><span class="nt">TD</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;type&quot;</span><span class="p">&gt;</span><span class="cp">{{</span> <span class="nv">row.type</span> <span class="cp">}}</span><span class="p">&lt;/</span><span class="nt">TD</span><span class="p">&gt;</span>
+</span><span id="__span-19-12">    <span class="p">&lt;</span><span class="nt">TD</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;price&quot;</span><span class="p">&gt;</span><span class="cp">{{</span> <span class="nv">row.price</span> <span class="cp">}}</span><span class="p">&lt;/</span><span class="nt">TD</span><span class="p">&gt;</span>
+</span><span id="__span-19-13">  <span class="p">&lt;/</span><span class="nt">TR</span><span class="p">&gt;</span>
+</span><span id="__span-19-14">  <span class="cp">{%</span> <span class="k">endfor</span> <span class="cp">%}</span>
+</span><span id="__span-19-15">  <span class="p">&lt;/</span><span class="nt">TBODY</span><span class="p">&gt;</span>
+</span><span id="__span-19-16"><span class="p">&lt;/</span><span class="nt">TABLE</span><span class="p">&gt;</span>
+</span></code></pre></div>
+</div>
+</div>
+</div>
+</div>
+<h3 id="data-provider-type-postgres">Data Provider Type: postgres<a class="headerlink" href="#data-provider-type-postgres" title="Permanent link">&para;</a></h3>
+<p><strong>Docma</strong> can read data from a Postgres database.</p>
+<p>The <code>type</code> component of the <a href="#data-sources-in-docma">data source specification</a>
+is <code>postgres</code>.</p>
+<p>The <code>location</code> component is an alpha-numeric label for the database. This is
+used to determine connection details from environment variables or the contents
+of a <code>.env</code> file.</p>
+<p>If the <code>location</code> component is <code>xyz</code>, then <strong>docma</strong> will read the following
+values from a <code>.env</code> file to connect to the database.</p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>XYZ_USER</td>
+<td>Database user name</td>
+</tr>
+<tr>
+<td>XYZ_PASSWORD</td>
+<td>Password. Exactly one of <code>XYZ_PASSWORD</code> and <code>XYZ_PASSWORD_PARAM</code> must be specified.</td>
+</tr>
+<tr>
+<td>XYZ_PASSWORD_PARAM</td>
+<td>AWS SSM parameter containing the password.</td>
+</tr>
+<tr>
+<td>XYZ_HOST</td>
+<td>Host name</td>
+</tr>
+<tr>
+<td>XYZ_PORT</td>
+<td>Port number</td>
+</tr>
+<tr>
+<td>XYZ_DATABASE</td>
+<td>Database name</td>
+</tr>
+<tr>
+<td>XYZ_SSL</td>
+<td>A truthy value specifying if SSL should be enforced (default <code>no</code>)</td>
+</tr>
+</tbody>
+</table>
+<p>Values can also be overridden by environment variables with the same names as
+above, prefixed with <code>DOCMA_</code>. e.g. <code>DOCMA_XYZ_USER</code>.</p>
+<div class="admonition danger">
+<p class="admonition-title">Danger</p>
+<p>Take care to ensure the <code>.env</code> file is excluded from any GIT repo. A
+redacted sample is provided in the <code>test</code> directory.</p>
+</div>
+<p>The <code>query</code> component is the name of a
+<a href="#query-specifications">query specification</a> file.</p>
+<div class="admonition example">
+<p class="admonition-title">Examples</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="5:2"><input checked="checked" id="__tabbed_5_1" name="__tabbed_5" type="radio" /><input id="__tabbed_5_2" name="__tabbed_5" type="radio" /><div class="tabbed-labels"><label for="__tabbed_5_1">Chart</label><label for="__tabbed_5_2">HTML Table</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<p>This example shows a Postgres database being used to supply data to a
+chart (using Jinja tuple notation):</p>
+<div class="language-html+jinja highlight"><pre><span></span><code><span id="__span-20-1"><span class="p">&lt;</span><span class="nt">IMG</span>
+</span><span id="__span-20-2">    <span class="na">style</span><span class="o">=</span><span class="s">&quot;width: 10cm;&quot;</span>
+</span><span id="__span-20-3">    <span class="na">src</span><span class="o">=</span><span class="s">&quot;docma:vega?</span><span class="cp">{{</span> <span class="o">(</span>
+</span><span id="__span-20-4">        <span class="o">(</span> <span class="s1">&#39;spec&#39;</span><span class="o">,</span> <span class="s1">&#39;charts/dog-woof-power-chart.yaml&#39;</span> <span class="o">),</span>
+</span><span id="__span-20-5">        <span class="o">(</span> <span class="s1">&#39;data&#39;</span><span class="o">,</span> <span class="s1">&#39;postgres;prod01;queries/woof-power.yaml&#39;</span> <span class="o">),</span>
+</span><span id="__span-20-6">    <span class="o">)</span> <span class="o">|</span> <span class="nf">urlencode</span> <span class="cp">}}</span><span class="s">&quot;</span>
+</span><span id="__span-20-7"><span class="p">&gt;</span>
+</span></code></pre></div>
+</div>
+<div class="tabbed-block">
+<p>This example shows a Postgres database being used to populate an HTML
+table:</p>
+<div class="language-html+jinja highlight"><pre><span></span><code><span id="__span-21-1"><span class="p">&lt;</span><span class="nt">TABLE</span><span class="p">&gt;</span>
+</span><span id="__span-21-2">  <span class="p">&lt;</span><span class="nt">THEAD</span><span class="p">&gt;</span>
+</span><span id="__span-21-3">  <span class="p">&lt;</span><span class="nt">TR</span><span class="p">&gt;</span>
+</span><span id="__span-21-4">    <span class="p">&lt;</span><span class="nt">TH</span><span class="p">&gt;</span>Dog<span class="p">&lt;/</span><span class="nt">TH</span><span class="p">&gt;</span>
+</span><span id="__span-21-5">    <span class="p">&lt;</span><span class="nt">TH</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;Woof&quot;</span><span class="p">&gt;</span>Woof<span class="p">&lt;/</span><span class="nt">TH</span><span class="p">&gt;</span>
+</span><span id="__span-21-6">  <span class="p">&lt;/</span><span class="nt">TR</span><span class="p">&gt;</span>
+</span><span id="__span-21-7">  <span class="p">&lt;/</span><span class="nt">THEAD</span><span class="p">&gt;</span>
+</span><span id="__span-21-8">  <span class="p">&lt;</span><span class="nt">TBODY</span><span class="p">&gt;</span>
+</span><span id="__span-21-9">  <span class="cp">{%</span> <span class="k">for</span> <span class="nv">row</span> <span class="k">in</span> <span class="nv">docma.data</span><span class="o">(</span><span class="s1">&#39;postgres&#39;</span><span class="o">,</span> <span class="s1">&#39;prod01&#39;</span><span class="o">,</span> <span class="s1">&#39;queries/woof-power.yaml&#39;</span><span class="o">)</span> <span class="cp">%}</span>
+</span><span id="__span-21-10">  <span class="p">&lt;</span><span class="nt">TR</span><span class="p">&gt;</span>
+</span><span id="__span-21-11">    <span class="p">&lt;</span><span class="nt">TD</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;Dog&quot;</span><span class="p">&gt;</span><span class="cp">{{</span> <span class="nv">row.Dog</span> <span class="cp">}}</span><span class="p">&lt;/</span><span class="nt">TD</span><span class="p">&gt;</span>
+</span><span id="__span-21-12">    <span class="p">&lt;</span><span class="nt">TD</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;Woof&quot;</span><span class="p">&gt;</span><span class="cp">{{</span> <span class="nv">row.Woof</span> <span class="cp">}}</span><span class="p">&lt;/</span><span class="nt">TD</span><span class="p">&gt;</span>
+</span><span id="__span-21-13">  <span class="p">&lt;/</span><span class="nt">TR</span><span class="p">&gt;</span>
+</span><span id="__span-21-14">  <span class="cp">{%</span> <span class="k">endfor</span> <span class="cp">%}</span>
+</span><span id="__span-21-15">  <span class="p">&lt;/</span><span class="nt">TBODY</span><span class="p">&gt;</span>
+</span><span id="__span-21-16"><span class="p">&lt;/</span><span class="nt">TABLE</span><span class="p">&gt;</span>
+</span></code></pre></div>
+</div>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      &copy; Origin Energy 2025
+    </div>
+  
+</div>
+      <div class="md-footer-social">
+        <div class="md-copyright">
+          <div class="md-copyright__highlight">
+            v2.2.0
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": ".", "features": ["navigation.instant", "content.code.copy"], "search": "assets/javascripts/workers/search.973d3a69.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="assets/javascripts/bundle.f55a23d4.min.js"></script>
+      
+    
+  </body>
+</html>

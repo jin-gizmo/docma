@@ -1,0 +1,47 @@
+:root {
+    --docma-ultralight: #c0eae4;
+    --docma-light: #81d7cd;
+    --docma-mid: #08ae9b;
+    --docma-dark: #02775e;
+}
+
+[data-md-color-scheme="default"] {
+    --md-primary-fg-color: var(--docma-mid);
+    --md-accent-fg-color: var(--docma-dark);
+}
+
+[data-md-color-scheme="slate"] {
+    --md-hue: 210;
+    --md-primary-fg-color: var(--docma-mid);
+    --md-primary-fg-color--light: var(--docma-light);
+    --md-primary-fg-color--dark: var(--docma-dark);
+    --md-accent-fg-color: var(--docma-light);
+    /* Pick one of these for a bit more of grey background */
+    /*--md-default-bg-color: #2e2e2e;*/
+    /*--md-default-bg-color: #1e1e1e;*/
+}
+
+[data-md-color-scheme="slate"] .docma-logo-horizontal {
+    content: url('../img/docma-logo/svg/docma-logo-horizontal-dark.svg');
+}
+
+[data-md-color-scheme="default"] .docma-logo-horizontal {
+    content: url('../img/docma-logo/svg/docma-logo-horizontal-light.svg');
+}
+
+.md-typeset img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/*tr:nth-child(odd) code {*/
+/*    !* background-color: var(--table-shading); *!*/
+/*    background-color: var(--table-shading);*/
+/*    border: solid 1px #ccc;*/
+/*}*/
+
+/*tr:nth-child(odd) {*/
+/*    background-color: var(--table-shading);*/
+/*    border: solid 1px #ccc;*/
+/*}*/
