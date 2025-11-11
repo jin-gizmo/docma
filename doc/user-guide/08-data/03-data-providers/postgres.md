@@ -1,5 +1,5 @@
 
-### Data Provider Type: postgres
+### Data Provider Type: postgres { data-toc-label="Postgres" }
 
 **Docma** can read data from a Postgres database.
 

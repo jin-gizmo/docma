@@ -1,5 +1,5 @@
 
-## Creating a New Document Template
+## Creating a New Document Template { data-toc-label="Creating a New Template" }
 
 To create a new **docma** template directory:
 

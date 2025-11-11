@@ -16,7 +16,7 @@ can include arbitrary combinations of objects, lists and scalar values.
 The marshalling process *deep-merges* the parameter trees from each source. Lists
 are not merged. One list will replace another if they occur at the same location.
 
-### Rendering Parameters Provided by Docma
+### Rendering Parameters Provided by Docma { data-toc-label="Parameters Provided by Docma" }
 
 In addition to user supplied parameters, **docma** includes the following items
 under the `docma` key.

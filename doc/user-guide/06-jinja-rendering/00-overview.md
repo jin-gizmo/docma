@@ -1,5 +1,5 @@
 
-# Docma Jinja Rendering [nav: Jinja Rendering]
+# Docma Jinja Rendering { x-nav="Jinja Rendering" }
 
 The rendering phase uses Jinja to render HTML content with the parameters
 provided at run-time. Other components (e.g.

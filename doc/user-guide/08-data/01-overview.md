@@ -1,5 +1,5 @@
 
-# Data Sources in Docma [nav: Data Sources]
+# Data Sources in Docma { x-nav="Data Sources" }
 
 **Docma** can access data files and live data sources during the rendering phase.
 This is done by the *data provider* subsystem.
@@ -33,7 +33,7 @@ components.
 | query | The file name in the document template containing a [query specification](#query-specifications) that defines a query to execute on the data provider. This is required for database-like sources. It is not used for some data provider types. |
 | target | For charts, the position in the Vega-Lite specification where the data will be attached. This is a dot separated dictionary key sequence pointing into the chart specification. If not provided, this defaults to `data.values`, which is the primary data location for a Vega-Lite specification. |
 
-### Data Source Specifications for Charts
+### Data Source Specifications for Charts { data-toc-label="For Charts" }
 
 The HTML to include a chart is of the form:
 
@@ -89,7 +89,7 @@ In this example, three data sets are specified:
     and attached to the chart specification as the `datasets.usage_by_day`
     object in the specification.
 
-### Data Source Specifications for HTML Rendering
+### Data Source Specifications for HTML Rendering { data-toc-label="For HTML Rendering" }
 
 A data source specification can be invoked directly in Jinja content within a
 document that is to be rendered. 

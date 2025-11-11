@@ -1,6 +1,5 @@
 
-# Charts and Graphs in Docma [nav: Charts and Graphs]
-
+# Charts and Graphs in Docma { x-nav="Charts and Graphs" }
 
 **Docma** supports the [Vega-Lite](https://vega.github.io/vega-lite/) declarative
 syntax for specifying charts / graphs. Vega-Lite specifies a mapping between
@@ -96,7 +95,7 @@ experimenting.
 
 See [Data Sources in Docma](#data-sources-in-docma) for more information.
 
-## Tips and Suggestions for Designing Charts
+## Tips and Suggestions for Designing Charts { data-toc-label="Tips" }
 
 The [Vega-Lite website](https://vega.github.io/vega-lite/) has lots of resources
 to help with designing charts. This section just provides a few tips and

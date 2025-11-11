@@ -1,5 +1,5 @@
 
-### Data Provider Type: duckdb
+### Data Provider Type: duckdb { data-toc-label="DuckDB" }
 
 **Docma** can read data from a local file containing a
 [DuckDB](https://duckdb.org) database.

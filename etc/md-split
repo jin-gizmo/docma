@@ -3,6 +3,16 @@
 """
 Slice and dice markdown for use with mkdocs.
 
+This will also create the mkdocs.yml "nav" list. Level 1 headings can have a
+trailing '{ x-nav="Short Heading" }' to provide a shorter version of a heading
+to include in the navigation panel while retaining the long form in the body of
+the text. Neat eh?
+
+For the table of contents on the right panel, a short form heading is done like
+this:
+    ## A Long Long Heading { data-toc-label="Short Heading" }
+This is native mkdocs material capability.
+
 WARNING: Only uses a single level of headers.
 
 """
@@ -16,6 +26,7 @@ import sys
 import unicodedata
 from collections.abc import Iterator
 from dataclasses import dataclass
+from shlex import split
 from shutil import copyfile
 
 import yaml
@@ -27,8 +38,17 @@ NAV_PLACEHOLDER = '**md-split**'
 #   # Heading L1 #
 #   ## Heading L2
 #   # Heading too Long for Nav [nav: Short Heading]
+#   ## Heading with attributes { k1="v1" k2="v 2" }
 MD_HEADING_RE = re.compile(
-    r'(?P<head>#+)\s+(?P<text>.*?)\s*#*(\s+\[\s*nav:\s*(?P<nav>[^]]+)\s*])?\s*$'
+    r"""
+    (?P<head>\#+)  # heading marker
+    \s+
+    (?P<text>.*?)  # heading text
+    \s*\#*  # Optional trailing heading marker
+    (\s+{(?P<attrs>[^}]*)})?  # Optional trailing attributes in brackets
+    \s*$
+    """,
+    re.VERBOSE,
 )
 
 # This is a bit rough as regex is not the way to match paired parentheses
@@ -115,12 +135,32 @@ class MdLine:
     heading_level: int = 0  # 0 means not a header
     heading_number: str | None = None  # n.m. ...
     heading_text: str | None = None
-    nav: str | None = None  # If a header, the value to be used in the nav: list
+    heading_attrs: Attributes | None = None
+    nav: str | None = None  # If a top level header, the value to be used in the nav: list
 
     def __post_init__(self):
-        """Set nav from heading text if not specified."""
-        if not self.nav:
+        """Set nav from either the x-nav attribute or the heading text itself."""
+        if self.heading_attrs and (nav := self.heading_attrs.get('x-nav')):
+            self.nav = nav
+        else:
             self.nav = self.heading_text
+
+
+# ------------------------------------------------------------------------------
+class Attributes(dict):
+    """Container for attributes."""
+
+    @classmethod
+    def from_string(cls, s: str | None) -> Attributes:
+        """Parse key="value" pairs, handling escaped quotes."""
+        if not s:
+            return cls()
+        attrs = {}
+        for token in split(s):
+            if '=' in token:
+                key, value = token.split('=', 1)
+                attrs[key] = value
+        return cls(**attrs)
 
 
 # ------------------------------------------------------------------------------
@@ -225,6 +265,7 @@ def md_scan_headers(md_file: str) -> Iterator[MdLine]:
             heading_level = None
             heading_text = None
             heading_number = None
+            heading_attrs = None
             nav = None
 
             if line.startswith('```'):
@@ -234,13 +275,15 @@ def md_scan_headers(md_file: str) -> Iterator[MdLine]:
                 m = MD_HEADING_RE.match(line)
                 if m:
                     # Found a header
+                    heading_attrs = Attributes.from_string(m.group('attrs'))
                     heading_level = len(m.group('head'))
                     heading_text = m.group('text')
                     heading_ctr.increment(heading_level)
                     heading_number = heading_ctr.fmt()
-                    nav = m.group('nav')
 
-            yield MdLine(line, is_literal, heading_level, heading_number, heading_text, nav)
+            yield MdLine(
+                line, is_literal, heading_level, heading_number, heading_text, heading_attrs, nav
+            )
 
 
 # ------------------------------------------------------------------------------
@@ -328,12 +371,10 @@ def main() -> int:
             nav.append({md.nav: fname})
 
         if out_fp:
-            if md.is_literal:
-                print(md.line, file=out_fp)
-                continue
-
-            line = f'{"#" * md.heading_level} {md.heading_text}' if md.heading_level else md.line
-            print(md_replace_xrefs(line, fname, header_map), file=out_fp)
+            print(
+                md.line if md.is_literal else md_replace_xrefs(md.line, fname, header_map),
+                file=out_fp,
+            )
 
     if out_fp:
         out_fp.close()

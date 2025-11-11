@@ -6,7 +6,7 @@ LABEL \
     org.opencontainers.image.title="docma" \
     org.opencontainers.image.description="Data driven PDF / HTML document generator" \
     org.opencontainers.image.url="https://github.com/jin-gizmo/docma" \
-    org.opencontainers.image.source="https://github.com/jin-gizmo/docma.git" \
+    org.opencontainers.image.source="https://github.com/jin-gizmo/docma" \
     org.opencontainers.image.documentation="https://jin-gizmo.github.io/docma" \
     org.opencontainers.image.licenses="BSD-3-Clause"
 

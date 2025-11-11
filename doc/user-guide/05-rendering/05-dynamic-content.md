@@ -35,7 +35,7 @@ the first part before the colon). The URL fetchers handle a range of non-standar
     The **docma** URL fetcher interface is easily expandable to handle other
     schemes. See [URL Fetchers](#url-fetchers).
 
-### Dynamic Content Generation Differences Between PDF and HTML Output
+### Dynamic Content Generation Differences Between PDF and HTML Output { data-toc-label="PDF vs HTML" }
 
 PDF generation from HTML is performed by WeasyPrint, which will invoke a custom
 URL fetcher for *any* URL it needs to access during the conversion process.

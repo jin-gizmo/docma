@@ -45,3 +45,63 @@
 /*    background-color: var(--table-shading);*/
 /*    border: solid 1px #ccc;*/
 /*}*/
+
+/* -------------------------------------------------------------------------- */
+/* De-emphasise level 3 headings in the toc.
+/* -------------------------------------------------------------------------- */
+
+.md-nav__item .md-nav__item .md-nav__link {
+    font-size: 90%;
+}
+
+/* Light mode - Level 2 headings */
+[data-md-color-scheme="default"] .md-nav__item > .md-nav__link {
+    color: inherit; /* default color for level 2 */
+}
+
+[data-md-color-scheme="default"] .md-nav__item > .md-nav__link:hover {
+    color: var(--docma-dark);
+}
+
+[data-md-color-scheme="default"] .md-nav__item > .md-nav__link--active {
+    color: var(--docma-mid);
+}
+
+/* Light mode - Level 3 headings */
+[data-md-color-scheme="default"] .md-nav__item .md-nav__item .md-nav__link {
+    color: #777777;
+}
+
+[data-md-color-scheme="default"] .md-nav__item .md-nav__item .md-nav__link:hover {
+    color: var(--docma-dark);
+}
+
+[data-md-color-scheme="default"] .md-nav__item .md-nav__item .md-nav__link--active {
+    color: var(--docma-mid);
+}
+
+/* Dark mode - Level 2 headings */
+[data-md-color-scheme="slate"] .md-nav__item > .md-nav__link {
+    color: inherit; /* default color for level 2 */
+}
+
+[data-md-color-scheme="slate"] .md-nav__item > .md-nav__link:hover {
+    color: var(--docma-light);
+}
+
+[data-md-color-scheme="slate"] .md-nav__item > .md-nav__link--active {
+    color: var(--docma-mid);
+}
+
+/* Dark mode - Level 3 headings */
+[data-md-color-scheme="slate"] .md-nav__item .md-nav__item .md-nav__link {
+    color: #777777;
+}
+
+[data-md-color-scheme="slate"] .md-nav__item .md-nav__item .md-nav__link:hover {
+    color: var(--docma-light);
+}
+
+[data-md-color-scheme="slate"] .md-nav__item .md-nav__item .md-nav__link--active {
+    color: var(--docma-mid);
+}

@@ -1,5 +1,5 @@
 
-### Data Provider Type: file
+### Data Provider Type: file { data-toc-label="File" }
 
 **Docma** can read data from static files contained within the compiled document
 template.

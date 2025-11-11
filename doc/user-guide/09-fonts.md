@@ -41,7 +41,7 @@ CSS.  These fonts can be either:
 !!! tip
     Option 3 is strongly deprecated for performance reasons.
 
-## Fonts Included in the Template Source
+## Fonts Included in the Template Source { data-toc-label="Fonts in the Template" }
 
 A font file can be placed directly into the document template source directory.
 It is recommended to place fonts in the `fonts` sub-directory. e.g.
@@ -93,7 +93,7 @@ This makes the font available for use in CSS styling in the normal way. e.g.
 </HTML>
 ```
 
-## Importing Fonts during Template Compilation
+## Importing Fonts during Template Compilation { data-toc-label="Importing Fonts during Compilation" }
 
 Remote fonts can be incorporated into a document template during the compilation
 phase using the [imports directive](#document-imports) in the [template
@@ -150,7 +150,7 @@ This makes the font available for use in CSS styling, thus:
 </HTML>
 ```
 
-## Loading Fonts during Template Rendering
+## Loading Fonts during Template Rendering { data-toc-label="Loading Fonts during Rendering" }
 
 Fonts can also be dynamically loaded at run-time during template rendering using
 standard HTML / CSS mechanisms. 

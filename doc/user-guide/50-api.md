@@ -1,5 +1,5 @@
 
-# Docma API Reference [nav: API]
+# Docma API Reference { x-nav="API" }
 
 ::: docma
 

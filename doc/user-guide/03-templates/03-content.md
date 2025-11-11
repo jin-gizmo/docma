@@ -23,7 +23,7 @@ hence the process used to compile it to HTML format.
 The [content compiler](#content-compilers) interface is extensible. New file
 types can be added easily.
 
-### HTML Files (\*.html, \*.htm)
+### HTML Files (\*.html, \*.htm) { data-toc-label="HTML" }
 
 When producing standalone HTML outputs, normal HTML conventions should be
 followed, keeping in mind the limitations of the target rendering environment
@@ -97,7 +97,7 @@ Important points to note:
     WeasyPrint may struggle with it. In many cases, it's better to hand-write
     lean, clean HTML using an IDE or an AI crutch of some kind.
 
-### PDF Files (\*.pdf)
+### PDF Files (\*.pdf) { data-toc-label="PDF" }
 
 !!! info
     PDF output only.
@@ -109,7 +109,7 @@ useful for boilerplate content, such as contract terms and conditions.
 PDF files are not Jinja rendered during compilation. Once again, they are used
 as-is.
 
-### Markdown Files (\*.md)
+### Markdown Files (\*.md) { data-toc-label="Markdown" }
 
 All Markdown files are converted to HTML during the compilation phase. i.e.
 `myfile.md` in the template source becomes `myfile.html` in the compiled

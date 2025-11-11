@@ -27,10 +27,7 @@ platform=linux/amd64,linux/arm64
 registry=localhost:5001
 # Add --progress=plain for debugging
 DOCKER_BUILD=docker buildx build --platform="$(platform)"
-NS=org.opencontainers.image
-# Image label values
 BUILD_DATE=$(shell date -u +%Y-%m-%dT%H:%M:%SZ)
-L_MAINTAINER=Jin Gizmo
 ifneq ($(registry),)
 REGISTRY=$(registry:%/=%)/
 endif

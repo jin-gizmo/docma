@@ -1,5 +1,5 @@
 
-# Docma Template Compilation [nav: Template Compilation]
+# Docma Template Compilation { x-nav="Template Compilation" }
 
 The compilation process is a build-time activity consisting of the following steps:
 

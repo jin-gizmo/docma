@@ -1,4 +1,4 @@
-### Data Provider Type: params
+### Data Provider Type: params { data-toc-label="Params" }
 
 **Docma** can extract data from a list of objects in the rendering parameters.
 

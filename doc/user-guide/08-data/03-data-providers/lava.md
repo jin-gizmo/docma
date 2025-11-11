@@ -1,5 +1,5 @@
 
-### Data Provider Type: lava
+### Data Provider Type: lava { data-toc-label="Lava" }
 
 If the **lava** package is [installed](#installing-docma), **docma** can use the
 **lava** connection subsystem to read data from a database. Lava provides support

@@ -1,16 +1,18 @@
 
-# Docma User Guide
-
-**Docma** is a PDF document generator that can assemble and compose PDF and HTML documents
-from document templates with dynamic content.
+# Welcome to Docma
 
 <div style="text-align: center;">
   <img src="img/docma-logo/svg/docma-logo-horizontal-dark.svg" 
        alt="Docma Logo" 
-       width="300" 
+       width="250" 
        height="auto"
        class="docma-logo-horizontal">
 </div>
+
+**Docma** is a PDF document generator that can assemble and compose PDF and HTML documents
+from document templates with dynamic content.
+
+[More ...][overview]
 
 !!! tip ""
     **Docma** was developed at [Origin Energy](https://www.originenergy.com.au) as part of the
