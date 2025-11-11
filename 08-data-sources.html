@@ -490,7 +490,7 @@
           <li class="md-nav__item">
   <a href="#data-source-specifications-for-charts" class="md-nav__link">
     <span class="md-ellipsis">
-      Data Source Specifications for Charts
+      For Charts
     </span>
   </a>
   
@@ -499,7 +499,7 @@
           <li class="md-nav__item">
   <a href="#data-source-specifications-for-html-rendering" class="md-nav__link">
     <span class="md-ellipsis">
-      Data Source Specifications for HTML Rendering
+      For HTML Rendering
     </span>
   </a>
   
@@ -565,7 +565,7 @@
           <li class="md-nav__item">
   <a href="#data-provider-type-duckdb" class="md-nav__link">
     <span class="md-ellipsis">
-      Data Provider Type: duckdb
+      DuckDB
     </span>
   </a>
   
@@ -574,7 +574,7 @@
           <li class="md-nav__item">
   <a href="#data-provider-type-file" class="md-nav__link">
     <span class="md-ellipsis">
-      Data Provider Type: file
+      File
     </span>
   </a>
   
@@ -583,7 +583,7 @@
           <li class="md-nav__item">
   <a href="#data-provider-type-lava" class="md-nav__link">
     <span class="md-ellipsis">
-      Data Provider Type: lava
+      Lava
     </span>
   </a>
   
@@ -592,7 +592,7 @@
           <li class="md-nav__item">
   <a href="#data-provider-type-params" class="md-nav__link">
     <span class="md-ellipsis">
-      Data Provider Type: params
+      Params
     </span>
   </a>
   
@@ -601,7 +601,7 @@
           <li class="md-nav__item">
   <a href="#data-provider-type-postgres" class="md-nav__link">
     <span class="md-ellipsis">
-      Data Provider Type: postgres
+      Postgres
     </span>
   </a>
   
@@ -813,7 +813,7 @@
           <li class="md-nav__item">
   <a href="#data-source-specifications-for-charts" class="md-nav__link">
     <span class="md-ellipsis">
-      Data Source Specifications for Charts
+      For Charts
     </span>
   </a>
   
@@ -822,7 +822,7 @@
           <li class="md-nav__item">
   <a href="#data-source-specifications-for-html-rendering" class="md-nav__link">
     <span class="md-ellipsis">
-      Data Source Specifications for HTML Rendering
+      For HTML Rendering
     </span>
   </a>
   
@@ -888,7 +888,7 @@
           <li class="md-nav__item">
   <a href="#data-provider-type-duckdb" class="md-nav__link">
     <span class="md-ellipsis">
-      Data Provider Type: duckdb
+      DuckDB
     </span>
   </a>
   
@@ -897,7 +897,7 @@
           <li class="md-nav__item">
   <a href="#data-provider-type-file" class="md-nav__link">
     <span class="md-ellipsis">
-      Data Provider Type: file
+      File
     </span>
   </a>
   
@@ -906,7 +906,7 @@
           <li class="md-nav__item">
   <a href="#data-provider-type-lava" class="md-nav__link">
     <span class="md-ellipsis">
-      Data Provider Type: lava
+      Lava
     </span>
   </a>
   
@@ -915,7 +915,7 @@
           <li class="md-nav__item">
   <a href="#data-provider-type-params" class="md-nav__link">
     <span class="md-ellipsis">
-      Data Provider Type: params
+      Params
     </span>
   </a>
   
@@ -924,7 +924,7 @@
           <li class="md-nav__item">
   <a href="#data-provider-type-postgres" class="md-nav__link">
     <span class="md-ellipsis">
-      Data Provider Type: postgres
+      Postgres
     </span>
   </a>
   
@@ -954,7 +954,7 @@
   
 
 
-<h1 id="data-sources-in-docma">Data Sources in Docma<a class="headerlink" href="#data-sources-in-docma" title="Permanent link">&para;</a></h1>
+<h1 id="data-sources-in-docma" x-nav="Data Sources">Data Sources in Docma<a class="headerlink" href="#data-sources-in-docma" title="Permanent link">&para;</a></h1>
 <p><strong>Docma</strong> can access data files and live data sources during the rendering phase.
 This is done by the <em>data provider</em> subsystem.
 The returned data can be used in the following ways:</p>
@@ -1310,10 +1310,11 @@ returned as objects with keys based on the column names in the query.</p>
 <a href="06-jinja-rendering.html#docma-format-checkers">format checkers provided by
 <strong>docma</strong></a> are available for <code>string</code> objects.</p>
 <h2 id="data-provider-types">Data Provider Types<a class="headerlink" href="#data-provider-types" title="Permanent link">&para;</a></h2>
-<blockquote>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
 <p>The data provider interface is readily extensible to add new data sources.
 See <a href="11-extending-docma.html#data-providers">Data Providers</a>.</p>
-</blockquote>
+</div>
 <h3 id="data-provider-type-duckdb">Data Provider Type: duckdb<a class="headerlink" href="#data-provider-type-duckdb" title="Permanent link">&para;</a></h3>
 <p><strong>Docma</strong> can read data from a local file containing a
 <a href="https://duckdb.org">DuckDB</a> database.</p>
