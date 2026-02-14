@@ -3,6 +3,15 @@
 
 ## Version 2
 
+#### Version 2.3.0
+
+*   A new `completion` sub-command has been added to the docma CLI to generate
+    command completion scripts for common shells (**zsh**, **bash** etc.).
+    See [Command Line Completion](#command-line-completion).
+
+*   Start-up performance for the docma CLI has improved significantly thanks to
+    switching to lazy imports on the big packages.
+
 #### Version 2.2.0
 
 *   The Jinja subsystem has been refactored substantially (backward compatible).

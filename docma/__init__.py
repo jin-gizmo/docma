@@ -22,17 +22,49 @@ pdf.write(pdf_location)
 
 """
 
-from .docma_core import (
-    compile_template as compile_template,
-    get_template_info as get_template_info,
-    read_template_version_info as read_template_version_info,
-    render_template_to_html as render_template_to_html,
-    render_template_to_pdf as render_template_to_pdf,
-    safe_render_path as safe_render_path,
-)
-from .version import __version__ as __version__
+# mkdocstrings needs this in order to discover the API.
+from typing import TYPE_CHECKING
 
-__author__ = 'Murray Andrews'
+if TYPE_CHECKING:  # pragma: no cover
+    from .docma_core import (
+        compile_template,
+        get_template_info,
+        read_template_version_info,
+        render_template_to_html,
+        render_template_to_pdf,
+        safe_render_path,
+    )
+    from .version import __version__
+
+# ------------------------------------------------------------------------------
+# These imports are pretty heavy duty. We don't want to pre-emptively import
+# everything. Among other things, doing so makes CLI command completion run like
+# a camel in a bog.
+_LAZY_IMPORTS = {
+    'compile_template': ('docma_core', 'compile_template'),
+    'get_template_info': ('docma_core', 'get_template_info'),
+    'read_template_version_info': ('docma_core', 'read_template_version_info'),
+    'render_template_to_html': ('docma_core', 'render_template_to_html'),
+    'render_template_to_pdf': ('docma_core', 'render_template_to_pdf'),
+    'safe_render_path': ('docma_core', 'safe_render_path'),
+    '__version__': ('version', '__version__'),
+}
+
+
+def __getattr__(name):
+    """Lazy import heavy modules only when accessed."""
+    try:
+        module_name, attr_name = _LAZY_IMPORTS[name]
+    except KeyError:
+        raise AttributeError(f"module {__name__!r} has no attribute {name!r}")
+
+    from importlib import import_module
+
+    module = import_module(f'.{module_name}', package='docma')
+    value = getattr(module, attr_name)
+    globals()[name] = value  # Cache it
+    return value
+
 
 __all__ = [
     'compile_template',
@@ -43,3 +75,9 @@ __all__ = [
     'safe_render_path',
     '__version__',
 ]
+
+
+# ------------------------------------------------------------------------------
+def __dir__():
+    """Ensure dir() shows all public attributes."""
+    return __all__

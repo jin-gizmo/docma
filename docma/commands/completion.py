@@ -1,38 +1,40 @@
-"""Handler for info CLI command."""
+"""Handler for completion CLI command."""
 
 from __future__ import annotations
 
+import os
 import sys
 from argparse import Namespace
 
-import yaml
+from argcomplete import shellcode
 
 from .__common__ import CliCommand
 
+SHELL = os.path.basename(os.getenv('SHELL', 'bash'))
+
 
 # ------------------------------------------------------------------------------
-@CliCommand.register('info')
+@CliCommand.register('completion')
 class Info(CliCommand):
-    """Print information about a document template."""
+    """Generate the command line completion script."""
 
     # --------------------------------------------------------------------------
     def add_arguments(self) -> None:
         """Add arguments to the command handler."""
 
         self.argp.add_argument(
-            '-t',
-            '--template',
-            required=True,
-            metavar='DIR-OR-ZIP',
-            help='Name of a template package.',
+            '-s',
+            '--shell',
+            default=SHELL,
+            help=(
+                'Output code for the specified shell. Defaults to the current shell,'
+                ' if that can be determined, otherwise "bash".'
+            ),
         )
 
     # --------------------------------------------------------------------------
     @staticmethod
     def execute(args: Namespace) -> None:
         """Execute the CLI command with the specified arguments."""
-        from docma import get_template_info
-        from docma.lib.packager import PackageReader
 
-        with PackageReader.new(args.template) as tpkg:
-            yaml.safe_dump(get_template_info(tpkg), sys.stdout, default_flow_style=False, indent=2)
+        print(shellcode([os.path.basename(sys.argv[0])], shell=args.shell))

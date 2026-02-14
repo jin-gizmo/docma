@@ -9,6 +9,8 @@ import sys
 from logging import getLogger
 from pathlib import Path
 
+import argcomplete
+
 from docma.commands import CliCommand
 from docma.config import LOGNAME
 from docma.exceptions import DocmaInternalError
@@ -65,6 +67,7 @@ def process_cli_args() -> argparse.Namespace:
     for cmd in sorted(CliCommand.commands.values(), key=lambda c: c.name):
         cmd(subp).add_arguments()
 
+    argcomplete.autocomplete(argp)
     args = argp.parse_args()
 
     if not hasattr(args, 'handler'):

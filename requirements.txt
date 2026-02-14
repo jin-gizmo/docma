@@ -1,5 +1,6 @@
 # Do we need altair[all]
 altair
+argcomplete
 babel
 beautifulsoup4
 boto3

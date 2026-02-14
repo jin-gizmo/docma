@@ -4,7 +4,6 @@ from __future__ import annotations
 
 from argparse import Namespace
 
-from docma import compile_template
 from .__common__ import CliCommand
 
 
@@ -36,4 +35,6 @@ class Compile(CliCommand):
     @staticmethod
     def execute(args: Namespace) -> None:
         """Execute the command."""
+        from docma import compile_template
+
         compile_template(src_dir=args.input, tpkg=args.template)

@@ -5,7 +5,6 @@ from __future__ import annotations
 import os
 from argparse import Namespace
 
-from docma import render_template_to_pdf
 from .__common__ import CliCommand, add_rendering_param_args, marshal_rendering_params
 
 
@@ -97,6 +96,8 @@ class Render(CliCommand):
     @staticmethod
     def execute(args: Namespace) -> None:
         """Execute the command."""
+
+        from docma import render_template_to_pdf
 
         if args.realm:
             os.environ['LAVA_REALM'] = args.realm

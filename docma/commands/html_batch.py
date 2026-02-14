@@ -14,15 +14,9 @@ from typing import Any
 import yaml
 from tqdm import tqdm
 
-from docma import render_template_to_html, safe_render_path
 from docma.config import LOGNAME
-from docma.data_providers import DataSourceSpec, load_data
-from docma.docma_core import PKG_CONFIG_FILE, coalesce_docma_render_params
-from docma.jinja import DocmaRenderContext
-from docma.lib.logging import setup_logging
 from docma.lib.misc import deep_update_dict
-from docma.lib.packager import PackageReader
-from .__common__ import CliCommand, add_rendering_param_args, marshal_rendering_params
+from .__common__ import CliCommand, add_rendering_param_args
 
 LOG = getLogger(LOGNAME)
 
@@ -41,6 +35,8 @@ def renderer(
                         rendering process.
     :param kwargs:      Passed directly to render_template_to_html(),.
     """
+
+    from docma import render_template_to_html
 
     LOG.debug('PID=%d: Output to %s', os.getpid(), output_file)
     html = render_template_to_html(
@@ -133,6 +129,15 @@ class HtmlBatch(CliCommand):
     @staticmethod
     def execute(args: Namespace) -> None:
         """Execute the CLI command with the specified arguments."""
+
+        from docma import safe_render_path
+        from docma.config import LOGNAME
+        from docma.data_providers import DataSourceSpec, load_data
+        from docma.docma_core import PKG_CONFIG_FILE, coalesce_docma_render_params
+        from docma.jinja import DocmaRenderContext
+        from docma.lib.logging import setup_logging
+        from docma.lib.packager import PackageReader
+        from .__common__ import marshal_rendering_params
 
         if args.realm:
             os.environ['LAVA_REALM'] = args.realm
