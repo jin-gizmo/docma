@@ -37,6 +37,7 @@ from jinja2 import Template
 from pypdf import PdfReader, PdfWriter
 from pypdf.generic import RectangleObject
 from weasyprint.text.fonts import FontConfiguration
+from weasyprint.urls import URLFetcherResponse
 
 from docma.compilers import compiler_for_file
 from docma.config import (
@@ -81,7 +82,7 @@ DOCMA_FORMAT_VERSION = int(__version__.split('.')[0])
 PKG_IGNORE_FILES = ('.*',)  # Glob patterns for source files to exclude from template
 
 SAFE_PATH_SYMBOLS = r'-_+=;:@%\w'  # Chars allowed in a path component
-SAFE_PATH_COMPONENT_RE = re.compile(fr'^[{SAFE_PATH_SYMBOLS}][{SAFE_PATH_SYMBOLS}.]*$')
+SAFE_PATH_COMPONENT_RE = re.compile(rf'^[{SAFE_PATH_SYMBOLS}][{SAFE_PATH_SYMBOLS}.]*$')
 DOC_CREATOR = {
     'html': ' '.join(
         [
@@ -345,7 +346,11 @@ def compile_template(src_dir: str, tpkg: str) -> None:
 
 
 # ------------------------------------------------------------------------------
-def docma_url_fetcher(url: str, context: DocmaRenderContext, *args, **kwargs) -> dict[str, Any]:
+_DEFAULT_URL_FETCHER = weasyprint.URLFetcher()
+
+
+# ------------------------------------------------------------------------------
+def docma_url_fetcher(url: str, context: DocmaRenderContext) -> dict[str, Any]:
     """
     Fetch URL content for Weasyprint.
 
@@ -353,8 +358,6 @@ def docma_url_fetcher(url: str, context: DocmaRenderContext, *args, **kwargs) ->
 
     :param url:     The URL to fetch. If we don't have a custom fetcher
     :param context: Document rendering context.
-    :param args:    Passed to the weasyprint default url fetcher.
-    :param kwargs:  Passed to the weasyprint default url fetcher.
 
     :return:        A dict containing the URL content and mime type.
     """
@@ -365,7 +368,11 @@ def docma_url_fetcher(url: str, context: DocmaRenderContext, *args, **kwargs) ->
         fetcher = get_url_fetcher_for_scheme(purl.scheme)
     except KeyError:
         # No special fetcher available -- use WeasyPrint default.
-        return weasyprint.default_url_fetcher(url, *args, **kwargs)
+        response = _DEFAULT_URL_FETCHER(url)
+        try:
+            return {'string': response.read(), 'mime_type': response.content_type}
+        finally:
+            response.close()
 
     try:
         return fetcher(purl, context)
@@ -373,6 +380,38 @@ def docma_url_fetcher(url: str, context: DocmaRenderContext, *args, **kwargs) ->
         # We log here as well as raise because Weasyprint suppresses errors
         LOG.error(f'{url}: {e}')
         raise DocmaUrlFetchError(f'{url}: {e}') from e
+
+
+# ------------------------------------------------------------------------------
+class DocmaURLFetcher(weasyprint.URLFetcher):
+    """
+    WeasyPrint URL fetcher that routes docma schemes through docma's fetchers.
+
+    WeasyPrint 70 no longer accepts dicts from URL fetchers, and it expects the
+    fetcher to expose a `_fail_on_errors` attribute. This subclass provides both
+    by wrapping the dict returned by `docma_url_fetcher` in a
+    `URLFetcherResponse`.
+    """
+
+    def __init__(self, context: DocmaRenderContext, **kwargs: Any):
+        """Create Docma URL fetcher."""
+        super().__init__(**kwargs)
+        self.context = context
+
+    def fetch(self, url: str, headers: dict | None = None) -> URLFetcherResponse:
+        """Fetch a URL, using docma fetchers for registered schemes."""
+
+        try:
+            get_url_fetcher_for_scheme(urlparse(url).scheme)
+        except KeyError:
+            # No special fetcher available -- use WeasyPrint default.
+            return super().fetch(url, headers=headers)
+
+        content = docma_url_fetcher(url, self.context)
+        response_headers = (
+            {'Content-Type': content['mime_type']} if content.get('mime_type') else {}
+        )
+        return URLFetcherResponse(url, body=content['string'], headers=response_headers)
 
 
 # ------------------------------------------------------------------------------
@@ -446,7 +485,7 @@ def embed_img(
         if not embed_override and src_purl.query:
             # Don't embed where there is a query in URL by default
             LOG.debug(
-                'Image tag on line %s won\'t be embedded due to query (%s)', img_tag.sourceline, src
+                "Image tag on line %s won't be embedded due to query (%s)", img_tag.sourceline, src
             )
             return False
 
@@ -593,7 +632,7 @@ def document_to_pdf(
         try:
             return html_to_pdf(
                 context.render(doc_content.decode('utf-8')),
-                url_fetcher=partial(docma_url_fetcher, context=context),
+                url_fetcher=DocmaURLFetcher(context),
                 font_config=font_config,
             )
         except Exception as e:
@@ -797,7 +836,7 @@ def render_template_to_pdf(
         set_weasy_options(
             config.get('options'),
             tpkg,
-            url_fetcher=partial(docma_url_fetcher, context=context),
+            url_fetcher=DocmaURLFetcher(context),
             font_config=font_config,
         )
 
