@@ -5,7 +5,8 @@ from __future__ import annotations
 from decimal import Decimal
 from enum import Enum
 from functools import cached_property
-from typing import Any, Callable
+from typing import Any
+from collections.abc import Callable
 
 import jsonschema
 from pydantic import BaseModel, ConfigDict, Field, constr, field_validator
@@ -170,7 +171,7 @@ class DocmaQuerySpecification(BaseModel):
                     f'{self.name}: Row limit ({self.options.row_limit}) reached.'
                 )
 
-            r = dict(zip(columns, row))
+            r = dict(zip(columns, row, strict=False))
             try:
                 self.check_row(r)
             except Exception as e:

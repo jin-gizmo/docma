@@ -13,7 +13,7 @@ import json
 from importlib import resources
 from logging import getLogger
 from pathlib import Path
-from typing import Callable
+from collections.abc import Callable
 
 import altair as alt
 import jsonschema

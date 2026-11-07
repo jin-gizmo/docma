@@ -6,11 +6,12 @@ import argparse
 import os
 import re
 from collections.abc import Iterable, Iterator
-from datetime import datetime, timezone
+from datetime import datetime, UTC
 from functools import lru_cache
 from io import BytesIO
 from pathlib import Path
-from typing import Any, Callable
+from typing import Any
+from collections.abc import Callable
 
 import colorama
 import weasyprint
@@ -126,7 +127,7 @@ def datetime_pdf_format(dt: datetime = None) -> str:
     """
 
     if not dt:
-        dt = datetime.now(timezone.utc)
+        dt = datetime.now(UTC)
 
     if dt.tzinfo is None:
         raise ValueError(f'No timezone info: {dt}')

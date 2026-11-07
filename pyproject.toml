@@ -2,7 +2,7 @@
 
 line-length = 100
 skip-string-normalization = true
-target-version = ['py39']
+target-version = ['py311']
 include = '\.pyi?$'
 exclude = '''
 (
@@ -25,7 +25,7 @@ exclude = '''
 [tool.ruff]
 
 line-length = 100
-target-version = 'py39'
+target-version = 'py311'
 lint.select = [
     'D', 'E', 'F', 'W', 'C90', 'N', 'UP', 'YTT', 'S', 'B', 'A', 'C4',
     'ISC', 'ICN', 'PIE', 'T20', 'Q', 'RET', 'SLF',
@@ -60,7 +60,7 @@ lint.ignore = [
     'PLW',
     'PLC',
     'PLR1722',  # Use `sys.exit()` instead of `exit`
-    'PLR0912',  # Too many branches 
+    'PLR0912',  # Too many branches
     'PLR0913',  # Too many arguments to function call
     'PLR0915',  # Too many statements
 
@@ -86,6 +86,9 @@ exclude = [
 [tool.ruff.lint.mccabe]
 
 max-complexity = 50  # Yeah ... I know
+
+[tool.ruff.format]
+quote-style = 'single'
 
 [tool.ruff.lint.flake8-quotes]
 inline-quotes = 'single'

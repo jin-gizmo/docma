@@ -18,14 +18,13 @@ import os
 import re
 import warnings
 from base64 import b64encode
-from collections.abc import Sequence
+from collections.abc import Callable, Sequence
 from contextlib import suppress
-from datetime import datetime, timezone
-from functools import partial
+from datetime import UTC, datetime
 from io import BytesIO
 from logging import getLogger
 from pathlib import Path
-from typing import Any, Callable, NoReturn
+from typing import Any, NoReturn
 from urllib.parse import urlparse, urlunparse
 
 import altair as alt
@@ -49,7 +48,7 @@ from docma.config import (
     WEASYPRINT_OPTIONS,
 )
 from docma.data_providers import DataSourceSpec, load_data
-from docma.exceptions import DocmaPackageError, DocmaUrlFetchError
+from docma.exceptions import DocmaPackageError
 from docma.importers import import_content
 from docma.jinja import DOCMA_JINJA_EXTRAS, DocmaJinjaEnvironment, DocmaRenderContext
 from docma.lib.html import html_append
@@ -118,7 +117,7 @@ def write_template_version_info(tpkg: PackageWriter) -> None:
     info = {
         'docma_format_version': DOCMA_FORMAT_VERSION,
         'docma_compiler_version': __version__,
-        'created': datetime.now(timezone.utc).strftime('%Y-%m-%dT%H:%M:%SZ'),
+        'created': datetime.now(UTC).strftime('%Y-%m-%dT%H:%M:%SZ'),
     }
     tpkg.write_string(yaml.safe_dump(info, default_flow_style=False), PKG_INFO_FILE)
 
@@ -346,43 +345,6 @@ def compile_template(src_dir: str, tpkg: str) -> None:
 
 
 # ------------------------------------------------------------------------------
-_DEFAULT_URL_FETCHER = weasyprint.URLFetcher()
-
-
-# ------------------------------------------------------------------------------
-def docma_url_fetcher(url: str, context: DocmaRenderContext) -> dict[str, Any]:
-    """
-    Fetch URL content for Weasyprint.
-
-    See also: The url_fetchers package.
-
-    :param url:     The URL to fetch. If we don't have a custom fetcher
-    :param context: Document rendering context.
-
-    :return:        A dict containing the URL content and mime type.
-    """
-
-    purl = urlparse(url)
-
-    try:
-        fetcher = get_url_fetcher_for_scheme(purl.scheme)
-    except KeyError:
-        # No special fetcher available -- use WeasyPrint default.
-        response = _DEFAULT_URL_FETCHER(url)
-        try:
-            return {'string': response.read(), 'mime_type': response.content_type}
-        finally:
-            response.close()
-
-    try:
-        return fetcher(purl, context)
-    except Exception as e:
-        # We log here as well as raise because Weasyprint suppresses errors
-        LOG.error(f'{url}: {e}')
-        raise DocmaUrlFetchError(f'{url}: {e}') from e
-
-
-# ------------------------------------------------------------------------------
 class DocmaURLFetcher(weasyprint.URLFetcher):
     """
     WeasyPrint URL fetcher that routes docma schemes through docma's fetchers.
@@ -398,16 +360,17 @@ class DocmaURLFetcher(weasyprint.URLFetcher):
         super().__init__(**kwargs)
         self.context = context
 
-    def fetch(self, url: str, headers: dict | None = None) -> URLFetcherResponse:
+    def fetch(self, url: str, headers: dict[str, str] | None = None) -> URLFetcherResponse:
         """Fetch a URL, using docma fetchers for registered schemes."""
 
+        purl = urlparse(url)
         try:
-            get_url_fetcher_for_scheme(urlparse(url).scheme)
+            fetcher = get_url_fetcher_for_scheme(purl.scheme)
         except KeyError:
             # No special fetcher available -- use WeasyPrint default.
             return super().fetch(url, headers=headers)
 
-        content = docma_url_fetcher(url, self.context)
+        content = fetcher(purl, self.context)
         response_headers = (
             {'Content-Type': content['mime_type']} if content.get('mime_type') else {}
         )
@@ -431,7 +394,7 @@ def get_template_info(tpkg: PackageReader) -> dict[str, Any]:
 # ------------------------------------------------------------------------------
 def embed_img(
     img_tag: Tag,
-    url_fetcher=Callable[[], dict],
+    url_fetcher: Callable[[str], URLFetcherResponse],
     min_size: int = EMBED_IMG_MIN_SIZE,
     max_size: int = EMBED_IMG_MAX_SIZE,
 ) -> bool:
@@ -490,20 +453,22 @@ def embed_img(
             return False
 
         # This is a candidate for embedding. Get image size
-        content = url_fetcher(img_tag['src'])
-        if not embed_override and not min_size <= len(content['string']) <= max_size:
+        response = url_fetcher(src)
+        content = response.read()
+        if not embed_override and not min_size <= len(content) <= max_size:
             LOG.debug(
                 'Image tag on line %s outside embeddable size range (%s)', img_tag.sourceline, src
             )
             return False
+    else:
+        response = url_fetcher(src)
+        content = response.read()
+
     LOG.debug('Image tag on line %s will be embedded (%s)', img_tag.sourceline, src)
 
-    if not content:
-        content = url_fetcher(img_tag['src'])
-
     img_tag['src'] = IMG_SRC_TEMPLATE.render(
-        img_type=content['mime_type'],
-        img=(s.decode('utf-8') for s in chunks(b64encode(content['string']))),
+        img_type=response.content_type,
+        img=(s.decode('utf-8') for s in chunks(b64encode(content))),
     )
     return True
 
@@ -511,7 +476,7 @@ def embed_img(
 # ------------------------------------------------------------------------------
 def embed_images(
     html: str,
-    url_fetcher: Callable[[], dict],
+    url_fetcher: Callable[[str], URLFetcherResponse],
     min_size: int = EMBED_IMG_MIN_SIZE,
     max_size: int = EMBED_IMG_MAX_SIZE,
 ) -> str:
@@ -583,6 +548,7 @@ def get_document_content(doc_name: str, context: DocmaRenderContext) -> bytes:
     """
 
     purl = urlparse(doc_name)
+
     if not purl.scheme:
         # Doc is part of the template.
         if not context.tpkg.exists(doc_name):
@@ -661,7 +627,7 @@ def document_to_html(doc_name: str, context: DocmaRenderContext) -> BeautifulSou
     doc_content = get_document_content(doc_name, context)
     html = context.render(doc_content.decode('utf-8'))
     return BeautifulSoup(
-        embed_images(html, url_fetcher=partial(docma_url_fetcher, context=context)), 'html.parser'
+        embed_images(html, url_fetcher=DocmaURLFetcher(context=context).fetch), 'html.parser'
     )
 
 
@@ -678,7 +644,7 @@ def rectangles_approx_equal(
     :return:
     """
 
-    return all(abs(v1 - v2) < tolerance for v1, v2 in zip(tuple(r1), tuple(r2)))
+    return all(abs(v1 - v2) < tolerance for v1, v2 in zip(tuple(r1), tuple(r2), strict=False))
 
 
 # ------------------------------------------------------------------------------
@@ -989,7 +955,7 @@ def render_template_to_html(
 
         # Add metadata
         metadata = DocumentMetadata(**config.get('metadata', {}))
-        metadata['creation_date'] = datetime.now(timezone.utc).isoformat()
+        metadata['creation_date'] = datetime.now(UTC).isoformat()
         metadata['creator'] = (
             f'{Path(template_pkg_name).stem} {config["version"]} ({DOC_CREATOR["html"]})'
         )

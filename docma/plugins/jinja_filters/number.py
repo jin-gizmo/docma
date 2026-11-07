@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import Callable
+from collections.abc import Callable
 
 from babel.numbers import decimal, format_compact_decimal, format_decimal, format_percent
 from jinja2 import pass_context, runtime

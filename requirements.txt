@@ -23,4 +23,5 @@ referencing
 requests
 tqdm
 vl-convert-python
-weasyprint
+# Upgraded Docma to support breaking change in WeasyPrint v69+
+weasyprint>=69.0
