@@ -2,8 +2,8 @@
 
 from __future__ import annotations
 
-from functools import lru_cache
 from collections.abc import Callable
+from functools import lru_cache
 from urllib.parse import urlparse
 
 from docma.config import IMPORT_CACHE_SIZE

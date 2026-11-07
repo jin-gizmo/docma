@@ -19,7 +19,7 @@ import re
 import warnings
 from base64 import b64encode
 from collections.abc import Callable, Sequence
-from contextlib import suppress
+from contextlib import closing, suppress
 from datetime import UTC, datetime
 from io import BytesIO
 from logging import getLogger
@@ -36,7 +36,7 @@ from jinja2 import Template
 from pypdf import PdfReader, PdfWriter
 from pypdf.generic import RectangleObject
 from weasyprint.text.fonts import FontConfiguration
-from weasyprint.urls import URLFetcherResponse
+from weasyprint.urls import URLFetcher, URLFetcherResponse
 
 from docma.compilers import compiler_for_file
 from docma.config import (
@@ -153,7 +153,7 @@ def check_template_version_info(tpkg: PackageReader) -> None:
 def set_weasy_options(
     options: dict[str, Any],
     pkg_reader: PackageReader,
-    url_fetcher: Callable = None,
+    url_fetcher: Callable[[str], URLFetcherResponse] = None,
     font_config: FontConfiguration = None,
 ) -> None:
     """
@@ -345,14 +345,12 @@ def compile_template(src_dir: str, tpkg: str) -> None:
 
 
 # ------------------------------------------------------------------------------
-class DocmaURLFetcher(weasyprint.URLFetcher):
+class DocmaURLFetcher(URLFetcher):
     """
     WeasyPrint URL fetcher that routes docma schemes through docma's fetchers.
 
-    WeasyPrint 70 no longer accepts dicts from URL fetchers, and it expects the
-    fetcher to expose a `_fail_on_errors` attribute. This subclass provides both
-    by wrapping the dict returned by `docma_url_fetcher` in a
-    `URLFetcherResponse`.
+    WeasyPrint 69+ no longer accepts dicts from URL fetchers, and it expects the
+    fetcher to have a `_fail_on_errors` attribute.
     """
 
     def __init__(self, context: DocmaRenderContext, **kwargs: Any):
@@ -454,7 +452,8 @@ def embed_img(
 
         # This is a candidate for embedding. Get image size
         response = url_fetcher(src)
-        content = response.read()
+        with closing(response) as res:
+            content = res.read()
         if not embed_override and not min_size <= len(content) <= max_size:
             LOG.debug(
                 'Image tag on line %s outside embeddable size range (%s)', img_tag.sourceline, src
@@ -462,7 +461,8 @@ def embed_img(
             return False
     else:
         response = url_fetcher(src)
-        content = response.read()
+        with closing(response) as res:
+            content = res.read()
 
     LOG.debug('Image tag on line %s will be embedded (%s)', img_tag.sourceline, src)
 

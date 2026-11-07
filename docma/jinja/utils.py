@@ -7,7 +7,6 @@ from typing import Any
 
 import jinja2
 
-
 __author__ = 'Murray Andrews'
 
 

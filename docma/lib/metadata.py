@@ -83,7 +83,7 @@ class DocumentMetadata(MutableMapping):
         """Implement core dict methods."""
         return str(self._attrs)
 
-    def as_dict(self, format:str =None) -> dict[str, Any]:  # noqa A002
+    def as_dict(self, format: str = None) -> dict[str, Any]:  # noqa A002
         """
         Return a dictionary with all attributes.
 

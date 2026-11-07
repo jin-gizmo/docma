@@ -2,11 +2,11 @@
 
 from __future__ import annotations
 
+from collections.abc import Callable
 from decimal import Decimal
 from enum import Enum
 from functools import cached_property
 from typing import Any
-from collections.abc import Callable
 
 import jsonschema
 from pydantic import BaseModel, ConfigDict, Field, constr, field_validator

@@ -5,13 +5,12 @@ from __future__ import annotations
 import argparse
 import os
 import re
-from collections.abc import Iterable, Iterator
-from datetime import datetime, UTC
+from collections.abc import Callable, Iterable, Iterator
+from datetime import UTC, datetime
 from functools import lru_cache
 from io import BytesIO
 from pathlib import Path
 from typing import Any
-from collections.abc import Callable
 
 import colorama
 import weasyprint
@@ -19,6 +18,7 @@ from PIL import ImageFont
 from dotenv import dotenv_values
 from pypdf import PdfReader
 from weasyprint.text.fonts import FontConfiguration
+from weasyprint.urls import URLFetcherResponse
 
 colorama.init()
 
@@ -140,7 +140,9 @@ def datetime_pdf_format(dt: datetime = None) -> str:
 
 # ------------------------------------------------------------------------------
 def html_to_pdf(
-    html_src: str, url_fetcher: Callable = None, font_config: FontConfiguration = None
+    html_src: str,
+    url_fetcher: Callable[[str], URLFetcherResponse] = None,
+    font_config: FontConfiguration = None,
 ) -> PdfReader:
     """
     Convert HTML source to PDF.

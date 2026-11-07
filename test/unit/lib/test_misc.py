@@ -140,7 +140,7 @@ def test_datetime_pdf_format_ok(dt: datetime, expected: str):
 
 
 def test_datetime_pdf_format_now():
-    assert datetime_pdf_format().startswith(datetime.now(timezone.utc).strftime('D:%Y%m%d%H%M%S'))
+    assert datetime_pdf_format().startswith(datetime.now(UTC).strftime('D:%Y%m%d%H%M%S'))
 
 
 def test_datetime_pdf_format_fail() -> None:
