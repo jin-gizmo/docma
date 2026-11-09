@@ -291,7 +291,7 @@ def test_get_template_info_fail(td):
 )
 def test_embed_img_ok(src_url, data_docma_embed, expected, min_size, max_size, td):
     context = DocmaRenderContext(PackageReader.new(td))
-    url_fetcher = DocmaURLFetcher(context).fetch
+    url_fetcher = DocmaURLFetcher(context)
     tag = Tag(name='img', attrs={'src': src_url})
     if data_docma_embed is not None:
         tag['data-docma-embed'] = str(data_docma_embed)
@@ -304,7 +304,7 @@ def test_embed_img_ok(src_url, data_docma_embed, expected, min_size, max_size, t
 # ------------------------------------------------------------------------------
 def test_embed_img_bad_data_docma_embed_fail(td):
     context = DocmaRenderContext(PackageReader.new(td))
-    url_fetcher = DocmaURLFetcher(context).fetch
+    url_fetcher = DocmaURLFetcher(context)
     tag = Tag(name='img', attrs={'src': 'http://whatever', 'data-docma-embed': '**BAD**'})
     with pytest.raises(DocmaPackageError, match=f'Bad data-docma-embed value'):
         embed_img(tag, url_fetcher)
@@ -313,7 +313,7 @@ def test_embed_img_bad_data_docma_embed_fail(td):
 # ------------------------------------------------------------------------------
 def test_embed_img_no_src_embed_fail(td):
     context = DocmaRenderContext(PackageReader.new(td))
-    url_fetcher = DocmaURLFetcher(context).fetch
+    url_fetcher = DocmaURLFetcher(context)
     tag = Tag(name='img')
     with pytest.raises(DocmaPackageError, match=f'Missing or empty "src" attribute'):
         embed_img(tag, url_fetcher)
@@ -334,7 +334,7 @@ def test_embed_images_ok(td, caplog, monkeypatch):
     monkeypatch.setattr(docma.docma_core, 'LOG', test_logger)
 
     context = DocmaRenderContext(PackageReader.new(td))
-    url_fetcher = DocmaURLFetcher(context).fetch
+    url_fetcher = DocmaURLFetcher(context)
     html = """
         <BODY>
             Yes
