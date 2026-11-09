@@ -349,8 +349,9 @@ class DocmaURLFetcher(URLFetcher):
     """
     WeasyPrint URL fetcher that routes docma schemes through docma's fetchers.
 
-    WeasyPrint 69+ no longer accepts dicts from URL fetchers, and it expects the
-    fetcher to have a `_fail_on_errors` attribute.
+    WeasyPrint 70+ no longer accepts dicts from URL fetchers, and it expects the
+    fetcher to have a `_fail_on_errors` attribute. The dict support was deprecated
+    in v68 and removed in v70.
     """
 
     def __init__(self, context: DocmaRenderContext, **kwargs: Any):
