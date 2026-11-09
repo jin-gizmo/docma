@@ -18,7 +18,7 @@ import os
 import re
 import warnings
 from base64 import b64encode
-from collections.abc import Callable, Sequence
+from collections.abc import Sequence
 from contextlib import closing, suppress
 from datetime import UTC, datetime
 from io import BytesIO
@@ -153,7 +153,7 @@ def check_template_version_info(tpkg: PackageReader) -> None:
 def set_weasy_options(
     options: dict[str, Any],
     pkg_reader: PackageReader,
-    url_fetcher: Callable[[str], URLFetcherResponse] = None,
+    url_fetcher: URLFetcher = None,
     font_config: FontConfiguration = None,
 ) -> None:
     """
@@ -392,7 +392,7 @@ def get_template_info(tpkg: PackageReader) -> dict[str, Any]:
 # ------------------------------------------------------------------------------
 def embed_img(
     img_tag: Tag,
-    url_fetcher: Callable[[str], URLFetcherResponse],
+    url_fetcher: URLFetcher,
     min_size: int = EMBED_IMG_MIN_SIZE,
     max_size: int = EMBED_IMG_MAX_SIZE,
 ) -> bool:
@@ -476,7 +476,7 @@ def embed_img(
 # ------------------------------------------------------------------------------
 def embed_images(
     html: str,
-    url_fetcher: Callable[[str], URLFetcherResponse],
+    url_fetcher: URLFetcher,
     min_size: int = EMBED_IMG_MIN_SIZE,
     max_size: int = EMBED_IMG_MAX_SIZE,
 ) -> str:
@@ -627,7 +627,7 @@ def document_to_html(doc_name: str, context: DocmaRenderContext) -> BeautifulSou
     doc_content = get_document_content(doc_name, context)
     html = context.render(doc_content.decode('utf-8'))
     return BeautifulSoup(
-        embed_images(html, url_fetcher=DocmaURLFetcher(context=context).fetch), 'html.parser'
+        embed_images(html, url_fetcher=DocmaURLFetcher(context=context)), 'html.parser'
     )
 
 
