@@ -49,6 +49,7 @@ lint.ignore = [
     'S607',  # Starting a process with a partial path. This annoying if you need PATH
     'S608',  # SQL injection -- disabled temporarily -- will come back to this.
 
+    'ICN001',  # Naming datetime as dt, not needed
     'B904',  # Whining about raise ... from err
     'PIE790',  # Unnecessary pass. I like pass, so up yours.
     'T201',  # print found -- ridiculous.

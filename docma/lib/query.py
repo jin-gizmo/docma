@@ -171,7 +171,7 @@ class DocmaQuerySpecification(BaseModel):
                     f'{self.name}: Row limit ({self.options.row_limit}) reached.'
                 )
 
-            r = dict(zip(columns, row, strict=False))
+            r = dict(zip(columns, row, strict=True))
             try:
                 self.check_row(r)
             except Exception as e:

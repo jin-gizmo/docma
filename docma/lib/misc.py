@@ -14,8 +14,8 @@ from typing import Any
 
 import colorama
 import weasyprint
-from dotenv import dotenv_values
 from PIL import ImageFont
+from dotenv import dotenv_values
 from pypdf import PdfReader
 from weasyprint.text.fonts import FontConfiguration
 from weasyprint.urls import URLFetcher

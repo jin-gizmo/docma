@@ -645,7 +645,7 @@ def rectangles_approx_equal(
     :return:
     """
 
-    return all(abs(v1 - v2) < tolerance for v1, v2 in zip(tuple(r1), tuple(r2), strict=False))
+    return all(abs(v1 - v2) < tolerance for v1, v2 in zip(tuple(r1), tuple(r2), strict=True))
 
 
 # ------------------------------------------------------------------------------

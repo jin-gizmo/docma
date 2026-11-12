@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 import calendar
-import datetime as dt
+import datetime
 from collections.abc import Iterable
 from dataclasses import dataclass, field
 from functools import singledispatchmethod
@@ -30,7 +30,7 @@ filters = {}
 # Some extra useful functions
 DOCMA_JINJA_EXTRAS = {
     'calendar': calendar,
-    'datetime': dt,
+    'datetime': datetime,
 }
 
 
