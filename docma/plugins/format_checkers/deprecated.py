@@ -69,7 +69,7 @@ def is_acn(value: str | int) -> bool:
         return False
     if len(digits) != 9:
         return False
-    remainder = sum(d * w for d, w in zip(digits, ACN_WEIGHTS, strict=True)) % 10
+    remainder = sum(d * w for d, w in zip(digits, ACN_WEIGHTS, strict=False)) % 10
     return (10 - remainder) % 10 == digits[-1]
 
 
