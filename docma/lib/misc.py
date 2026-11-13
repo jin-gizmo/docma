@@ -6,11 +6,11 @@ import argparse
 import os
 import re
 from collections.abc import Iterable, Iterator
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from functools import lru_cache
 from io import BytesIO
 from pathlib import Path
-from typing import Any, Callable
+from typing import Any
 
 import colorama
 import weasyprint
@@ -18,6 +18,7 @@ from PIL import ImageFont
 from dotenv import dotenv_values
 from pypdf import PdfReader
 from weasyprint.text.fonts import FontConfiguration
+from weasyprint.urls import URLFetcher
 
 colorama.init()
 
@@ -126,7 +127,7 @@ def datetime_pdf_format(dt: datetime = None) -> str:
     """
 
     if not dt:
-        dt = datetime.now(timezone.utc)
+        dt = datetime.now(UTC)
 
     if dt.tzinfo is None:
         raise ValueError(f'No timezone info: {dt}')
@@ -139,7 +140,9 @@ def datetime_pdf_format(dt: datetime = None) -> str:
 
 # ------------------------------------------------------------------------------
 def html_to_pdf(
-    html_src: str, url_fetcher: Callable = None, font_config: FontConfiguration = None
+    html_src: str,
+    url_fetcher: URLFetcher = None,
+    font_config: FontConfiguration = None,
 ) -> PdfReader:
     """
     Convert HTML source to PDF.

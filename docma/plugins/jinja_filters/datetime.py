@@ -2,8 +2,8 @@
 
 from __future__ import annotations
 
+from collections.abc import Callable
 from datetime import date, datetime, time, timedelta
-from typing import Callable
 
 from babel.dates import (
     format_date,

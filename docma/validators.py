@@ -10,10 +10,10 @@ critical.
 from __future__ import annotations
 
 import json
+from collections.abc import Callable
 from importlib import resources
 from logging import getLogger
 from pathlib import Path
-from typing import Callable
 
 import altair as alt
 import jsonschema

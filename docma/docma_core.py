@@ -19,13 +19,12 @@ import re
 import warnings
 from base64 import b64encode
 from collections.abc import Sequence
-from contextlib import suppress
-from datetime import datetime, timezone
-from functools import partial
+from contextlib import closing, suppress
+from datetime import UTC, datetime
 from io import BytesIO
 from logging import getLogger
 from pathlib import Path
-from typing import Any, Callable, NoReturn
+from typing import Any, NoReturn
 from urllib.parse import urlparse, urlunparse
 
 import altair as alt
@@ -37,6 +36,7 @@ from jinja2 import Template
 from pypdf import PdfReader, PdfWriter
 from pypdf.generic import RectangleObject
 from weasyprint.text.fonts import FontConfiguration
+from weasyprint.urls import URLFetcher, URLFetcherResponse
 
 from docma.compilers import compiler_for_file
 from docma.config import (
@@ -48,7 +48,7 @@ from docma.config import (
     WEASYPRINT_OPTIONS,
 )
 from docma.data_providers import DataSourceSpec, load_data
-from docma.exceptions import DocmaPackageError, DocmaUrlFetchError
+from docma.exceptions import DocmaPackageError
 from docma.importers import import_content
 from docma.jinja import DOCMA_JINJA_EXTRAS, DocmaJinjaEnvironment, DocmaRenderContext
 from docma.lib.html import html_append
@@ -81,7 +81,7 @@ DOCMA_FORMAT_VERSION = int(__version__.split('.')[0])
 PKG_IGNORE_FILES = ('.*',)  # Glob patterns for source files to exclude from template
 
 SAFE_PATH_SYMBOLS = r'-_+=;:@%\w'  # Chars allowed in a path component
-SAFE_PATH_COMPONENT_RE = re.compile(fr'^[{SAFE_PATH_SYMBOLS}][{SAFE_PATH_SYMBOLS}.]*$')
+SAFE_PATH_COMPONENT_RE = re.compile(rf'^[{SAFE_PATH_SYMBOLS}][{SAFE_PATH_SYMBOLS}.]*$')
 DOC_CREATOR = {
     'html': ' '.join(
         [
@@ -117,7 +117,7 @@ def write_template_version_info(tpkg: PackageWriter) -> None:
     info = {
         'docma_format_version': DOCMA_FORMAT_VERSION,
         'docma_compiler_version': __version__,
-        'created': datetime.now(timezone.utc).strftime('%Y-%m-%dT%H:%M:%SZ'),
+        'created': datetime.now(UTC).strftime('%Y-%m-%dT%H:%M:%SZ'),
     }
     tpkg.write_string(yaml.safe_dump(info, default_flow_style=False), PKG_INFO_FILE)
 
@@ -153,7 +153,7 @@ def check_template_version_info(tpkg: PackageReader) -> None:
 def set_weasy_options(
     options: dict[str, Any],
     pkg_reader: PackageReader,
-    url_fetcher: Callable = None,
+    url_fetcher: URLFetcher = None,
     font_config: FontConfiguration = None,
 ) -> None:
     """
@@ -345,34 +345,35 @@ def compile_template(src_dir: str, tpkg: str) -> None:
 
 
 # ------------------------------------------------------------------------------
-def docma_url_fetcher(url: str, context: DocmaRenderContext, *args, **kwargs) -> dict[str, Any]:
+class DocmaURLFetcher(URLFetcher):
     """
-    Fetch URL content for Weasyprint.
+    WeasyPrint URL fetcher that routes docma schemes through docma's fetchers.
 
-    See also: The url_fetchers package.
-
-    :param url:     The URL to fetch. If we don't have a custom fetcher
-    :param context: Document rendering context.
-    :param args:    Passed to the weasyprint default url fetcher.
-    :param kwargs:  Passed to the weasyprint default url fetcher.
-
-    :return:        A dict containing the URL content and mime type.
+    WeasyPrint 70+ no longer accepts dicts from URL fetchers, and it expects the
+    fetcher to have a `_fail_on_errors` attribute. The dict support was deprecated
+    in v68 and removed in v70.
     """
 
-    purl = urlparse(url)
+    def __init__(self, context: DocmaRenderContext, **kwargs: Any):
+        """Create Docma URL fetcher."""
+        super().__init__(**kwargs)
+        self.context = context
 
-    try:
-        fetcher = get_url_fetcher_for_scheme(purl.scheme)
-    except KeyError:
-        # No special fetcher available -- use WeasyPrint default.
-        return weasyprint.default_url_fetcher(url, *args, **kwargs)
+    def fetch(self, url: str, headers: dict[str, str] | None = None) -> URLFetcherResponse:
+        """Fetch a URL, using docma fetchers for registered schemes."""
 
-    try:
-        return fetcher(purl, context)
-    except Exception as e:
-        # We log here as well as raise because Weasyprint suppresses errors
-        LOG.error(f'{url}: {e}')
-        raise DocmaUrlFetchError(f'{url}: {e}') from e
+        purl = urlparse(url)
+        try:
+            fetcher = get_url_fetcher_for_scheme(purl.scheme)
+        except KeyError:
+            # No special fetcher available -- use WeasyPrint default.
+            return super().fetch(url, headers=headers)
+
+        content = fetcher(purl, self.context)
+        response_headers = (
+            {'Content-Type': content['mime_type']} if content.get('mime_type') else {}
+        )
+        return URLFetcherResponse(url, body=content['string'], headers=response_headers)
 
 
 # ------------------------------------------------------------------------------
@@ -392,7 +393,7 @@ def get_template_info(tpkg: PackageReader) -> dict[str, Any]:
 # ------------------------------------------------------------------------------
 def embed_img(
     img_tag: Tag,
-    url_fetcher=Callable[[], dict],
+    url_fetcher: URLFetcher,
     min_size: int = EMBED_IMG_MIN_SIZE,
     max_size: int = EMBED_IMG_MAX_SIZE,
 ) -> bool:
@@ -446,25 +447,29 @@ def embed_img(
         if not embed_override and src_purl.query:
             # Don't embed where there is a query in URL by default
             LOG.debug(
-                'Image tag on line %s won\'t be embedded due to query (%s)', img_tag.sourceline, src
+                "Image tag on line %s won't be embedded due to query (%s)", img_tag.sourceline, src
             )
             return False
 
         # This is a candidate for embedding. Get image size
-        content = url_fetcher(img_tag['src'])
-        if not embed_override and not min_size <= len(content['string']) <= max_size:
+        response = url_fetcher(src)
+        with closing(response) as res:
+            content = res.read()
+        if not embed_override and not min_size <= len(content) <= max_size:
             LOG.debug(
                 'Image tag on line %s outside embeddable size range (%s)', img_tag.sourceline, src
             )
             return False
+    else:
+        response = url_fetcher(src)
+        with closing(response) as res:
+            content = res.read()
+
     LOG.debug('Image tag on line %s will be embedded (%s)', img_tag.sourceline, src)
 
-    if not content:
-        content = url_fetcher(img_tag['src'])
-
     img_tag['src'] = IMG_SRC_TEMPLATE.render(
-        img_type=content['mime_type'],
-        img=(s.decode('utf-8') for s in chunks(b64encode(content['string']))),
+        img_type=response.content_type,
+        img=(s.decode('utf-8') for s in chunks(b64encode(content))),
     )
     return True
 
@@ -472,7 +477,7 @@ def embed_img(
 # ------------------------------------------------------------------------------
 def embed_images(
     html: str,
-    url_fetcher: Callable[[], dict],
+    url_fetcher: URLFetcher,
     min_size: int = EMBED_IMG_MIN_SIZE,
     max_size: int = EMBED_IMG_MAX_SIZE,
 ) -> str:
@@ -544,6 +549,7 @@ def get_document_content(doc_name: str, context: DocmaRenderContext) -> bytes:
     """
 
     purl = urlparse(doc_name)
+
     if not purl.scheme:
         # Doc is part of the template.
         if not context.tpkg.exists(doc_name):
@@ -593,7 +599,7 @@ def document_to_pdf(
         try:
             return html_to_pdf(
                 context.render(doc_content.decode('utf-8')),
-                url_fetcher=partial(docma_url_fetcher, context=context),
+                url_fetcher=DocmaURLFetcher(context),
                 font_config=font_config,
             )
         except Exception as e:
@@ -622,7 +628,7 @@ def document_to_html(doc_name: str, context: DocmaRenderContext) -> BeautifulSou
     doc_content = get_document_content(doc_name, context)
     html = context.render(doc_content.decode('utf-8'))
     return BeautifulSoup(
-        embed_images(html, url_fetcher=partial(docma_url_fetcher, context=context)), 'html.parser'
+        embed_images(html, url_fetcher=DocmaURLFetcher(context=context)), 'html.parser'
     )
 
 
@@ -639,7 +645,7 @@ def rectangles_approx_equal(
     :return:
     """
 
-    return all(abs(v1 - v2) < tolerance for v1, v2 in zip(tuple(r1), tuple(r2)))
+    return all(abs(v1 - v2) < tolerance for v1, v2 in zip(tuple(r1), tuple(r2), strict=True))
 
 
 # ------------------------------------------------------------------------------
@@ -797,7 +803,7 @@ def render_template_to_pdf(
         set_weasy_options(
             config.get('options'),
             tpkg,
-            url_fetcher=partial(docma_url_fetcher, context=context),
+            url_fetcher=DocmaURLFetcher(context),
             font_config=font_config,
         )
 
@@ -950,7 +956,7 @@ def render_template_to_html(
 
         # Add metadata
         metadata = DocumentMetadata(**config.get('metadata', {}))
-        metadata['creation_date'] = datetime.now(timezone.utc).isoformat()
+        metadata['creation_date'] = datetime.now(UTC).isoformat()
         metadata['creator'] = (
             f'{Path(template_pkg_name).stem} {config["version"]} ({DOC_CREATOR["html"]})'
         )

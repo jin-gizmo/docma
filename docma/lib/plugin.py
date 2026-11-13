@@ -39,9 +39,9 @@ import importlib
 import inspect
 import pkgutil
 from abc import ABC, abstractmethod
-from collections.abc import Iterable, Mapping, MutableMapping, Sequence
+from collections.abc import Callable, Iterable, Mapping, MutableMapping, Sequence
 from types import ModuleType
-from typing import Any, Callable
+from typing import Any
 from warnings import warn
 
 __author__ = 'Murray Andrews'

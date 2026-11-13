@@ -6,8 +6,9 @@ import json
 import sys
 from abc import ABC, abstractmethod
 from argparse import ArgumentParser, Namespace
+from collections.abc import Callable
 from pathlib import Path
-from typing import Any, Callable
+from typing import Any
 
 import yaml
 

@@ -217,8 +217,8 @@ def test_compile_template_bad_import_fail(dirs, tmp_path):
 )
 def test_url_fetcher_ok(url, mime_type, dirs):
     with PackageReader.new(dirs.templates / 'test1.src') as tpkg:
-        result = docma_url_fetcher(url, DocmaRenderContext(tpkg))
-        assert result['mime_type'] == mime_type
+        result = DocmaURLFetcher(DocmaRenderContext(tpkg)).fetch(url)
+        assert result.content_type == mime_type
 
 
 # ------------------------------------------------------------------------------
@@ -227,7 +227,7 @@ def test_url_fetcher_fail(dirs, tmp_path):
     with PackageReader.new(dirs.templates / 'test1.src') as tpkg:
         # docma will pass the bad URL to Weasyprint which will eventually pass it to urllib
         with pytest.raises(URLError, match='error unknown url type: bad-scheme'):
-            docma_url_fetcher(bad_url, DocmaRenderContext(tpkg))
+            DocmaURLFetcher(DocmaRenderContext(tpkg)).fetch(bad_url)
 
 
 # ------------------------------------------------------------------------------
@@ -241,7 +241,7 @@ def test_url_fetcher_fail(dirs, tmp_path):
 def test_url_fetcher_no_such_object_fail(url, error, msg, dirs):
     with PackageReader.new(dirs.templates / 'test1.src') as tpkg:
         with pytest.raises(error, match=msg):
-            docma_url_fetcher(url, DocmaRenderContext(tpkg))
+            DocmaURLFetcher(DocmaRenderContext(tpkg)).fetch(url)
 
 
 # ------------------------------------------------------------------------------
@@ -291,7 +291,7 @@ def test_get_template_info_fail(td):
 )
 def test_embed_img_ok(src_url, data_docma_embed, expected, min_size, max_size, td):
     context = DocmaRenderContext(PackageReader.new(td))
-    url_fetcher = partial(docma_url_fetcher, context=context)
+    url_fetcher = DocmaURLFetcher(context)
     tag = Tag(name='img', attrs={'src': src_url})
     if data_docma_embed is not None:
         tag['data-docma-embed'] = str(data_docma_embed)
@@ -304,7 +304,7 @@ def test_embed_img_ok(src_url, data_docma_embed, expected, min_size, max_size, t
 # ------------------------------------------------------------------------------
 def test_embed_img_bad_data_docma_embed_fail(td):
     context = DocmaRenderContext(PackageReader.new(td))
-    url_fetcher = partial(docma_url_fetcher, context=context)
+    url_fetcher = DocmaURLFetcher(context)
     tag = Tag(name='img', attrs={'src': 'http://whatever', 'data-docma-embed': '**BAD**'})
     with pytest.raises(DocmaPackageError, match=f'Bad data-docma-embed value'):
         embed_img(tag, url_fetcher)
@@ -313,7 +313,7 @@ def test_embed_img_bad_data_docma_embed_fail(td):
 # ------------------------------------------------------------------------------
 def test_embed_img_no_src_embed_fail(td):
     context = DocmaRenderContext(PackageReader.new(td))
-    url_fetcher = partial(docma_url_fetcher, context=context)
+    url_fetcher = DocmaURLFetcher(context)
     tag = Tag(name='img')
     with pytest.raises(DocmaPackageError, match=f'Missing or empty "src" attribute'):
         embed_img(tag, url_fetcher)
@@ -334,7 +334,7 @@ def test_embed_images_ok(td, caplog, monkeypatch):
     monkeypatch.setattr(docma.docma_core, 'LOG', test_logger)
 
     context = DocmaRenderContext(PackageReader.new(td))
-    url_fetcher = partial(docma_url_fetcher, context=context)
+    url_fetcher = DocmaURLFetcher(context)
     html = """
         <BODY>
             Yes

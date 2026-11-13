@@ -24,7 +24,7 @@ def is_abn(value: str) -> bool:
     if len(digits) != 11:
         return False
     digits[0] -= 1
-    return sum(d * w for d, w in zip(digits, ABN_WEIGHTS)) % 89 == 0
+    return sum(d * w for d, w in zip(digits, ABN_WEIGHTS, strict=True)) % 89 == 0
 
 
 # ------------------------------------------------------------------------------
@@ -40,5 +40,5 @@ def is_acn(value: str | int) -> bool:
         return False
     if len(digits) != 9:
         return False
-    remainder = sum(d * w for d, w in zip(digits, ACN_WEIGHTS)) % 10
+    remainder = sum(d * w for d, w in zip(digits, ACN_WEIGHTS, strict=False)) % 10
     return (10 - remainder) % 10 == digits[-1]
